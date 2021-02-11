@@ -1,0 +1,98 @@
+/* Set minimum height for body content */
+.container.body {
+  min-height: calc(100vh - 240px)
+  padding-bottom: 1.5rem
+  padding-top: 1.5rem
+}
+
+/* header */
+@media (max-width: 48em) {
+  .navbar {
+    .navbar-brand {
+      text-align: center
+      width: 100%
+    }
+
+    .navbar-nav {
+      text-align: right
+      width: 100%
+
+      .nav-link {
+        display: inline-block
+      }
+    }
+  }
+}
+
+/* sweat alert customization */
+.swal-overlay { /* sweat alert customization */
+  background-color: rgba(0, 0, 0, 0.75)
+}
+
+.swal-modal {
+  border-radius: 0
+}
+
+.swal-button {
+  border-radius: 0
+}
+
+/* file input size is large than text inputs */
+.form-control.file {
+  padding: 0.56rem 2rem
+}
+
+.avatar-picture {
+  margin: 1rem
+  max-height: 10rem
+  width: auto
+}
+
+.nav-link.router-link-active {
+  color: rgba(255, 255, 255, 0.25) !important
+}
+
+/* Custom toolbar look using navbar */
+.navbar.toolbar { /* Custom toolbar look using navbar */
+  padding: 0.5rem
+}
+
+/* flatpickr customize */
+.flatpickr-input {
+  display: none !important
+}
+
+/* Validation */
+.invalid-feedback {
+  display: block !important
+  height: 16px
+  visibility: hidden
+}
+
+.invalid.dirty + .invalid-feedback {
+  visibility: visible
+}
+
+/* Bootstrap configure */
+.form-group {
+  margin-bottom: 0.75em
+}
+
+/* flatpickr customization */
+.flatpickr-calendar.inline {
+  border: 1px solid rgba(0, 0, 0, 0.1)
+  box-shadow: none
+  top: 0
+
+  &::before {
+    display: none
+  }
+
+  &::after {
+    display: none
+  }
+}
+
+.flatpickr-innerContainer {
+  margin-top: 12px
+}
