@@ -36,7 +36,7 @@ export default {
   actions: {
     logout(context) {
       context.commit('setAuthentication')
-      router.push('/home')
+      router.push('/')
     },
     login(context, obj) {
       return axios
@@ -53,7 +53,7 @@ export default {
         .post(`${config.api}/auth/register`, obj)
         .then(() => {
           swal('Account created', 'Please login!', 'success')
-          router.push('/login')
+          router.push('/')
         })
         .catch(() => {
           swal('Invalid credentials!', 'Please try again!', 'error')

@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="container body">
-      <transition 
+      <transition
         :name="transitionName"
         appear="appear"
         mode="out-in">

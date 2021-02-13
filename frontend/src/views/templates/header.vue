@@ -1,18 +1,11 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <span class="navbar-brand">Frontend</span>
-      </li>
-      <li class="nav-item">
-        <router-link
-          class="nav-link"
-          to="/home">Home</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link
-          class="nav-link"
-          to="/about">About</router-link>
+      <li class="nav-item"><span class="navbar-brand">Frontend</span></li>
+      <li class="nav-item"><router-link class="nav-link" to="/home">Home</router-link></li>
+      <li class="nav-item"><router-link class="nav-link" to="/about">About</router-link>
+      <li class="nav-item"><router-link class="nav-link" to="/contact">Contact</router-link>
+      <li class="nav-item"><router-link class="nav-link" to="/feedback">Feedback</router-link>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">

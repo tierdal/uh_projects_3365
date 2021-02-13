@@ -20,6 +20,7 @@ function setupTimestamps (callback) {
     {
       host: config.get('options.db.host'),
       dialect: 'mssql',
+      dialectOptions: {encrypt: true},
       freezeTableName: true,
       operatorsAliases: false,
       timestamps: enableTimestamps,
@@ -72,6 +73,7 @@ const auto = new SequelizeAuto(
   {
     host: config.get('options.db.host'),
     dialect: 'mssql',
+    dialectOptions: {encrypt: true},
     directory,
     additional: {
       timestamps: enableTimestamps,

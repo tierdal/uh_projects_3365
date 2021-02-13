@@ -49,7 +49,7 @@ router.post('/auth/register', (req, res, next) => {
 router.post('/auth/login', (req, res, next) => {
   const db = req.app.get('db')
 
-  const email = req.body.email
+  const email = req.body.username
   const password = req.body.password
 
   if (

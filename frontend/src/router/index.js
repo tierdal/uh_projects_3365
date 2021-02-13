@@ -28,28 +28,28 @@ const router = new VueRouter({
       path: '/home',
       component: index,
       meta: {
-        isOpen: true,
+        //isOpen: true,
       },
     },
     {
       path: '/about',
       component: about,
       meta: {
-        isOpen: true,
+        //isOpen: true,
       },
     },
     {
       path: '/contact',
       component: contact,
       meta: {
-        isOpen: true,
+        //isOpen: true,
       },
     },
     {
       path: '/feedback',
       component: feedback,
       meta: {
-        isOpen: true,
+        //isOpen: true,
       },
     },
     {

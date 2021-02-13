@@ -8,19 +8,19 @@
             <p>Please provide required information to create an account.</p>
 
             <div class="form-group">
-              <label>Username</label>
+              <label>Email</label>
               <input
-                v-validate="'required|min:3|max:16'"
-                v-model="form.model.username"
+                v-validate="'required|min:3|max:36'"
+                v-model="form.model.email"
                 class="form-control"
                 type="text"
-                autocomplete="username"
-                placeholder="Username"
-                name="username">
+                autocomplete="email"
+                placeholder="email"
+                name="email">
               <span
-                v-show="errors.has('username')"
+                v-show="errors.has('email')"
                 class="invalid-feedback"
-                v-html="errors.first('username')" />
+                v-html="errors.first('email')" />
             </div>
 
             <div class="form-group">
@@ -43,6 +43,7 @@
                 v-validate="'required|min:6|max:16'"
                 v-model="form.model.password"
                 class="form-control"
+                ref="password"
                 type="password"
                 autocomplete="new-password"
                 placeholder="Password"
@@ -56,7 +57,7 @@
             <div class="form-group">
               <label>Confirm Password</label>
               <input
-                v-validate="'confirmed'"
+                v-validate="'required|confirmed:password'"
                 v-model="form.model.confirmPassword"
                 class="form-control"
                 type="password"
@@ -97,10 +98,10 @@ export default {
     return {
       form: {
         model: {
-          password: 'tim-password',
-          confirmPassword: 'tim-password',
-          username: 'tim',
-          name: 'Minion Tim',
+          password: '',
+          confirmPassword: '',
+          username: '',
+          name: '',
         },
       },
     }

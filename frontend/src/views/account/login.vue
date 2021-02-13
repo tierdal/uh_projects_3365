@@ -67,8 +67,8 @@ export default {
     return {
       form: {
         model: {
-          password: 'tim-password',
-          username: 'tim',
+          password: '',
+          username: '',
         },
       },
     }

@@ -18,6 +18,7 @@ const sequelize = new Sequelize(
   {
     host: config.get('options.db.host'),
     dialect: 'mssql',
+    dialectOptions: {encrypt: true},
     freezeTableName: true,
     operatorsAliases: false,
     timestamps: true,
