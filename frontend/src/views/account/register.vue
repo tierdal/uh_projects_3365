@@ -23,18 +23,89 @@
                 v-html="errors.first('email')" />
             </div>
 
+
             <div class="form-group">
-              <label>Name</label>
+              <label>First Name</label>
               <input
-                v-model="form.model.name"
+                v-model="form.model.f_name"
                 class="form-control"
                 type="text"
-                placeholder="Name"
-                name="name">
+                placeholder="First Name"
+                name="f_name">
               <span
-                v-show="errors.has('name')"
+                v-show="errors.has('f_name')"
                 class="invalid-feedback"
-                v-html="errors.first('name')" />
+                v-html="errors.first('f_name')" />
+            </div>
+
+            <div class="form-group">
+              <label>Last Name</label>
+              <input
+                v-model="form.model.l_name"
+                class="form-control"
+                type="text"
+                placeholder="Last Name"
+                name="l_name">
+              <span
+                v-show="errors.has('l_name')"
+                class="invalid-feedback"
+                v-html="errors.first('l_name')" />
+            </div>
+
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input
+                v-model="form.model.phone"
+                class="form-control"
+                type="phone"
+                placeholder="Phone Number"
+                name="phone">
+              <span
+                v-show="errors.has('phone')"
+                class="invalid-feedback"
+                v-html="errors.first('phone')" />
+            </div>
+
+            <div class="form-group">
+              <label>Department ID</label>
+              <input
+                v-model="form.model.department_id"
+                class="form-control"
+                type="number"
+                placeholder="Department ID"
+                name="department_id">
+              <span
+                v-show="errors.has('department_id')"
+                class="invalid-feedback"
+                v-html="errors.first('department_id')" />
+            </div>
+
+            <div class="form-group">
+              <label>Role ID</label>
+              <input
+                v-model="form.model.role_id"
+                class="form-control"
+                type="number"
+                placeholder="Role ID"
+                name="role_id">
+              <span
+                v-show="errors.has('role_id')"
+                class="invalid-feedback"
+                v-html="errors.first('role_id')" />
+            </div>
+
+            <div class="form-group">
+              <label>Is Approver</label>
+              <input
+                v-model="form.model.is_approver"
+                class="form-control"
+                type="number"
+                placeholder="Is Approver"
+                name="is_approver">
+              <span
+                v-show="errors.has('is_approver')"
+                class="invalid-feedback"
+                v-html="errors.first('is_approver')" />
             </div>
 
             <div class="form-group">
@@ -100,8 +171,13 @@ export default {
         model: {
           password: '',
           confirmPassword: '',
-          username: '',
-          name: '',
+          email: '',
+          f_name: '',
+          l_name: '',
+          phone: '',
+          department_id: '',
+          role_id: '',
+          is_approver: '',
         },
       },
     }

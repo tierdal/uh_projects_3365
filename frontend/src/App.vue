@@ -3,10 +3,10 @@
     <header-template v-if="isAuthenticated" />
     <header-template-anonymous v-else/>
     <div class="beta-banner">
-      <div class="alert alert-info">
+      <!--<div class="alert alert-info">
         <span class="badge badge-info">Beta</span>&nbsp;
         <strong>This is a new service &ndash; your feedback will help us to improve it.</strong>
-      </div>
+      </div>-->
     </div>
     <div class="container body">
       <transition
@@ -16,7 +16,7 @@
         <router-view/>
       </transition>
     </div>
-    <footer-template/>
+    <!--<footer-template/>-->
   </div>
 </template>
 

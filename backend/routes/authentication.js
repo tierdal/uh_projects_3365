@@ -8,7 +8,7 @@ const validator = require('validator')
 
 router.post('/auth/register', (req, res, next) => {
   const db = req.app.get('db')
-  const newUser = db.login.build(req.body)
+  const newUser = db.users.build(req.body)
 
   if (
     !newUser.email ||
@@ -25,7 +25,7 @@ router.post('/auth/register', (req, res, next) => {
 
   newUser.password = bcrypt.hashSync(newUser.password, 8)
 
-  db.login
+  db.users
     .findOne({
       where: {
         email: newUser.email
@@ -64,8 +64,7 @@ router.post('/auth/login', (req, res, next) => {
     res.sendStatus(400)
     return
   }
-
-  db.login
+  db.users
     .findOne({
       where: {
         email
