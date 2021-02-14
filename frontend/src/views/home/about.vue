@@ -2,11 +2,19 @@
   <div>
     <h2>About</h2>
     <p>Demo App</p>
+    <departments-list />
   </div>
 </template>
 
 <script>
-export default {}
+
+import departmentList from "../lists/departmentList.vue";
+
+//Vue.use(Router);
+
+export default {
+  components: {'departments-list' : departmentList}
+}
 </script>
 
 <style lang='stylus'>

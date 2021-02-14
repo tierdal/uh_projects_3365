@@ -36,7 +36,7 @@ const sequelize = new Sequelize(
     },
     typeValidation: true,
     benchmark: false,
-    logging: false,
+    logging: true,
     syncOnAssociation: false
   }
 )
