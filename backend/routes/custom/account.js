@@ -31,7 +31,7 @@ router.post('/', (req, res, next) => {
     return
   }
 
-  db.login
+  db.users
     .update(updateOptions, {
       where: {
         id: user.id
@@ -45,7 +45,7 @@ router.post('/', (req, res, next) => {
       // Update client side info
       res.json({
         token,
-        login: user
+        users: user
       })
     })
     .catch(next)

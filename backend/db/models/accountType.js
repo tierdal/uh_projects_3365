@@ -11,11 +11,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    createdAt: {
+    CREATED_AT: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    updatedAt: {
+    UPDATED_AT: {
       type: DataTypes.DATE,
       allowNull: false
     }
@@ -30,7 +30,7 @@ module.exports = function(sequelize, DataTypes) {
     deletedAt: false,
     indexes: [
       {
-        name: "PK__accountT__3213E83FB6A22B6A",
+        name: "PK__accountT__3213E83F1B5034D0",
         unique: true,
         fields: [
           { name: "id" },
