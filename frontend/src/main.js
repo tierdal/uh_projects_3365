@@ -15,6 +15,8 @@ import router from './router'
 
 Vue.use(VeeValidate)
 
+Vue.config.productionTip = false
+
 // eslint-disable-next-line
 new Vue({
   el: '#app',

@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex'
 
 const mixin = {
   computed: {
-    ...mapGetters(['isLoading', 'isAuthenticated', 'user']),
+    ...mapGetters(['isLoadingCheck', 'isAuthenticated', 'user']),
   },
 }
 

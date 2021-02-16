@@ -8,12 +8,12 @@ export default {
     quote: null,
   },
   getters: {
-    isLoading(state) {
+    isLoadingCheck(state) {
       return state.loading
     },
   },
   mutations: {
-    isLoading(state) {
+    isLoadingCheck(state) {
       state.loading = true
     },
     isNotLoading(state) {
