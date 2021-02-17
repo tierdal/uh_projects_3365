@@ -2,6 +2,7 @@ import session from '../utilities/session'
 import axios from '../utilities/axios'
 import config from '../config'
 import router from '../router'
+import Swal from 'sweetalert2'
 /* eslint-disable no-param-reassign */
 
 export default {
@@ -45,28 +46,48 @@ export default {
           context.commit('setAuthentication', res.data)
         })
         .catch(() => {
-          swal('Invalid credentials!', 'Please try again!', 'error')
+          Swal.fire({
+            title: 'Invalid credentials!',
+            text: 'Please try again!',
+            icon: 'error'
+          })
         })
     },
     register(context, obj) {
       return axios
         .post(`${config.api}/auth/register`, obj)
         .then(() => {
-          swal('Account created', 'Please login!', 'success')
+          Swal.fire({
+            title: 'Account created',
+            text: 'Please login!',
+            icon: 'success'
+          })
           router.push('/')
         })
         .catch(() => {
-          swal('Invalid credentials!', 'Please try again!', 'error')
+          Swal.fire({
+            title: 'Invalid credentials!',
+            text: 'Please try again!',
+            icon: 'error'
+          })
         })
     },
     updateLogin(context, obj) {
       return axios
         .post(`${config.api}/auth/user`, obj)
         .then(() => {
-          swal('Account updated', 'Please login!', 'success')
+          Swal.fire({
+            title: 'Account updated',
+            text: 'Please login!',
+            icon: 'success'
+          })
         })
         .catch(() => {
-          swal('Invalid data!', 'Please try again!', 'error')
+          Swal.fire({
+            title: 'Invalid data!',
+            text: 'Please try again!',
+            icon: 'error'
+          })
         })
     },
   },

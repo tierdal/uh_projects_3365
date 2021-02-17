@@ -58,6 +58,7 @@ import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table';
+import Swal from 'sweetalert2'
 
 export default {
   data() {
@@ -87,7 +88,26 @@ export default {
       // params.event - click event
       console.log(params.row.id)
       console.log(params.row.description)
-      swal('Edit Record', 'ID: ' + params.row.id + ', Description: ' + params.row.description, 'error')
+      //swal('Edit Record', 'ID: ' + params.row.id + ', Description: ' + params.row.description, 'error')
+      Swal.fire({
+        title: 'Edit Record',
+        html:
+          '',
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: 'Submit',
+        confirmButtonAriaLabel: 'Thumbs up, great!',
+        cancelButtonText: 'Cancel',
+        cancelButtonAriaLabel: 'Thumbs down'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Done!',
+            'The record has been updated.',
+            'success'
+          )
+        }
+      })
     },
     onRowMouseover(params) {
       console.log('Hovering over: ' + params.row.id)
@@ -121,7 +141,7 @@ export default {
         console.log(JSON.stringify(response.data.length))*/
       })
       .catch(() => {
-        swal('Error', 'Something went wrong', 'error')
+        Swal.fire('Error', 'Something went wrong', 'error')
       })
   }
 };

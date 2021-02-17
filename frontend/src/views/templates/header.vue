@@ -25,28 +25,22 @@
 
 <script>
 import { mapActions } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'HeaderTemplate',
   methods: {
     ...mapActions(['logout']),
     confirmLogout() {
-      swal({
+      Swal.fire({
         title: 'Are you sure you want to logout?',
         text: '',
         icon: 'warning',
-        buttons: {
-          cancel: {
-            text: 'Cancel',
-            visible: true,
-          },
-          confirm: {
-            text: 'Yes',
-          },
-        },
-        dangerMode: true,
-      }).then(confirm => {
-        if (confirm) {
+        showCancelButton: true,
+        cancelButtonText: 'Stay Logged In',
+        confirmButtonText: 'Logout',
+      }).then(result => {
+        if (result.isConfirmed) {
           this.logout()
         }
       })

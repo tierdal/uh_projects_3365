@@ -163,6 +163,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   data() {
@@ -190,11 +191,11 @@ export default {
         if (res) {
           this.register(this.form.model)
         } else {
-          swal(
-            'Not so fast!',
-            'Please provide required data in valid format',
-            'warning',
-          )
+          Swal.fire({
+            title: 'Not so fast!',
+            text: 'Please provide required data in valid format',
+            icon: 'warning',
+          })
         }
       })
     },
