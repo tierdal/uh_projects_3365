@@ -8,7 +8,7 @@
 
 <script>
 
-import departmentList from "../lists/departmentList.vue";
+import departmentList from "../lists/departments/departmentList.vue";
 
 //Vue.use(Router);
 
