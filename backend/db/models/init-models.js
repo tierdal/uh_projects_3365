@@ -1,20 +1,24 @@
 var DataTypes = require("sequelize").DataTypes;
-var _accountType = require("./accountType");
-var _login = require("./login");
+var _departments = require("./departments");
 var _users = require("./users");
+var _roles = require("./roles");
+var _status = require("./status");
 
 function initModels(sequelize) {
-  var accountType = _accountType(sequelize, DataTypes);
-  var login = _login(sequelize, DataTypes);
+  var departments = _departments(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
+  var roles = _roles(sequelize, DataTypes);
+  var status = _status(sequelize, DataTypes);
 
-  login.belongsTo(accountType, { as: "accountType", foreignKey: "accountTypeId"});
-  accountType.hasMany(login, { as: "logins", foreignKey: "accountTypeId"});
+  users.belongsTo(departments, { as: "departments", foreignKey: "FK_users_departments"});
+  users.belongsTo(roles, { as: "roles", foreignKey: "FK_users_roles"});
+  users.belongsTo(status, { as: "status", foreignKey: "FK_users_status"});
 
   return {
-    accountType,
-    login,
+    departments,
     users,
+    roles,
+    status,
   };
 }
 module.exports = initModels;
