@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router({ caseSensitive: true })
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
-router.get('/', (req, res, next) => {
+router.get('/findall', (req, res, next) => {
     //list departments
     const db = req.app.get('db')
     //console.log('start')
@@ -26,16 +26,61 @@ router.get('/', (req, res, next) => {
         });
 })
 
-router.post('/api/departments', (req, res, next) => {
+router.post('/create', (req, res, next) => {
     //create departments
+    const description_text = req.body.description
+    const db = req.app.get('db')
+    db.accountType.create({
+        description: description_text
+        })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+        console.log('There was an error updating departments', JSON.stringify(err))
+        return res.send(err)
+    })
 })
 
-router.put('/api/departments/:department_id', (req, res, next) => {
-    //create departments
+router.put('/update', (req, res, next) => {
+    //update departments
+
+    const department_id = req.body.id
+    const description_text = req.body.description
+    const db = req.app.get('db')
+
+    console.log(req.body.id)
+    console.log(req.body.description)
+
+    db.accountType.update({
+            description: description_text
+        }, {
+            where: {
+            id: department_id
+            }
+        })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating departments', JSON.stringify(err))
+            return res.send(err)
+    })
 })
 
-router.delete('/api/departments/:department_id', (req, res, next) => {
-    //create departments
+router.delete('/delete/:departmentId', (req, res, next) => {
+    //delete departments
+    const id = req.params.departmentId;
+    const db = req.app.get('db')
+
+    db.accountType.destroy({
+        where: { id: id }
+    }).then(() => {
+        res.status(200).send('The record has been deleted!');
+    }).catch(err => {
+        console.log('There was an error deleting departments', JSON.stringify(err))
+        return res.send(err)
+    });
 })
 
 module.exports = router

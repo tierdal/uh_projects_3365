@@ -1,10 +1,17 @@
 <template>
   <div>
-    <h4>Department List</h4>
-
-    <br>
+    <div class="tableHeading">
+      <div class="tableHeading-left">
+        <span class="tableHeading-text">Department List</span>
+      </div>
+      <div class="tableHeading-right">
+        <button class="swal2-addnew swal2-styled" v-on:click="addNewDepartment">Add New Department</button>
+      </div>
+    </div>
 
     <div>
+      <div slot="table-actions">
+      </div>
       <vue-good-table
         :columns="dataFields"
         :rows="DB_DATA"
@@ -32,13 +39,7 @@
         }"
         compactMode
         @on-row-dblclick="onRowDoubleClick"
-        @on-row-mouseenter="onRowMouseover"
-        @on-row-mouseleave="onRowMouseleave"
-      >
-        <div slot="table-actions">
-          <button>Add New Department</button>
-        </div>
-      </vue-good-table>
+      />
     </div>
 
   </div>
@@ -86,63 +87,128 @@ export default {
       // params.selected - if selection is enabled this argument
       // indicates selected or not
       // params.event - click event
-      console.log(params.row.id)
-      console.log(params.row.description)
-      //swal('Edit Record', 'ID: ' + params.row.id + ', Description: ' + params.row.description, 'error')
       Swal.fire({
         title: 'Edit Record',
         html:
-          '',
+          'Item ID: ' + params.row.id +
+          '<br>' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.description + '">' +
+          '</form>'
+        ,
         showCancelButton: true,
+        showDenyButton: true,
         focusConfirm: false,
         confirmButtonText: 'Submit',
-        confirmButtonAriaLabel: 'Thumbs up, great!',
         cancelButtonText: 'Cancel',
-        cancelButtonAriaLabel: 'Thumbs down'
+        denyButtonText: `Delete Record`,
+        customClass: {
+          denyButton: 'order-1 right-gap',
+          cancelButton: 'order-2',
+          confirmButton: 'order-3',
+        },
+        preConfirm: () => {
+          const description = document.getElementById('form-description').value
+          if (!description) {
+            Swal.showValidationMessage(`Description cannot be blank`)
+          }
+          return {description: description}
+        },
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            'Done!',
-            'The record has been updated.',
-            'success'
-          )
+          const data = {
+            id: params.row.id,
+            description: result.value.description
+          }
+          axios.put(`${config.api}/api/departments/update`, data)
+            .then((response) => {
+              this.loadData()
+              Swal.fire(
+                'Done!',
+                'The record has been updated.',
+                'success'
+              )
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong', 'error')
+            })
+        } else if (result.isDenied){
+          const departmentID = params.row.id
+          axios.delete(`${config.api}/api/departments/delete/` + departmentID)
+            .then((response) => {
+              this.loadData()
+              Swal.fire(
+                'Done!',
+                'The record has been deleted.',
+                'success'
+              )
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong', 'error')
+            })
         }
       })
     },
-    onRowMouseover(params) {
-      console.log('Hovering over: ' + params.row.id)
-      console.log(JSON.stringify(params.row))
-      console.log(JSON.stringify(params.pageIndex))
-      // params.row - row object
-      // params.pageIndex - index of this row on the current page.
+    addNewDepartment(){
+      Swal.fire({
+        title: 'Add Record',
+        html:
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
+          '</form>'
+        ,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: 'Submit',
+        cancelButtonText: 'Cancel',
+        preConfirm: () => {
+          const description = document.getElementById('form-description').value
+          if (!description) {
+            Swal.showValidationMessage(`Description cannot be blank`)
+          }
+          return {description: description}
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const data = {
+            description: result.value.description
+          }
+          axios.post(`${config.api}/api/departments/create`, data)
+            .then((response) => {
+              this.loadData()
+              Swal.fire(
+                'Done!',
+                'The record has been created.',
+                'success'
+              )
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong', 'error')
+            })
+        }
+      })
     },
-    onRowMouseleave(row, pageIndex) {
-      // row - row object
-      // pageIndex - index of this row on the current page.
+    loadData(){
+      axios.get(`${config.api}/api/departments/findall`)
+        .then((response) => {
+          this.DB_DATA = response.data;
+          /*this.dataLength = response.data.length;
+          console.log('Status: ' + response.status + ' ' + response.statusText)
+          console.log('Headers:')
+          console.log(response.headers)
+          console.log('Config:')
+          console.log(response.config)
+          console.log('Data:')
+          console.log(response.data)
+          console.log(JSON.stringify(response.data))
+          console.log(JSON.stringify(response.data.length))*/
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong', 'error')
+        })
     },
-    /*rowStyleClassFn(row) {
-      return row.active ? 'VGT-row-red' : 'VGT-row';;
-    },*/
     deleteItem(){},
   },
   beforeMount() {
-    axios.get(`${config.api}/api/departments`)
-      .then((response) => {
-        this.DB_DATA = response.data;
-        /*this.dataLength = response.data.length;
-        console.log('Status: ' + response.status + ' ' + response.statusText)
-        console.log('Headers:')
-        console.log(response.headers)
-        console.log('Config:')
-        console.log(response.config)
-        console.log('Data:')
-        console.log(response.data)
-        console.log(JSON.stringify(response.data))
-        console.log(JSON.stringify(response.data.length))*/
-      })
-      .catch(() => {
-        Swal.fire('Error', 'Something went wrong', 'error')
-      })
+    this.loadData();
   }
 };
 </script>
