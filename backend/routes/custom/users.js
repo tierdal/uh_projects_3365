@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router({ caseSensitive: true })
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
-router.get('/findall', (req, res, next) => {
+router.get('/find', (req, res, next) => {
     //list users
     const db = req.app.get('db')
     //console.log('start')
@@ -19,6 +19,18 @@ router.get('/findall', (req, res, next) => {
         //limit: parseInt(req.query.per_page),
         //page: parseInt(req.query.page)
     })
+        .then((users) => res.send(users))
+        .catch((err) => {
+            console.log('There was an error querying users', JSON.stringify(err))
+            return res.send(err)
+        });
+})
+router.get('/find/:userID', (req, res, next) => {
+    //list users
+    const id = req.params.userId;
+    const db = req.app.get('db')
+
+    return db.users.findById(id)
         .then((users) => res.send(users))
         .catch((err) => {
             console.log('There was an error querying users', JSON.stringify(err))
@@ -46,14 +58,14 @@ router.put('/update', (req, res, next) => {
     //update users
 
     const user_id = req.body.id
-    const description_text = req.body.description
+    //const description_text = req.body.description
     const db = req.app.get('db')
 
     console.log(req.body.id)
-    console.log(req.body.description)
+    //console.log(req.body.description)
 
     db.users.update({
-        description: description_text
+        //description: description_text
     }, {
         where: {
             id: user_id

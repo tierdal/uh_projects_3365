@@ -109,6 +109,20 @@
             </div>
 
             <div class="form-group">
+              <label>Status</label>
+              <input
+                v-model="form.model.status_id"
+                class="form-control"
+                type="number"
+                placeholder="Status"
+                name="status_id">
+              <span
+                v-show="errors.has('status_id')"
+                class="invalid-feedback"
+                v-html="errors.first('status_id')" />
+            </div>
+
+            <div class="form-group">
               <label>Password</label>
               <input
                 v-validate="'required|min:6|max:16'"
@@ -179,6 +193,7 @@ export default {
           department_id: '',
           role_id: '',
           is_approver: '',
+          status_id: '',
         },
       },
     }

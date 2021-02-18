@@ -5,7 +5,7 @@
       <li class="nav-item"><router-link class="nav-link" to="/home">Home</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/about">About</router-link>
       <li class="nav-item"><router-link class="nav-link" to="/contact">Contact</router-link>
-      <li class="nav-item"><router-link class="nav-link" to="/feedback">Feedback</router-link>
+      <li v-if="adminCheck" class="nav-item"><router-link class="nav-link" to="/feedback">Feedback</router-link>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
@@ -26,11 +26,26 @@
 <script>
 import { mapActions } from 'vuex'
 import Swal from 'sweetalert2'
+import session from "../../utilities/session";
 
 export default {
   name: 'HeaderTemplate',
+  data() {
+    return {
+      adminCheck: false
+    }
+  },
   methods: {
     ...mapActions(['logout']),
+    isAdmin(){
+      const role = session.getUser().role_id
+      if (role === 1){
+        //non-admin doesnt see stuff
+        return this.adminCheck = true
+      } else {
+        return this.adminCheck = false
+      }
+    },
     confirmLogout() {
       Swal.fire({
         title: 'Are you sure you want to logout?',
@@ -46,6 +61,10 @@ export default {
       })
     },
   },
+  beforeMount() {
+    this.isAdmin()
+    console.log(this.isAdmin())
+  }
 }
 </script>
 

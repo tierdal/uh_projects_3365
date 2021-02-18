@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-template v-if="isAuthenticated" />
-    <header-template-anonymous v-else/>
+    <!--<header-template-anonymous v-else/>-->
     <div class="beta-banner">
       <!--<div class="alert alert-info">
         <span class="badge badge-info">Beta</span>&nbsp;

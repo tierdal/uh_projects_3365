@@ -36,7 +36,7 @@ router.post('/auth/register', (req, res, next) => {
         res.sendStatus(409)
         return
       }
-
+console.log("hello")
       newUser
         .save()
         .then(() => {
