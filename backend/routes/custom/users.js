@@ -1,29 +1,47 @@
 const express = require('express')
 const router = express.Router({ caseSensitive: true })
+//const _departments = require('../../db/models/departments');
+//const _roles = require('../../db/models/roles');
+//const _statuses = require('../../db/models/statuses');
+//const DataTypes = require("sequelize").DataTypes;
+//const statuses = _statuses(sequelize, DataTypes);
+
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
 router.get('/find', (req, res, next) => {
+
+    //const departments = _departments(sequelize, DataTypes);
+    //const roles = _roles(sequelize, DataTypes);
+
+    //console.log('start')
     //list users
     const db = req.app.get('db')
-    //console.log('start')
     //console.log(req)
     //console.log(req.query.sort)
     //console.log(req.query.page)
     //console.log(req.query.per_page)
     //db.accountType.findAll({raw : true}).then(data => {console.log(data)})
 
+    //console.log(db.users)
     //console.log('end')
 
     return db.users.findAll({
-        raw : true,
-        //limit: parseInt(req.query.per_page),
-        //page: parseInt(req.query.page)
+    //const usersResults = db.users.findAll({
+        include: [
+            db.statuses,
+            db.roles,
+            db.departments
+        ],
+        raw : true
     })
         .then((users) => res.send(users))
         .catch((err) => {
             console.log('There was an error querying users', JSON.stringify(err))
             return res.send(err)
         });
+
+    //console.log(usersResults.user_id)
+
 })
 router.get('/find/:userID', (req, res, next) => {
     //list users
