@@ -13,6 +13,7 @@ import notFound from '../views/error/notFound.vue'
 import register from '../views/account/register.vue'
 import login from '../views/account/login.vue'
 import account from '../views/account/index.vue'
+import session from '../utilities/session'
 
 vue.use(VueRouter)
 
@@ -50,6 +51,7 @@ const router = new VueRouter({
       component: feedback,
       meta: {
         //isOpen: true,
+        isAdmin: true
       },
     },
     {
@@ -94,7 +96,14 @@ router.beforeEach((to, from, next) => {
         path: '/home',
       })
     } else {
-      next()
+      //put auth code here
+      const role = session.getUser().role_id
+      if (role !== 1 && to.matched.some(record => record.meta.isAdmin)){
+        //non-admin gets blocked
+      } else {
+        next()
+      }
+
     }
   } else if (to.matched.some(record => record.meta.isOpen)) {
     next()

@@ -21,24 +21,11 @@ module.exports = {
   secret: "someSecretStringToUseForAuthorizationRequests"
 }
 ```
-
-## Adding models
-
-You can either add models from existing DB using `npm run generate-models` or
-manually write models in _backend/db/models_ directory.
-
-## Associations
-
-Associations can be defined inside _db/association_ file.
-
 ## Build Setup
 
 ```bash
 # install dependencies
 npm install
-
-# generates models from existing DB
-npm run generate-models
 
 # start nodejs server using nodemon
 npm run dev

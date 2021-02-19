@@ -25,17 +25,22 @@ module.exports = function(sequelize, DataTypes) {
     },
     department_id: {
       type: DataTypes.INTEGER,
-      defaultValue: '2',
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'departments',
+        key: 'id'
+      }
     },
     role_id: {
       type: DataTypes.INTEGER,
-      defaultValue: '2',
       allowNull: false
     },
     is_approver: {
       type: DataTypes.BOOLEAN,
-      defaultValue: '0',
+      allowNull: false
+    },
+    status_id: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     password: {
@@ -50,6 +55,15 @@ module.exports = function(sequelize, DataTypes) {
     underscored: true,
     createdAt: 'CREATED_AT',
     updatedAt: 'UPDATED_AT',
-    deletedAt: false
+    deletedAt: false,
+    indexes: [
+      {
+        name: "PK__users__3213E83FFE16023F",
+        unique: true,
+        fields: [
+          { name: "user_id" },
+        ]
+      },
+    ]
   });
 };

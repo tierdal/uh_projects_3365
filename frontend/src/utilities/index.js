@@ -1,4 +1,4 @@
-import 'sweetalert'
+import 'sweetalert2'
 
 import './pollyfills'
 import './axios'

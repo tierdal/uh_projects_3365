@@ -1,58 +1,60 @@
 <template>
-  <div class="row">
-    <div class="col-lg-6 offset-lg-3">
-      <div class="card text-black bg-light">
-        <div class="card-body">
-          <form @submit.prevent="submit">
-            <h2>Sign In</h2>
-            <p>Please provide required information to continue.</p>
+  <div class="login-wrapper">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <div class="card text-black bg-light">
+          <div class="card-body">
+            <form @submit.prevent="submit">
+              <h2>Sign In</h2>
+              <p>Please provide required information to continue.</p>
 
-            <div class="form-group">
-              <label>Username</label>
+              <div class="form-group">
+                <label>Username</label>
+                <input
+                  v-validate="'required|min:3|max:16'"
+                  v-model="form.model.username"
+                  class="form-control"
+                  type="text"
+                  autocomplete="username"
+                  placeholder="Username"
+                  name="username">
+                <span
+                  v-show="errors.has('username')"
+                  class="invalid-feedback"
+                  v-html="errors.first('username')" />
+              </div>
+
+              <div class="form-group">
+                <label>Password</label>
+                <input
+                  v-validate="'required|min:6|max:16'"
+                  v-model="form.model.password"
+                  class="form-control"
+                  type="password"
+                  autocomplete="new-password"
+                  placeholder="Password"
+                  name="password">
+                <span
+                  v-show="errors.has('password')"
+                  class="invalid-feedback"
+                  v-html="errors.first('password')" />
+              </div>
+
               <input
-                v-validate="'required|min:3|max:16'"
-                v-model="form.model.username"
-                class="form-control"
-                type="text"
-                autocomplete="username"
-                placeholder="Username"
-                name="username">
-              <span
-                v-show="errors.has('username')"
-                class="invalid-feedback"
-                v-html="errors.first('username')" />
-            </div>
+                :disabled="errors.any()"
+                class="btn btn-primary btn-block"
+                type="submit"
+                value="Sign In">
 
-            <div class="form-group">
-              <label>Password</label>
-              <input
-                v-validate="'required|min:6|max:16'"
-                v-model="form.model.password"
-                class="form-control"
-                type="password"
-                autocomplete="new-password"
-                placeholder="Password"
-                name="password">
-              <span
-                v-show="errors.has('password')"
-                class="invalid-feedback"
-                v-html="errors.first('password')" />
-            </div>
+              <br>
 
-            <input
-              :disabled="errors.any()"
-              class="btn btn-primary btn-block"
-              type="submit"
-              value="Sign In">
-
-            <br>
-
-            <router-link
-              class="btn-link"
-              to="/auth/register">
-              Don't have an account?
-            </router-link>
-          </form>
+              <router-link
+                class="btn-link"
+                to="/auth/register">
+                Don't have an account?
+              </router-link>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -61,6 +63,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   data() {
@@ -81,11 +84,11 @@ export default {
         if (res) {
           this.login(this.form.model)
         } else {
-          swal(
-            'Not so fast!',
-            'Please provide required data in valid format',
-            'warning',
-          )
+          Swal.fire({
+            title: 'Not so fast!',
+            text: 'Please provide required data in valid format',
+            icon: 'warning',
+        })
         }
       })
     },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-template v-if="isAuthenticated" />
-    <header-template-anonymous v-else/>
+    <!--<header-template-anonymous v-else/>-->
     <div class="beta-banner">
       <!--<div class="alert alert-info">
         <span class="badge badge-info">Beta</span>&nbsp;
@@ -24,6 +24,7 @@
 import headerAnonymous from './views/templates/header-anonymous.vue'
 import header from './views/templates/header.vue'
 import footer from './views/templates/footer.vue'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'App',
@@ -40,7 +41,10 @@ export default {
   watch: {
     isAuthenticated(val) {
       if (val) {
-        swal('You have successfuly logged in.', 'welcome!', 'success')
+        Swal.fire({
+          title: 'You have successfully logged in.',
+          icon: 'success'
+        })
         if (this.$route.query.redirect) {
           this.$router.push({
             path: this.$route.query.redirect

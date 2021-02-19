@@ -10,7 +10,7 @@ let numberOfAjaxCallPending = 0
 function checkLoadingState(state) {
   if (state) {
     numberOfAjaxCallPending += 1
-    store.commit('isLoading')
+    store.commit('isLoadingCheck')
   } else {
     numberOfAjaxCallPending -= 1
     if (numberOfAjaxCallPending === 0) {
