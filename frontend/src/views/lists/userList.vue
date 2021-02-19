@@ -208,12 +208,12 @@ export default {
       axios.get(`${config.api}/api/users/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'status.id','statusId'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'status.description','statusDesc'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'role.id','roleId'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'role.description','roleDesc'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'department.id','departmentId'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'department.description','departmentDesc'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'status.status_id','statusId'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'status.status_description','statusDesc'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'role.role_id','roleId'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'role.role_description','roleDesc'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'department.department_id','departmentId'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'department.department_description','departmentDesc'))
 
           //response.data = response.data.replace("\"status.description\":", "\"statusDesc\":")
           //response.data = response.data.replace("\"department.description\":", "\"departmentDesc\":")

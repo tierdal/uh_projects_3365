@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('departments', {
-    id: {
+    department_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    description: {
+    department_description: {
       type: DataTypes.STRING,
       allowNull: false
     }
@@ -20,14 +20,14 @@ module.exports = function(sequelize, DataTypes) {
     createdAt: 'CREATED_AT',
     updatedAt: 'UPDATED_AT',
     deletedAt: false,
-    indexes: [
+    /*indexes: [
       {
         name: "PK__accountT__3213E83F1B5034D0",
         unique: true,
         fields: [
-          { name: "id" },
+          { name: "department_id" },
         ]
       },
-    ]
+    ]*/
   });
 };

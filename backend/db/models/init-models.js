@@ -10,13 +10,13 @@ function initModels(sequelize) {
   var roles = _roles(sequelize, DataTypes);
   var statuses = _statuses(sequelize, DataTypes);
 
-  departments.hasMany(users)
-  roles.hasMany(users)
-  statuses.hasMany(users)
+  departments.hasMany(users, {foreignKey: "departmentId"})
+  roles.hasMany(users, {foreignKey: "roleId"})
+  statuses.hasMany(users, {foreignKey: "statusId"})
 
-  users.belongsTo(departments, {foreignKey: "department_id"});
-  users.belongsTo(roles, {foreignKey: "role_id"});
-  users.belongsTo(statuses, {foreignKey: "status_id"});
+  users.belongsTo(departments, {foreignKey: "departmentId"});
+  users.belongsTo(roles, {foreignKey: "roleId"});
+  users.belongsTo(statuses, {foreignKey: "statusId"});
 
 
   return {

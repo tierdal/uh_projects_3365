@@ -2,13 +2,13 @@ const Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('statuses', {
-        id: {
+        status_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        description: {
+        status_description: {
             type: DataTypes.STRING,
             allowNull: false
         }
@@ -21,14 +21,14 @@ module.exports = function(sequelize, DataTypes) {
         createdAt: 'CREATED_AT',
         updatedAt: 'UPDATED_AT',
         deletedAt: false,
-        indexes: [
+        /*indexes: [
             {
                 name: "PK__status__3213E83F1B5034D2",
                 unique: true,
                 fields: [
-                    { name: "id" },
+                    { name: "status_id" },
                 ]
             },
-        ]
+        ]*/
     });
 };

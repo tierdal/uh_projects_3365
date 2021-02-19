@@ -33,32 +33,32 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    department_id: {
+    departmentId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: departments,
-        key: 'id',
+        //key: 'department_id',
       }
     },
-    role_id: {
+    roleId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: roles,
-        key: 'id',
+        //key: 'role_id',
       }
     },
     is_approver: {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    status_id: {
+    statusId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: statuses,
-        key: 'id',
+        //key: 'status_id',
       }
     },
     password: {

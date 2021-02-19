@@ -1,11 +1,11 @@
 module.exports = {
   associate: models => {
-    models.departments.hasMany(models.users)
-    models.roles.hasMany(models.users)
-    models.statuses.hasMany(models.users)
+    models.departments.hasMany(models.users, {foreignKey: "departmentId"})
+    models.roles.hasMany(models.users, {foreignKey: "roleId"})
+    models.statuses.hasMany(models.users, {foreignKey: "statusId"})
 
-    models.users.belongsTo(models.departments, {foreignKey: "department_id"});
-    models.users.belongsTo(models.roles, {foreignKey: "role_id"});
-    models.users.belongsTo(models.statuses, {foreignKey: "status_id"});
+    models.users.belongsTo(models.departments, {foreignKey: "departmentId"});
+    models.users.belongsTo(models.roles, {foreignKey: "roleId"});
+    models.users.belongsTo(models.statuses, {foreignKey: "statusId"});
   }
 }

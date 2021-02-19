@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'id', type: 'asc'}
+          initialSortBy: {field: 'department_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -68,11 +68,11 @@ export default {
       myAPI: `${config.api}/api/departments`,
       dataFields: [{
         label: 'id',
-        field: 'id',
+        field: 'department_id',
         type: 'number'
       },{
         label: 'description',
-        field: 'description'
+        field: 'department_description'
       }]
     };
   },
