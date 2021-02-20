@@ -49,3 +49,31 @@ tr.rowStyle:hover {
   margin-right: 0
   height: 80%;
 }
+
+  /* Navbar Custom */
+.navbar{
+  padding: 0 !important
+}
+.navbar-brand{
+  padding-left:1rem
+}
+.nav-item{
+  padding: 1rem 0rem !important
+}
+.navbar-nav-submenu {
+  margin-top: 1rem
+  margin-left: -1rem
+  background-color: #4a5358
+  position:absolute
+  opacity:0
+  transition:opacity linear 0.15s
+  z-index:-1
+  padding: 1.5rem 1rem
+}
+.nav-item-submenu{
+  display: block
+}
+.navbar-nav li:hover .navbar-nav-submenu {
+  z-index: 1
+  opacity: 1
+}
