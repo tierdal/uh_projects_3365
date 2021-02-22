@@ -51,8 +51,8 @@
 
 <script>
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-import axios from '../../utilities/axios';
-import config from '../../config';
+import axios from '../../../utilities/axios';
+import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table';
 import Swal from 'sweetalert2'
@@ -61,6 +61,9 @@ export default {
   data() {
     return {
       DB_DATA: [],
+      DEPT_DATA: [],
+      ROLE_DATA: [],
+      STATUS_DATA: [],
       myAPI: `${config.api}/api/users`,
       dataFields: [{
         label: 'ID',
@@ -105,64 +108,10 @@ export default {
       // params.selected - if selection is enabled this argument
       // indicates selected or not
       // params.event - click event
-      Swal.fire({
-        title: 'Edit Record',
-        html:
-          'User ID: ' + params.row.user_id +
-          '<br>' +
-          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.description + '">' +
-          '</form>'
-        ,
-        showCancelButton: true,
-        showDenyButton: true,
-        focusConfirm: false,
-        confirmButtonText: 'Submit',
-        cancelButtonText: 'Cancel',
-        denyButtonText: `Delete Record`,
-        customClass: {
-          denyButton: 'order-1 right-gap',
-          cancelButton: 'order-2',
-          confirmButton: 'order-3',
-        },
-        preConfirm: () => {
-          const description = document.getElementById('form-description').value
-          if (!description) {
-            Swal.showValidationMessage(`Description cannot be blank`)
-          }
-          return {description: description}
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const data = {
-            id: params.row.id,
-            description: result.value.description
-          }
-          axios.put(`${config.api}/api/users/update`, data)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been updated.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
-        } else if (result.isDenied){
-          const departmentID = params.row.id
-          axios.delete(`${config.api}/api/users/delete/` + departmentID)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been deleted.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
+      this.$router.push({
+        name: '/useradmin/edit',
+        params: {
+          user_id: params.row.user_id
         }
       })
     },
@@ -214,7 +163,6 @@ export default {
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'role.role_description','roleDesc'))
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'department.department_id','departmentId'))
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'department.department_description','departmentDesc'))
-
           //response.data = response.data.replace("\"status.description\":", "\"statusDesc\":")
           //response.data = response.data.replace("\"department.description\":", "\"departmentDesc\":")
           //response.data = response.data.replace("\"role.description\":", "\"roleDesc\":")
@@ -226,12 +174,36 @@ export default {
           //console.log(response.config)
           //console.log('Data:')
           //console.log(response.data)
-          console.log(JSON.stringify(this.DB_DATA))
           //console.log(JSON.stringify(response.data.length))
+          //console.log(JSON.stringify(this.DB_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
+      /*axios.get(`${config.api}/api/departments/find`)
+        .then((response) => {
+          this.DEPT_DATA = response.data;
+          console.log(JSON.stringify(this.DEPT_DATA))
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong', 'error')
+        })
+      axios.get(`${config.api}/api/roles/find`)
+        .then((response) => {
+          this.STATUS_DATA = response.data;
+          console.log(JSON.stringify(this.STATUS_DATA))
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong', 'error')
+        })
+      axios.get(`${config.api}/api/status/find`)
+        .then((response) => {
+          this.ROLE_DATA = response.data;
+          console.log(JSON.stringify(this.ROLE_DATA))
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong', 'error')
+        })*/
     },
     deleteItem(){},
     renameKey( obj, oldKey, newKey ) {

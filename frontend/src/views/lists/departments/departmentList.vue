@@ -187,7 +187,7 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/departments/findall`)
+      axios.get(`${config.api}/api/departments/find`)
         .then((response) => {
           this.DB_DATA = response.data;
           /*this.dataLength = response.data.length;

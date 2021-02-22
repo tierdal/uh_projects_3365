@@ -8,6 +8,7 @@ import feedback from '../views/home/feedback.vue'
 import about from '../views/home/about.vue'
 import contact from '../views/home/contact.vue'
 import useradmin from '../views/home/useradmin.vue';
+import userEdit from "../views/lists/users/userEdit.vue";
 // error
 import notFound from '../views/error/notFound.vue'
 // account
@@ -58,6 +59,16 @@ const router = new VueRouter({
     {
       path: '/useradmin',
       component: useradmin,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/useradmin/edit',
+      name: '/useradmin/edit',
+      component: userEdit,
+      props: true,
       meta: {
         //isOpen: true,
         isAdmin: true

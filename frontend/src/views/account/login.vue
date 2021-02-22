@@ -11,7 +11,7 @@
               <div class="form-group">
                 <label>Username</label>
                 <input
-                  v-validate="'required|min:3|max:16'"
+                  v-validate="'required|min:3|max:36'"
                   v-model="form.model.username"
                   class="form-control"
                   type="text"
@@ -27,7 +27,7 @@
               <div class="form-group">
                 <label>Password</label>
                 <input
-                  v-validate="'required|min:6|max:16'"
+                  v-validate="'required|min:6|max:36'"
                   v-model="form.model.password"
                   class="form-control"
                   type="password"

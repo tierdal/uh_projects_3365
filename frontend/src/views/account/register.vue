@@ -190,10 +190,10 @@ export default {
           f_name: '',
           l_name: '',
           phone: '',
-          department_id: '',
-          role_id: '',
+          departmentId: '',
+          roleId: '',
           is_approver: '',
-          status_id: '',
+          statusId: '',
         },
       },
     }

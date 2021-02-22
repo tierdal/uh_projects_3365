@@ -8,7 +8,7 @@
 
 <script>
 
-import userList from "../lists/userList.vue";
+import userList from "../lists/users/userList.vue";
 
 //Vue.use(Router);
 

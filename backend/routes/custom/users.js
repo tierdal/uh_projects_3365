@@ -45,10 +45,19 @@ router.get('/find', (req, res, next) => {
 })
 router.get('/find/:userID', (req, res, next) => {
     //list users
-    const id = req.params.userId;
+    const user_id = req.params.userID
+    console.log('--------------------------------------------------------------------------------------------------')
+    console.log(JSON.stringify(req.params))
+    console.log(user_id)
     const db = req.app.get('db')
 
-    return db.users.findById(id)
+    return db.users.find({
+        where: {user_id:user_id},
+        include: [
+            db.statuses,
+            db.roles,
+            db.departments
+        ]})
         .then((users) => res.send(users))
         .catch((err) => {
             console.log('There was an error querying users', JSON.stringify(err))

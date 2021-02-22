@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router({ caseSensitive: true })
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
-router.get('/findall', (req, res, next) => {
+router.get('/find', (req, res, next) => {
     //list departments
     const db = req.app.get('db')
     //console.log('start')
