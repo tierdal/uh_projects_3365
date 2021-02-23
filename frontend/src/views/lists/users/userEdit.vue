@@ -2,9 +2,52 @@
   <div>
       <form class="swal2-form mainForm">
         <div class="editForm-left">
-          Username
+          <FormulateInput
+            @validation="validationEmail = $event"
+            type="email"
+            name="email"
+            label="Username (Email)"
+            validation="bail|required|email"
+            v-model="form.model.email"
+            :validation-messages="{required: 'The username is required'}"
+          />
+          <FormulateInput
+            @validation="validationFname = $event"
+            type="text"
+            name="f_name"
+            label="First Name"
+            validation="required"
+            v-model="form.model.f_name"
+            :validation-messages="{required: 'The First Name is required'}"
+          />
+          <FormulateInput
+            @validation="validationLname = $event"
+            type="text"
+            name="l_name"
+            label="Last Name"
+            validation="required"
+            v-model="form.model.l_name"
+            :validation-messages="{required: 'The Last Name is required'}"
+          />
+          <FormulateInput
+            type="text"
+            @validation="validationPhone = $event"
+            name="phone"
+            label="Phone Number"
+            validation="bail|required"
+            v-model="form.model.phone"
+            :validation-messages="{required: 'The Phone Number is required'}"
+          />
+          <FormulateInput
+            type="checkbox"
+            label="Approver"
+            name="is_approver"
+            v-model="form.model.is_approver"
+          />
+
+          <br />
+          <!--Username
             <input
-              v-validate="'required|min:3|max:36'"
               id="form-email"
               class="swal2-input"
               type="text"
@@ -12,10 +55,6 @@
               autocomplete="email"
               name="email"
               v-model="form.model.email">
-            <span
-              v-show="errors.has('email')"
-              class="invalid-feedback"
-              v-html="errors.first('email')" />
           First Name
             <input
               id="form-fname"
@@ -24,10 +63,6 @@
               type="text"
               name="f_name"
               v-model="form.model.f_name">
-            <span
-              v-show="errors.has('f_name')"
-              class="invalid-feedback"
-              v-html="errors.first('f_name')" />
           Last Name
             <input
               id="form-lname"
@@ -36,10 +71,6 @@
               type="text"
               name="l_name"
               v-model="form.model.l_name">
-            <span
-              v-show="errors.has('l_name')"
-              class="invalid-feedback"
-              v-html="errors.first('l_name')" />
           Phone
             <input
               id="form-phone"
@@ -48,92 +79,86 @@
               placeholder="Phone"
               name="phone"
               v-model="form.model.phone">
-            <span
-              v-show="errors.has('phone')"
-              class="invalid-feedback"
-              v-html="errors.first('phone')" />
           <input
             type="checkbox"
             id="form-isapprover"
             name="is_approver"
             class="swal2-checkbox"
-            v-model="form.model.is_approver"> Approver
+            v-model="form.model.is_approver"> Approver-->
         </div>
         <div class="editForm-right">
-          Department
+          <label class="form-custom-label" for="form-department">Department</label>
             <select
               v-model="form.model.departmentId"
               id="form-department"
               name="department_id"
-              class="swal2-input">
+              class="form-custom-dropdown">
               <option
                 v-for="department in DEPT_DATA"
                 v-bind:value="department.department_id">
                 {{ department.department_description }}
               </option>
             </select>
-          Role
-            <select
-              v-model="form.model.roleId"
-              id="form-role"
-              name="role_id"
-              class="swal2-input">
-              <option
-                v-for="option in ROLE_DATA"
-                v-bind:value="option.role_id">
-                {{ option.role_description }}
-              </option>
-            </select>
-          Status
+          <label class="form-custom-label" for="form-role">Role</label>
+          <select
+            v-model="form.model.roleId"
+            id="form-role"
+            name="role_id"
+            class="form-custom-dropdown">
+            <option
+              v-for="option in ROLE_DATA"
+              v-bind:value="option.role_id">
+              {{ option.role_description }}
+            </option>
+          </select>
+          <label class="form-custom-label" for="form-status">Status</label>
             <select
               v-model="form.model.statusId"
               id="form-status"
               name="status_id"
-              class="swal2-input">
+              class="form-custom-dropdown">
               <option
                 v-for="status in STATUS_DATA"
                 v-bind:value="status.status_id">
                 {{ status.status_description }}
               </option>
-            </select><br />
-          <span v-if="isNewUser">Password</span>
-          <input
+            </select>
+          <FormulateInput
+            type="group"
+            name="passwords"
             v-if="isNewUser"
-            v-validate="'required|min:6|max:36'"
-            type="password"
-            id="form-password"
-            name="password"
-            class="swal2-input"
-            placeholder="Password"
-            v-model="form.model.password">
-          <span
-            v-show="errors.has('password')"
-            class="invalid-feedback"
-            v-html="errors.first('password')" />
-          <span v-if="isNewUser">Confirm Password</span>
-          <input
-            v-if="isNewUser"
-            id="form-confirmpassword"
-            class="swal2-input"
-            type="password"
-            autocomplete="new-password"
-            placeholder="Confirm Password"
-            v-model="form.model.confirmPassword"
-            name="confirmPassword">
-          <span
-            v-show="errors.has('confirmPassword')"
-            class="invalid-feedback"
-            v-html="errors.first('confirmPassword')" />
+          >
+            <FormulateInput
+              @validation="validationPass = $event"
+              type="password"
+              name="password"
+              label="Password"
+              validation="bail|required"
+              v-model="form.model.password"
+              :validation-messages="{required: 'The Password is required'}"
+            />
+            <FormulateInput
+              @validation="validationPassConfirm = $event"
+              type="password"
+              name="password_confirm"
+              label="Confirm Password"
+              validation="bail|required|confirm"
+              v-model="form.model.confirmPassword"
+              :validation-messages="{required: 'The Password Confirmation is required',confirm: 'The passwords do not match'}"
+            />
+
+          </FormulateInput>
         </div>
       </form>
+    <br>
     <div class="editForm">
       <div class="editFormFooter-left">
         <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
       </div>
       <div class="editFormFooter-right">
-        <button v-if="isNewUser" class="swal2-editform swal2-styled addNewButton" :disabled="errors.any()" v-on:click="addUser">Add New User</button>
+        <button v-if="isNewUser" class="swal2-editform swal2-styled addNewButton" :disabled="validationCheckBoth === 0" v-on:click="addUser">Add New User</button>
         <button v-if="!isNewUser" class="swal2-editform swal2-styled deleteButton" v-on:click="deleteUser">Delete User</button>
-        <button v-if="!isNewUser" class="swal2-editform swal2-styled updateButton" v-on:click="updateUser">Update User</button>
+        <button v-if="!isNewUser" class="swal2-editform swal2-styled updateButton" :disabled="validationFormCheck === 0" v-on:click="updateUser">Update User</button>
       </div>
     </div>
   </div>
@@ -150,6 +175,12 @@ export default {
   props: ["user_id"],
   data() {
     return {
+      validationEmail: {},
+      validationFname: {},
+      validationLname: {},
+      validationPhone: {},
+      validationPass: {},
+      validationPassConfirm: {},
       isNewUser: 'true',
       DB_DATA: [],
       DEPT_DATA: [],
@@ -173,23 +204,46 @@ export default {
   },
   components: {
   },
+  computed:{
+    validationFormCheck: function () {
+      if (this.validationEmail.hasErrors === false && this.validationFname.hasErrors === false && this.validationLname.hasErrors === false && this.validationPhone.hasErrors === false){
+        return 1
+      } else {
+        return 0
+      }
+    },
+    validationPassCheck: function () {
+      if (this.validationPass.hasErrors === false && this.validationPassConfirm.hasErrors === false){
+        return 1
+      } else {
+        return 0
+      }
+    },
+    validationCheckBoth: function () {
+      if (this.validationFormCheck === 1 && this.validationPassCheck === 1){
+        return 1
+      } else {
+        return 0
+      }
+    }
+  },
   methods: {
     ...mapActions(['register']),
     goBack(){
       this.$router.push('/useradmin')
     },
     addUser(){
-      this.$validator.validateAll().then(res => {
-        if (res) {
-          this.register(this.form.model)
-        } else {
-          Swal.fire({
-            title: 'Not so fast!',
-            text: 'Please provide required data in valid format',
-            icon: 'warning',
-          })
-        }
-      })
+      //this.$validator.validateAll().then(res => {
+        //if (res) {
+         this.register(this.form.model)
+        //} else {
+          //Swal.fire({
+            //title: 'Not so fast!',
+            //text: 'Please provide required data in valid format',
+            //icon: 'warning',
+          //})
+        //}
+      //})
     },
     updateUser(){
       const userID = this.user_id
@@ -255,6 +309,7 @@ export default {
       axios.get(`${config.api}/api/departments/find`)
         .then((response) => {
           this.DEPT_DATA = response.data;
+          //this.DEPT_DATA.forEach( obj => this.renameKey(obj, 'department_id','departmentId'))
           //console.log(JSON.stringify(this.DEPT_DATA))
         })
         .catch(() => {

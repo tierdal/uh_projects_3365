@@ -1,5 +1,5 @@
 {
-  "author": "Muhammad Ubaid Raza <mubaidr@gmail.com>",
+  "author": "",
   "browserslist": [
     "> 1%",
     "last 2 versions",
@@ -17,7 +17,8 @@
     "vuex": "^3.1.1",
     "snyk": "^1.241.0",
     "vue-good-table": "latest",
-    "sweetalert2": "^10.15.2"
+    "sweetalert2": "^10.15.2",
+    "@braid/vue-formulate": "^2.5.0"
   },
   "description": "frontend",
   "devDependencies": {

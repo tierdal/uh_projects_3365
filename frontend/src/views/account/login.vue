@@ -8,40 +8,53 @@
               <h2>Sign In</h2>
               <p>Please provide required information to continue.</p>
 
+                <FormulateInput
+                  @validation="validationEmail = $event"
+                  type="email"
+                  name="username"
+                  label="Username (Email)"
+                  validation="bail|required|email"
+                  v-model="form.model.username"
+                  :validation-messages="{required: 'The username is required'}"
+                />
+                <!--
+
               <div class="form-group">
                 <label>Username</label>
                 <input
-                  v-validate="'required|min:3|max:36'"
                   v-model="form.model.username"
                   class="form-control"
                   type="text"
                   autocomplete="username"
                   placeholder="Username"
-                  name="username">
-                <span
-                  v-show="errors.has('username')"
-                  class="invalid-feedback"
-                  v-html="errors.first('username')" />
-              </div>
+                  name="username"
+                >
+              </div>-->
+
+                <FormulateInput
+                  @validation="validationPass = $event"
+                  type="password"
+                  name="password"
+                  label="Password"
+                  validation="bail|required"
+                  v-model="form.model.password"
+                  :validation-messages="{required: 'The Password is required'}"
+                />
+                <!--
 
               <div class="form-group">
-                <label>Password</label>
+              <label>Password</label>
                 <input
-                  v-validate="'required|min:6|max:36'"
                   v-model="form.model.password"
                   class="form-control"
                   type="password"
                   autocomplete="new-password"
                   placeholder="Password"
                   name="password">
-                <span
-                  v-show="errors.has('password')"
-                  class="invalid-feedback"
-                  v-html="errors.first('password')" />
-              </div>
+              </div>-->
 
               <input
-                :disabled="errors.any()"
+                :disabled="validationCheck === 0"
                 class="btn btn-primary btn-block"
                 type="submit"
                 value="Sign In">
@@ -68,6 +81,8 @@ import Swal from 'sweetalert2'
 export default {
   data() {
     return {
+      validationEmail:{},
+      validationPass:{},
       form: {
         model: {
           password: '',
@@ -76,21 +91,30 @@ export default {
       },
     }
   },
+  computed:{
+    validationCheck: function () {
+      if (this.validationPass.hasErrors === false && this.validationEmail.hasErrors === false){
+        return 1
+      } else {
+        return 0
+      }
+    },
+  },
   methods: {
     ...mapActions(['login']),
 
     submit() {
-      this.$validator.validateAll().then(res => {
-        if (res) {
+      //this.$validator.validateAll().then(res => {
+        //if (res) {
           this.login(this.form.model)
-        } else {
-          Swal.fire({
-            title: 'Not so fast!',
-            text: 'Please provide required data in valid format',
-            icon: 'warning',
-        })
-        }
-      })
+        //} else {
+        //  Swal.fire({
+        //    title: 'Not so fast!',
+        //    text: 'Please provide required data in valid format',
+        //    icon: 'warning',
+        //})
+        //}
+      //})
     },
   },
 }
