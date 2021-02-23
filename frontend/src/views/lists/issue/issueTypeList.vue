@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Department List</span>
+        <span class="tableHeading-text">Issue Type List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-addnew swal2-styled" v-on:click="addNewDepartment">Add New Department</button>
+        <button class="swal2-addnew swal2-styled" v-on:click="addNewIssueType">Add New Issue Type</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'department_id', type: 'asc'}
+          initialSortBy: {field: 'issue_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -61,14 +61,17 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      myAPI: `${config.api}/api/departments`,
+      myAPI: `${config.api}/api/issues`,
       dataFields: [{
         label: 'id',
-        field: 'department_id',
+        field: 'issue_id',
         type: 'number'
       },{
+        label: 'name',
+        field: 'issue_name'
+      },{
         label: 'description',
-        field: 'department_description'
+        field: 'issue_description'
       }]
     };
   },
@@ -115,7 +118,7 @@ export default {
             id: params.row.id,
             description: result.value.description
           }
-          axios.put(`${config.api}/api/departments/update`, data)
+          axios.put(`${config.api}/api/issues/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -129,7 +132,7 @@ export default {
             })
         } else if (result.isDenied){
           const departmentID = params.row.id
-          axios.delete(`${config.api}/api/departments/delete/` + departmentID)
+          axios.delete(`${config.api}/api/issues/delete/` + departmentID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -144,7 +147,7 @@ export default {
         }
       })
     },
-    addNewDepartment(){
+    addNewIssueType(){
       Swal.fire({
         title: 'Add Record',
         html:
@@ -167,7 +170,7 @@ export default {
           const data = {
             description: result.value.description
           }
-          axios.post(`${config.api}/api/departments/create`, data)
+          axios.post(`${config.api}/api/issues/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -183,7 +186,7 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/departments/find`)
+      axios.get(`${config.api}/api/issues/find`)
         .then((response) => {
           this.DB_DATA = response.data;
           /*this.dataLength = response.data.length;
