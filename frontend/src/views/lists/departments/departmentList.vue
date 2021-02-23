@@ -5,7 +5,7 @@
         <span class="tableHeading-text">Department List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-addnew swal2-styled" v-on:click="addNewDepartment">Add New Department</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewDepartment">Add New Department</button>
       </div>
     </div>
 

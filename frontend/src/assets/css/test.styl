@@ -53,15 +53,18 @@ tr.rowStyle:hover {
 
 }
 .addNewButton:disabled{
-  background-color: darkgray
+  background-color: darkgray !important
 }
+
 .deleteButton{
   background-color: #c42727 !important
 }
 .updateButton{
 
 }
-
+.updateButton:disabled{
+  background-color: darkgray !important
+}
 /* sweat alert customization */
 
 .swal2-form {
@@ -90,6 +93,50 @@ tr.rowStyle:hover {
   float: right
   margin-right: 0
   height: 80%;
+}
+
+.form-custom-label {
+  display: block;
+  line-height: 1.5;
+  font-size: 0.9em;
+  font-weight: 600;
+  margin-bottom: 0.1em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.form-custom-dropdown {
+  //appearance: none;
+  border-radius: .3em;
+  border: 1px solid #cecece;
+  box-sizing: border-box;
+  background-color: transparent;
+  font-size: .9em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  padding: .75em;
+  display: block;
+  width: 100%;
+  font-weight: 400;
+  line-height: 1.2em;
+  margin: 0;
+  padding-right: 2em;
+  margin-bottom: 1.5em;
+}
+.form-custom-dropdown:focus {
+  outline: 0;
+  border: 1px solid #41b883;
+}
+.form-custom-dropdown::placeholder {
+  color: #a8a8a8;
+  line-height: normal;
+}
+.form-custom-dropdown select[data-placeholder-selected] {
+  color: #a8a8a8;
+}
+.form-custom-dropdown option {
+  color: #000000;
+}
+.form-custom-dropdown option:disabled {
+  color: #a8a8a8;
 }
 
   /* Navbar Custom */

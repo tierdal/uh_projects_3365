@@ -10,17 +10,12 @@
             <div class="form-group">
               <label>Email</label>
               <input
-                v-validate="'required|min:3|max:36'"
                 v-model="form.model.email"
                 class="form-control"
                 type="text"
                 autocomplete="email"
                 placeholder="email"
                 name="email">
-              <span
-                v-show="errors.has('email')"
-                class="invalid-feedback"
-                v-html="errors.first('email')" />
             </div>
 
 
@@ -32,10 +27,6 @@
                 type="text"
                 placeholder="First Name"
                 name="f_name">
-              <span
-                v-show="errors.has('f_name')"
-                class="invalid-feedback"
-                v-html="errors.first('f_name')" />
             </div>
 
             <div class="form-group">
@@ -46,10 +37,6 @@
                 type="text"
                 placeholder="Last Name"
                 name="l_name">
-              <span
-                v-show="errors.has('l_name')"
-                class="invalid-feedback"
-                v-html="errors.first('l_name')" />
             </div>
 
             <div class="form-group">
@@ -60,10 +47,6 @@
                 type="phone"
                 placeholder="Phone Number"
                 name="phone">
-              <span
-                v-show="errors.has('phone')"
-                class="invalid-feedback"
-                v-html="errors.first('phone')" />
             </div>
 
             <div class="form-group">
@@ -74,10 +57,6 @@
                 type="number"
                 placeholder="Department ID"
                 name="department_id">
-              <span
-                v-show="errors.has('department_id')"
-                class="invalid-feedback"
-                v-html="errors.first('department_id')" />
             </div>
 
             <div class="form-group">
@@ -88,10 +67,6 @@
                 type="number"
                 placeholder="Role ID"
                 name="role_id">
-              <span
-                v-show="errors.has('role_id')"
-                class="invalid-feedback"
-                v-html="errors.first('role_id')" />
             </div>
 
             <div class="form-group">
@@ -102,10 +77,6 @@
                 type="number"
                 placeholder="Is Approver"
                 name="is_approver">
-              <span
-                v-show="errors.has('is_approver')"
-                class="invalid-feedback"
-                v-html="errors.first('is_approver')" />
             </div>
 
             <div class="form-group">
@@ -116,16 +87,11 @@
                 type="number"
                 placeholder="Status"
                 name="status_id">
-              <span
-                v-show="errors.has('status_id')"
-                class="invalid-feedback"
-                v-html="errors.first('status_id')" />
             </div>
 
             <div class="form-group">
               <label>Password</label>
               <input
-                v-validate="'required|min:6|max:36'"
                 v-model="form.model.password"
                 class="form-control"
                 ref="password"
@@ -133,30 +99,20 @@
                 autocomplete="new-password"
                 placeholder="Password"
                 name="password">
-              <span
-                v-show="errors.has('password')"
-                class="invalid-feedback"
-                v-html="errors.first('password')" />
             </div>
 
             <div class="form-group">
               <label>Confirm Password</label>
               <input
-                v-validate="'required|confirmed:password'"
                 v-model="form.model.confirmPassword"
                 class="form-control"
                 type="password"
                 autocomplete="new-password"
                 placeholder="Confirm Password"
                 name="confirmPassword">
-              <span
-                v-show="errors.has('confirmPassword')"
-                class="invalid-feedback"
-                v-html="errors.first('confirmPassword')" />
             </div>
 
             <input
-              :disabled="errors.any()"
               class="btn btn-primary btn-block"
               type="submit"
               value="Register">
@@ -202,17 +158,17 @@ export default {
     ...mapActions(['register']),
 
     submit() {
-      this.$validator.validateAll().then(res => {
-        if (res) {
+      //this.$validator.validateAll().then(res => {
+        //if (res) {
           this.register(this.form.model)
-        } else {
-          Swal.fire({
-            title: 'Not so fast!',
-            text: 'Please provide required data in valid format',
-            icon: 'warning',
-          })
-        }
-      })
+        //} else {
+         // Swal.fire({
+            //title: 'Not so fast!',
+            //text: 'Please provide required data in valid format',
+            //icon: 'warning',
+          //})
+        //}
+      //})
     },
   },
 }
