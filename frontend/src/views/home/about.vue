@@ -13,7 +13,9 @@ import departmentList from "../lists/departments/departmentList.vue";
 //Vue.use(Router);
 
 export default {
-  components: {'departments-list' : departmentList}
+  components: {
+    'departments-list' : departmentList
+  }
 }
 </script>
 

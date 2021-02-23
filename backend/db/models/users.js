@@ -1,5 +1,15 @@
 const Sequelize = require('sequelize');
+const _departments = require("./departments");
+const _roles = require("./roles");
+const _statuses = require("./statuses");
+const DataTypes = require("sequelize").DataTypes;
+
 module.exports = function(sequelize, DataTypes) {
+
+  const departments = _departments(sequelize, DataTypes);
+  const roles = _roles(sequelize, DataTypes);
+  const statuses = _statuses(sequelize, DataTypes);
+
   return sequelize.define('users', {
     user_id: {
       type: DataTypes.INTEGER,
@@ -23,25 +33,31 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    department_id: {
+    departmentId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'departments',
-        key: 'id'
+        model: departments,
+        //key: 'department_id',
       }
     },
-    role_id: {
+    roleId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: roles,
+      }
     },
     is_approver: {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    status_id: {
-      type: DataTypes.STRING,
-      allowNull: false
+    statusId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: statuses,
+      }
     },
     password: {
       type: DataTypes.STRING,

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router({ caseSensitive: true })
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
-router.get('/findall', (req, res, next) => {
+router.get('/find', (req, res, next) => {
     //list status
     const db = req.app.get('db')
     //console.log('start')
@@ -14,7 +14,7 @@ router.get('/findall', (req, res, next) => {
 
     //console.log('end')
 
-    return db.status.findAll({
+    return db.statuses.findAll({
         raw : true,
         //limit: parseInt(req.query.per_page),
         //page: parseInt(req.query.page)
@@ -30,7 +30,7 @@ router.post('/create', (req, res, next) => {
     //create status
     const description_text = req.body.description
     const db = req.app.get('db')
-    db.status.create({
+    db.statuses.create({
         description: description_text
     })
         .then(() => {
@@ -52,7 +52,7 @@ router.put('/update', (req, res, next) => {
     console.log(req.body.id)
     console.log(req.body.description)
 
-    db.status.update({
+    db.statuses.update({
         description: description_text
     }, {
         where: {
@@ -73,7 +73,7 @@ router.delete('/delete/:statusId', (req, res, next) => {
     const id = req.params.statusId;
     const db = req.app.get('db')
 
-    db.status.destroy({
+    db.statuses.destroy({
         where: { id: id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');

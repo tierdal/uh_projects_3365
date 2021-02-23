@@ -57,17 +57,17 @@ export default {
       return axios
         .post(`${config.api}/auth/register`, obj)
         .then(() => {
-          Swal.fire({
-            title: 'Account created',
-            text: 'Please login!',
-            icon: 'success'
-          })
-          router.push('/')
+          Swal.fire(
+            'Done!',
+            'The user has been created.',
+            'success'
+          )
+          router.push('/useradmin')
         })
         .catch(() => {
           Swal.fire({
-            title: 'Invalid credentials!',
-            text: 'Please try again!',
+            title: 'Oops!',
+            text: 'Something is wrong, Please try again!',
             icon: 'error'
           })
         })

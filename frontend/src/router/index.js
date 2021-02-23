@@ -7,6 +7,8 @@ import index from '../views/home/index.vue'
 import feedback from '../views/home/feedback.vue'
 import about from '../views/home/about.vue'
 import contact from '../views/home/contact.vue'
+import useradmin from '../views/home/useradmin.vue';
+import userEdit from "../views/lists/users/userEdit.vue";
 // error
 import notFound from '../views/error/notFound.vue'
 // account
@@ -55,13 +57,31 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/auth/register',
-      component: register,
+      path: '/useradmin',
+      component: useradmin,
       meta: {
-        skipIfAuthorized: true,
-        isOpen: true,
+        //isOpen: true,
+        isAdmin: true
       },
     },
+    {
+      path: '/useradmin/edit',
+      name: '/useradmin/edit',
+      component: userEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    //{
+    //  path: '/auth/register',
+    //  component: register,
+    //  meta: {
+    //    skipIfAuthorized: true,
+    //    isOpen: true,
+    //  },
+    //},
     {
       path: '/auth/login',
       component: login,
@@ -97,9 +117,12 @@ router.beforeEach((to, from, next) => {
       })
     } else {
       //put auth code here
-      const role = session.getUser().role_id
+      const role = session.getUser().roleId
       if (role !== 1 && to.matched.some(record => record.meta.isAdmin)){
         //non-admin gets blocked
+        next({
+          path: '/notFound',
+        })
       } else {
         next()
       }

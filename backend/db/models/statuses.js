@@ -1,33 +1,34 @@
 const Sequelize = require('sequelize');
+
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('status', {
-        id: {
+    return sequelize.define('statuses', {
+        status_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        description: {
+        status_description: {
             type: DataTypes.STRING,
             allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'status',
+        tableName: 'statuses',
         schema: 'dbo',
         timestamps: true,
         underscored: true,
         createdAt: 'CREATED_AT',
         updatedAt: 'UPDATED_AT',
         deletedAt: false,
-        indexes: [
+        /*indexes: [
             {
                 name: "PK__status__3213E83F1B5034D2",
                 unique: true,
                 fields: [
-                    { name: "id" },
+                    { name: "status_id" },
                 ]
             },
-        ]
+        ]*/
     });
 };

@@ -3,9 +3,14 @@
     <ul class="navbar-nav">
       <li class="nav-item"><span class="navbar-brand">Frontend</span></li>
       <li class="nav-item"><router-link class="nav-link" to="/home">Home</router-link></li>
-      <li class="nav-item"><router-link class="nav-link" to="/about">About</router-link>
-      <li class="nav-item"><router-link class="nav-link" to="/contact">Contact</router-link>
-      <li v-if="adminCheck" class="nav-item"><router-link class="nav-link" to="/feedback">Feedback</router-link>
+      <li class="nav-item"><router-link class="nav-link" to="/about">About</router-link></li>
+      <li class="nav-item"><router-link class="nav-link" to="/contact">Contact</router-link></li>
+      <li v-if="adminCheck" class="nav-item"><a class="nav-link" href="#">Admin</a>
+        <ul class="navbar-nav-submenu">
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/useradmin">User Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/about">Foo</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/contact">Bar</router-link></li>
+        </ul>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
@@ -38,11 +43,13 @@ export default {
   methods: {
     ...mapActions(['logout']),
     isAdmin(){
-      const role = session.getUser().role_id
+      const role = session.getUser().roleId
       if (role === 1){
         //non-admin doesnt see stuff
+        //console.log('admin')
         return this.adminCheck = true
       } else {
+        //console.log('not-admin')
         return this.adminCheck = false
       }
     },

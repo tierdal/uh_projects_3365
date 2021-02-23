@@ -22,15 +22,57 @@ tr.rowStyle:hover {
   color: #343a40
 }
 
+/* EDIT FORM */
+
+.editForm{
+  display: flex
+}
+.editFormFooter-left{
+  flex:70%
+  align-content: left
+}
+.editFormFooter-right{
+  flex:30%
+}
+.mainForm{
+  display: flex
+}
+.editForm-left{
+  flex:50%
+  padding-right: 50px
+}
+.editForm-right{
+  flex:50%
+  padding-left: 50px
+}
+.goBackButton{
+  float: left !important
+  margin-left: 0 !important
+}
+.addNewButton{
+
+}
+.addNewButton:disabled{
+  background-color: darkgray
+}
+.deleteButton{
+  background-color: #c42727 !important
+}
+.updateButton{
+
+}
 
 /* sweat alert customization */
 
+.swal2-form {
+  text-align left
+}
 .swal2-modal {
   border-radius: 0
 }
-.swal2-input{
+/*.swal2-input{
   width: auto !important
-}
+}*/
 .swal2-button-order-1 { order: 1; }
 .swal2-button-order-2 { order: 2; }
 .swal2-button-order-3 { order: 3; }
@@ -38,7 +80,7 @@ tr.rowStyle:hover {
 .right-gap {
   margin-right: auto !important
 }
-.swal2-styled.swal2-addnew {
+.swal2-styled.swal2-editform {
   border: 0
   border-radius: .25em
   background: initial
@@ -48,4 +90,32 @@ tr.rowStyle:hover {
   float: right
   margin-right: 0
   height: 80%;
+}
+
+  /* Navbar Custom */
+.navbar{
+  padding: 0 !important
+}
+.navbar-brand{
+  padding-left:1rem
+}
+.nav-item{
+  padding: 1rem 0rem !important
+}
+.navbar-nav-submenu {
+  margin-top: 1rem
+  margin-left: -1rem
+  background-color: #4a5358
+  position:absolute
+  opacity:0
+  transition:opacity linear 0.15s
+  z-index:-1
+  padding: 1.5rem 1rem
+}
+.nav-item-submenu{
+  display: block
+}
+.navbar-nav li:hover .navbar-nav-submenu {
+  z-index: 1
+  opacity: 1
 }

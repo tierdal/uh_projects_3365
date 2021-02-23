@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'id', type: 'asc'}
+          initialSortBy: {field: 'department_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -68,11 +68,11 @@ export default {
       myAPI: `${config.api}/api/departments`,
       dataFields: [{
         label: 'id',
-        field: 'id',
+        field: 'department_id',
         type: 'number'
       },{
         label: 'description',
-        field: 'description'
+        field: 'department_description'
       }]
     };
   },
@@ -187,7 +187,7 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/departments/findall`)
+      axios.get(`${config.api}/api/departments/find`)
         .then((response) => {
           this.DB_DATA = response.data;
           /*this.dataLength = response.data.length;
