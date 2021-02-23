@@ -74,14 +74,14 @@ const router = new VueRouter({
         isAdmin: true
       },
     },
-    {
-      path: '/auth/register',
-      component: register,
-      meta: {
-        skipIfAuthorized: true,
-        isOpen: true,
-      },
-    },
+    //{
+    //  path: '/auth/register',
+    //  component: register,
+    //  meta: {
+    //    skipIfAuthorized: true,
+    //    isOpen: true,
+    //  },
+    //},
     {
       path: '/auth/login',
       component: login,

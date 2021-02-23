@@ -46,7 +46,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       references: {
         model: roles,
-        //key: 'role_id',
       }
     },
     is_approver: {
@@ -58,7 +57,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       references: {
         model: statuses,
-        //key: 'status_id',
       }
     },
     password: {

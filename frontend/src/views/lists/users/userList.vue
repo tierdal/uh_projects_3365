@@ -5,7 +5,7 @@
         <span class="tableHeading-text">User List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-addnew swal2-styled" v-on:click="addNewUser">Add New User</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewUser">Add New User</button>
       </div>
     </div>
 
@@ -83,7 +83,6 @@ export default {
         field: 'phone'
       },{
         label: 'Department',
-        //field: this.getDeptItem
         field: 'departmentDesc'
       },{
         label: 'Role',
@@ -116,42 +115,7 @@ export default {
       })
     },
     addNewUser(){
-      Swal.fire({
-        title: 'Add Record',
-        html:
-          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
-          '</form>'
-        ,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: 'Submit',
-        cancelButtonText: 'Cancel',
-        preConfirm: () => {
-          const description = document.getElementById('form-description').value
-          if (!description) {
-            Swal.showValidationMessage(`Description cannot be blank`)
-          }
-          return {description: description}
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const data = {
-            description: result.value.description
-          }
-          axios.post(`${config.api}/api/users/create`, data)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been created.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
-        }
-      })
+      this.$router.push('/useradmin/edit')
     },
     loadData(){
       axios.get(`${config.api}/api/users/find`)
@@ -180,32 +144,7 @@ export default {
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-      /*axios.get(`${config.api}/api/departments/find`)
-        .then((response) => {
-          this.DEPT_DATA = response.data;
-          console.log(JSON.stringify(this.DEPT_DATA))
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
-        })
-      axios.get(`${config.api}/api/roles/find`)
-        .then((response) => {
-          this.STATUS_DATA = response.data;
-          console.log(JSON.stringify(this.STATUS_DATA))
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
-        })
-      axios.get(`${config.api}/api/status/find`)
-        .then((response) => {
-          this.ROLE_DATA = response.data;
-          console.log(JSON.stringify(this.ROLE_DATA))
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
-        })*/
     },
-    deleteItem(){},
     renameKey( obj, oldKey, newKey ) {
       obj[newKey] = obj[oldKey];
       delete obj[oldKey];

@@ -125,7 +125,7 @@
             <div class="form-group">
               <label>Password</label>
               <input
-                v-validate="'required|min:6|max:16'"
+                v-validate="'required|min:6|max:36'"
                 v-model="form.model.password"
                 class="form-control"
                 ref="password"

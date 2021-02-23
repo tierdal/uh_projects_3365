@@ -46,9 +46,9 @@ router.get('/find', (req, res, next) => {
 router.get('/find/:userID', (req, res, next) => {
     //list users
     const user_id = req.params.userID
-    console.log('--------------------------------------------------------------------------------------------------')
-    console.log(JSON.stringify(req.params))
-    console.log(user_id)
+    //console.log('--------------------------------------------------------------------------------------------------')
+    //console.log(JSON.stringify(req.params))
+    //console.log(user_id)
     const db = req.app.get('db')
 
     return db.users.find({
@@ -65,37 +65,37 @@ router.get('/find/:userID', (req, res, next) => {
         });
 })
 
-router.post('/create', (req, res, next) => {
-    //create users
-    const description_text = req.body.description
-    const db = req.app.get('db')
-    db.users.create({
-        description: description_text
-    })
-        .then(() => {
-            res.status(200).send('OK');
-        })
-        .catch(err => {
-            console.log('There was an error updating users', JSON.stringify(err))
-            return res.send(err)
-        })
-})
-
-router.put('/update', (req, res, next) => {
+router.put('/update/:userID', (req, res, next) => {
     //update users
 
-    const user_id = req.body.id
-    //const description_text = req.body.description
+    const user_id = req.params.userID;
+    //const user_id = req.body.user_id
+    const user_email = req.body.email
+    const user_fname = req.body.f_name
+    const user_lname = req.body.l_name
+    const user_phone = req.body.phone
+    const user_deptId = req.body.departmentId
+    const user_roleId = req.body.roleId
+    const user_approver = req.body.is_approver
+    const user_statusId = req.body.statusId
+
+    console.log('--------------------------------------------------------------------------------------------------')
+    console.log(JSON.stringify(req.body))
+
     const db = req.app.get('db')
 
-    console.log(req.body.id)
-    //console.log(req.body.description)
-
     db.users.update({
-        //description: description_text
+        email: user_email,
+        f_name: user_fname,
+        l_name: user_lname,
+        phone: user_phone,
+        departmentId: user_deptId,
+        roleId: user_roleId,
+        is_approver: user_approver,
+        statusId: user_statusId
     }, {
         where: {
-            id: user_id
+            user_id: user_id
         }
     })
         .then(() => {
@@ -107,13 +107,13 @@ router.put('/update', (req, res, next) => {
         })
 })
 
-router.delete('/delete/:userId', (req, res, next) => {
+router.delete('/delete/:userID', (req, res, next) => {
     //delete users
-    const id = req.params.userId;
+    const user_id = req.params.userID;
     const db = req.app.get('db')
 
     db.users.destroy({
-        where: { id: id }
+        where: { user_id: user_id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');
     }).catch(err => {

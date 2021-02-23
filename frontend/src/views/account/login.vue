@@ -48,11 +48,11 @@
 
               <br>
 
-              <router-link
+              <!--<router-link
                 class="btn-link"
                 to="/auth/register">
                 Don't have an account?
-              </router-link>
+              </router-link>-->
             </form>
           </div>
         </div>

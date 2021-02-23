@@ -74,7 +74,7 @@ router.delete('/delete/:departmentId', (req, res, next) => {
     const db = req.app.get('db')
 
     db.departments.destroy({
-        where: { id: id }
+        where: { department_id: id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');
     }).catch(err => {
