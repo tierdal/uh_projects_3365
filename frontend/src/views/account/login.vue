@@ -11,37 +11,26 @@
               <div class="form-group">
                 <label>Username</label>
                 <input
-                  v-validate="'required|min:3|max:36'"
                   v-model="form.model.username"
                   class="form-control"
                   type="text"
                   autocomplete="username"
                   placeholder="Username"
                   name="username">
-                <span
-                  v-show="errors.has('username')"
-                  class="invalid-feedback"
-                  v-html="errors.first('username')" />
               </div>
 
               <div class="form-group">
                 <label>Password</label>
                 <input
-                  v-validate="'required|min:6|max:36'"
                   v-model="form.model.password"
                   class="form-control"
                   type="password"
                   autocomplete="new-password"
                   placeholder="Password"
                   name="password">
-                <span
-                  v-show="errors.has('password')"
-                  class="invalid-feedback"
-                  v-html="errors.first('password')" />
               </div>
 
               <input
-                :disabled="errors.any()"
                 class="btn btn-primary btn-block"
                 type="submit"
                 value="Sign In">
@@ -80,17 +69,17 @@ export default {
     ...mapActions(['login']),
 
     submit() {
-      this.$validator.validateAll().then(res => {
-        if (res) {
+      //this.$validator.validateAll().then(res => {
+        //if (res) {
           this.login(this.form.model)
-        } else {
-          Swal.fire({
-            title: 'Not so fast!',
-            text: 'Please provide required data in valid format',
-            icon: 'warning',
-        })
-        }
-      })
+        //} else {
+        //  Swal.fire({
+        //    title: 'Not so fast!',
+        //    text: 'Please provide required data in valid format',
+        //    icon: 'warning',
+        //})
+        //}
+      //})
     },
   },
 }
