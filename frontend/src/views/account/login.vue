@@ -8,6 +8,17 @@
               <h2>Sign In</h2>
               <p>Please provide required information to continue.</p>
 
+                <FormulateInput
+                  @validation="validationEmail = $event"
+                  type="email"
+                  name="username"
+                  label="Username (Email)"
+                  validation="bail|required|email"
+                  v-model="form.model.username"
+                  :validation-messages="{required: 'The username is required'}"
+                />
+                <!--
+
               <div class="form-group">
                 <label>Username</label>
                 <input
@@ -16,11 +27,23 @@
                   type="text"
                   autocomplete="username"
                   placeholder="Username"
-                  name="username">
-              </div>
+                  name="username"
+                >
+              </div>-->
+
+                <FormulateInput
+                  @validation="validationPass = $event"
+                  type="password"
+                  name="password"
+                  label="Password"
+                  validation="bail|required"
+                  v-model="form.model.password"
+                  :validation-messages="{required: 'The Password is required'}"
+                />
+                <!--
 
               <div class="form-group">
-                <label>Password</label>
+              <label>Password</label>
                 <input
                   v-model="form.model.password"
                   class="form-control"
@@ -28,9 +51,10 @@
                   autocomplete="new-password"
                   placeholder="Password"
                   name="password">
-              </div>
+              </div>-->
 
               <input
+                :disabled="validationCheck === 0"
                 class="btn btn-primary btn-block"
                 type="submit"
                 value="Sign In">
@@ -57,6 +81,8 @@ import Swal from 'sweetalert2'
 export default {
   data() {
     return {
+      validationEmail:{},
+      validationPass:{},
       form: {
         model: {
           password: '',
@@ -64,6 +90,15 @@ export default {
         },
       },
     }
+  },
+  computed:{
+    validationCheck: function () {
+      if (this.validationPass.hasErrors === false && this.validationEmail.hasErrors === false){
+        return 1
+      } else {
+        return 0
+      }
+    },
   },
   methods: {
     ...mapActions(['login']),
