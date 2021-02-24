@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'issue_id', type: 'asc'}
+          initialSortBy: {field: 'issueType_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -64,14 +64,14 @@ export default {
       myAPI: `${config.api}/api/issues`,
       dataFields: [{
         label: 'id',
-        field: 'issue_id',
+        field: 'issueType_id',
         type: 'number'
       },{
         label: 'name',
-        field: 'issue_name'
+        field: 'issueType_name'
       },{
         label: 'description',
-        field: 'issue_description'
+        field: 'issueType_description'
       }]
     };
   },
@@ -89,9 +89,11 @@ export default {
       Swal.fire({
         title: 'Edit Record',
         html:
-          'Item ID: ' + params.row.id +
+          'Item ID: ' + params.row.issueType_id +
           '<br>' +
-          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.description + '">' +
+          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.issueType_name + '">' +
+          '</form>' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.issueType_description + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -107,15 +109,17 @@ export default {
         },
         preConfirm: () => {
           const description = document.getElementById('form-description').value
-          if (!description) {
-            Swal.showValidationMessage(`Description cannot be blank`)
+          const name = document.getElementById('form-name').value
+          if (!description && !name) {
+            Swal.showValidationMessage(`Name or Description cannot be blank`)
           }
-          return {description: description}
+          return {description: description, name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            id: params.row.id,
+            id: params.row.issueType_id,
+            name: result.value.name,
             description: result.value.description
           }
           axios.put(`${config.api}/api/issues/update`, data)
@@ -131,8 +135,8 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const departmentID = params.row.id
-          axios.delete(`${config.api}/api/issues/delete/` + departmentID)
+          const issueTypeID = params.row.issueType_id
+          axios.delete(`${config.api}/api/issues/delete/` + issueTypeID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -151,6 +155,8 @@ export default {
       Swal.fire({
         title: 'Add Record',
         html:
+          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
+          '</form>' +
           '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
           '</form>'
         ,
@@ -160,14 +166,16 @@ export default {
         cancelButtonText: 'Cancel',
         preConfirm: () => {
           const description = document.getElementById('form-description').value
-          if (!description) {
-            Swal.showValidationMessage(`Description cannot be blank`)
+          const name = document.getElementById('form-name').value
+          if (!description && !name) {
+            Swal.showValidationMessage(`Name or Description cannot be blank`)
           }
-          return {description: description}
+          return {description: description, name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
+            name: result.value.name,
             description: result.value.description
           }
           axios.post(`${config.api}/api/issues/create`, data)
@@ -199,6 +207,7 @@ export default {
           console.log(response.data)
           console.log(JSON.stringify(response.data))
           console.log(JSON.stringify(response.data.length))*/
+          console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
