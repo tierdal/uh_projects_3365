@@ -20,4 +20,7 @@ export default {
 </script>
 
 <style lang='stylus'>
+h2 {
+  text-align: center
+}
 </style>

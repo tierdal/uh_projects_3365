@@ -31,7 +31,7 @@ router.post('/create', (req, res, next) => {
     const description_text = req.body.description
     const db = req.app.get('db')
     db.departments.create({
-        description: description_text
+        department_description: description_text
         })
         .then(() => {
             res.status(200).send('OK');
@@ -49,14 +49,14 @@ router.put('/update', (req, res, next) => {
     const description_text = req.body.description
     const db = req.app.get('db')
 
-    console.log(req.body.id)
-    console.log(req.body.description)
+    //console.log(req.body.id)
+    //console.log(req.body.description)
 
     db.departments.update({
-            description: description_text
+            department_description: description_text
         }, {
             where: {
-            id: department_id
+                department_id: department_id
             }
         })
         .then(() => {

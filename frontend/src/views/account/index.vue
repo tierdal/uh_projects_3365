@@ -6,6 +6,8 @@
       <username-view/>
       <hr>
       <password-view/>
+      <hr>
+      <account-details />
     </div>
   </div>
 </template>
@@ -13,11 +15,13 @@
 <script>
 import passwordView from './password.vue'
 import usernameView from './username.vue'
+import accountDetails from "./accountdetails.vue";
 
 export default {
   components: {
     'password-view': passwordView,
     'username-view': usernameView,
+    'account-details': accountDetails,
   },
 }
 </script>

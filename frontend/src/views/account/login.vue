@@ -13,46 +13,21 @@
                   type="email"
                   name="username"
                   label="Username (Email)"
+                  autocomplete="email"
                   validation="bail|required|email"
                   v-model="form.model.username"
                   :validation-messages="{required: 'The username is required'}"
                 />
-                <!--
-
-              <div class="form-group">
-                <label>Username</label>
-                <input
-                  v-model="form.model.username"
-                  class="form-control"
-                  type="text"
-                  autocomplete="username"
-                  placeholder="Username"
-                  name="username"
-                >
-              </div>-->
-
                 <FormulateInput
                   @validation="validationPass = $event"
                   type="password"
                   name="password"
                   label="Password"
+                  autocomplete="current-password"
                   validation="bail|required"
                   v-model="form.model.password"
                   :validation-messages="{required: 'The Password is required'}"
                 />
-                <!--
-
-              <div class="form-group">
-              <label>Password</label>
-                <input
-                  v-model="form.model.password"
-                  class="form-control"
-                  type="password"
-                  autocomplete="new-password"
-                  placeholder="Password"
-                  name="password">
-              </div>-->
-
               <input
                 :disabled="validationCheck === 0"
                 class="btn btn-primary btn-block"
@@ -60,12 +35,6 @@
                 value="Sign In">
 
               <br>
-
-              <!--<router-link
-                class="btn-link"
-                to="/auth/register">
-                Don't have an account?
-              </router-link>-->
             </form>
           </div>
         </div>

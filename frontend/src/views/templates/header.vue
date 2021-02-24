@@ -8,7 +8,8 @@
       <li v-if="adminCheck" class="nav-item"><a class="nav-link" href="#">Admin</a>
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="/useradmin">User Manager</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="/about">Foo</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/configuration">Configuration</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/home">Foo</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/contact">Bar</router-link></li>
         </ul>
       </li>
@@ -63,14 +64,14 @@ export default {
         confirmButtonText: 'Logout',
       }).then(result => {
         if (result.isConfirmed) {
-          this.logout()
+          this.$router.push('/auth/logout')
+          //this.logout()
         }
       })
     },
   },
   beforeMount() {
     this.isAdmin()
-    console.log(this.isAdmin())
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <form>
       <FormulateInput
         type="group"
         name="passwords"
@@ -9,6 +10,7 @@
           type="password"
           name="password"
           label="Password"
+          autocomplete=""
           validation="bail|required"
           v-model="form.model.password"
           :validation-messages="{required: 'The Password is required'}"
@@ -18,42 +20,19 @@
           type="password"
           name="password_confirm"
           label="Confirm Password"
+          autocomplete=""
           validation="bail|required|confirm"
           v-model="form.model.confirmPassword"
           :validation-messages="{required: 'The Password Confirmation is required',confirm: 'The passwords do not match'}"
         />
 
       </FormulateInput>
-
-      <!--
-
-    <div class="form-group">
-      <label>Password</label>
-      <input
-        v-model="form.model.password"
-        class="form-control"
-        type="password"
-        autocomplete="new-password"
-        placeholder="Password"
-        name="password">
-    </div>
-
-    <div class="form-group">
-      <label>Confirm Password</label>
-      <input
-        v-model="form.model.confirmPassword"
-        class="form-control"
-        type="password"
-        autocomplete="new-password"
-        placeholder="Confirm Password"
-        name="confirmPassword">
-    </div>-->
-
     <input
       :disabled="validationCheck === 0"
       class="btn btn-primary btn-block"
       type="submit"
       value="Change Password">
+    </form>
 
     <br>
   </div>
