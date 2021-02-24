@@ -79,8 +79,8 @@ router.put('/update/:userID', (req, res, next) => {
     const user_approver = req.body.is_approver
     const user_statusId = req.body.statusId
 
-    console.log('--------------------------------------------------------------------------------------------------')
-    console.log(JSON.stringify(req.body))
+    //console.log('--------------------------------------------------------------------------------------------------')
+    //console.log(JSON.stringify(req.body))
 
     const db = req.app.get('db')
 
