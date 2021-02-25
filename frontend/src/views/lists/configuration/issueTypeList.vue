@@ -5,7 +5,7 @@
         <span class="tableHeading-text">Issue Type List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-addnew swal2-styled" v-on:click="addNewIssueType">Add New Issue Type</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewIssueType">Add New Issue Type</button>
       </div>
     </div>
 
@@ -28,9 +28,9 @@
         :pagination-options="{
           enabled: true,
           mode: 'records',
-          perPage: 3,
+          perPage: 10,
           position: 'top',
-          perPageDropdown: [3, 5, 10, 25, 50, 100],
+          perPageDropdown: [10, 25, 50, 100],
           dropdownAllowAll: false,
           nextLabel: 'next',
           prevLabel: 'prev',
