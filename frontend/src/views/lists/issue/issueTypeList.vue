@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Department List</span>
+        <span class="tableHeading-text">Issue Type List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewDepartment">Add New Department</button>
+        <button class="swal2-addnew swal2-styled" v-on:click="addNewIssueType">Add New Issue Type</button>
       </div>
     </div>
 
@@ -23,14 +23,14 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'department_id', type: 'asc'}
+          initialSortBy: {field: 'issueType_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
           mode: 'records',
-          perPage: 10,
+          perPage: 3,
           position: 'top',
-          perPageDropdown: [10, 25, 50, 100],
+          perPageDropdown: [3, 5, 10, 25, 50, 100],
           dropdownAllowAll: false,
           nextLabel: 'next',
           prevLabel: 'prev',
@@ -47,6 +47,10 @@
 
 <script>
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
+//import { mapActions } from 'vuex'
+//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
+//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
+//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -57,14 +61,17 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      myAPI: `${config.api}/api/departments`,
+      myAPI: `${config.api}/api/issues`,
       dataFields: [{
         label: 'id',
-        field: 'department_id',
+        field: 'issueType_id',
         type: 'number'
       },{
+        label: 'name',
+        field: 'issueType_name'
+      },{
         label: 'description',
-        field: 'department_description'
+        field: 'issueType_description'
       }]
     };
   },
@@ -82,9 +89,11 @@ export default {
       Swal.fire({
         title: 'Edit Record',
         html:
-          'Item ID: ' + params.row.department_id +
+          'Item ID: ' + params.row.issueType_id +
           '<br>' +
-          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.department_description + '">' +
+          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.issueType_name + '">' +
+          '</form>' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.issueType_description + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -100,18 +109,20 @@ export default {
         },
         preConfirm: () => {
           const description = document.getElementById('form-description').value
-          if (!description) {
-            Swal.showValidationMessage(`Description cannot be blank`)
+          const name = document.getElementById('form-name').value
+          if (!description && !name) {
+            Swal.showValidationMessage(`Name or Description cannot be blank`)
           }
-          return {description: description}
+          return {description: description, name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            id: params.row.department_id,
+            id: params.row.issueType_id,
+            name: result.value.name,
             description: result.value.description
           }
-          axios.put(`${config.api}/api/departments/update`, data)
+          axios.put(`${config.api}/api/issues/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -124,8 +135,8 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const departmentID = params.row.department_id
-          axios.delete(`${config.api}/api/departments/delete/` + departmentID)
+          const issueTypeID = params.row.issueType_id
+          axios.delete(`${config.api}/api/issues/delete/` + issueTypeID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -140,10 +151,12 @@ export default {
         }
       })
     },
-    addNewDepartment(){
+    addNewIssueType(){
       Swal.fire({
         title: 'Add Record',
         html:
+          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
+          '</form>' +
           '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
           '</form>'
         ,
@@ -153,17 +166,19 @@ export default {
         cancelButtonText: 'Cancel',
         preConfirm: () => {
           const description = document.getElementById('form-description').value
-          if (!description) {
-            Swal.showValidationMessage(`Description cannot be blank`)
+          const name = document.getElementById('form-name').value
+          if (!description && !name) {
+            Swal.showValidationMessage(`Name or Description cannot be blank`)
           }
-          return {description: description}
+          return {description: description, name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
+            name: result.value.name,
             description: result.value.description
           }
-          axios.post(`${config.api}/api/departments/create`, data)
+          axios.post(`${config.api}/api/issues/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -179,7 +194,7 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/departments/find`)
+      axios.get(`${config.api}/api/issues/find`)
         .then((response) => {
           this.DB_DATA = response.data;
           /*this.dataLength = response.data.length;
@@ -192,6 +207,7 @@ export default {
           console.log(response.data)
           console.log(JSON.stringify(response.data))
           console.log(JSON.stringify(response.data.length))*/
+          console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
