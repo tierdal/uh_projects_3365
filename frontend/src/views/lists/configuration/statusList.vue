@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Department List</span>
+        <span class="tableHeading-text">Status List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewDepartment">Add New Department</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewStatus">Add New Status</button>
       </div>
     </div>
 
@@ -23,14 +23,14 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'department_id', type: 'asc'}
+          initialSortBy: {field: 'status_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
           mode: 'records',
-          perPage: 3,
+          perPage: 10,
           position: 'top',
-          perPageDropdown: [3, 5, 10, 25, 50, 100],
+          perPageDropdown: [10, 25, 50, 100],
           dropdownAllowAll: false,
           nextLabel: 'next',
           prevLabel: 'prev',
@@ -41,16 +41,16 @@
         @on-row-dblclick="onRowDoubleClick"
       />
     </div>
+
   </div>
+
+
+
 
 </template>
 
 <script>
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-//import { mapActions } from 'vuex'
-//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
-//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -61,14 +61,14 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      myAPI: `${config.api}/api/departments`,
+      myAPI: `${config.api}/api/statuses`,
       dataFields: [{
         label: 'id',
-        field: 'department_id',
+        field: 'status_id',
         type: 'number'
       },{
         label: 'description',
-        field: 'department_description'
+        field: 'status_description'
       }]
     };
   },
@@ -78,17 +78,12 @@ export default {
   },
   methods: {
     onRowDoubleClick(params){
-      // params.row - row object
-      // params.pageIndex - index of this row on the current page.
-      // params.selected - if selection is enabled this argument
-      // indicates selected or not
-      // params.event - click event
       Swal.fire({
         title: 'Edit Record',
         html:
-          'Item ID: ' + params.row.id +
+          'Item ID: ' + params.row.status_id +
           '<br>' +
-          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.description + '">' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.status_description + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -112,10 +107,10 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            id: params.row.id,
+            id: params.row.status_id,
             description: result.value.description
           }
-          axios.put(`${config.api}/api/departments/update`, data)
+          axios.put(`${config.api}/api/status/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -128,8 +123,8 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const departmentID = params.row.id
-          axios.delete(`${config.api}/api/departments/delete/` + departmentID)
+          const statusID = params.row.status_id
+          axios.delete(`${config.api}/api/status/delete/` + statusID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -144,7 +139,7 @@ export default {
         }
       })
     },
-    addNewDepartment(){
+    addNewStatus(){
       Swal.fire({
         title: 'Add Record',
         html:
@@ -167,7 +162,7 @@ export default {
           const data = {
             description: result.value.description
           }
-          axios.post(`${config.api}/api/departments/create`, data)
+          axios.post(`${config.api}/api/status/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -183,25 +178,14 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/departments/find`)
+      axios.get(`${config.api}/api/status/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          /*this.dataLength = response.data.length;
-          console.log('Status: ' + response.status + ' ' + response.statusText)
-          console.log('Headers:')
-          console.log(response.headers)
-          console.log('Config:')
-          console.log(response.config)
-          console.log('Data:')
-          console.log(response.data)
-          console.log(JSON.stringify(response.data))
-          console.log(JSON.stringify(response.data.length))*/
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-    },
-    deleteItem(){},
+    }
   },
   beforeMount() {
     this.loadData();

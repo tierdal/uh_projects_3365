@@ -31,7 +31,7 @@ router.post('/create', (req, res, next) => {
     const description_text = req.body.description
     const db = req.app.get('db')
     db.statuses.create({
-        description: description_text
+        status_description: description_text
     })
         .then(() => {
             res.status(200).send('OK');
@@ -53,10 +53,10 @@ router.put('/update', (req, res, next) => {
     console.log(req.body.description)
 
     db.statuses.update({
-        description: description_text
+        status_description: description_text
     }, {
         where: {
-            id: status_id
+            status_id: status_id
         }
     })
         .then(() => {
@@ -74,7 +74,7 @@ router.delete('/delete/:statusId', (req, res, next) => {
     const db = req.app.get('db')
 
     db.statuses.destroy({
-        where: { id: id }
+        where: { status_id: id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');
     }).catch(err => {

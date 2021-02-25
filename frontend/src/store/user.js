@@ -12,6 +12,10 @@ export default {
   },
   getters: {
     isAuthenticated(state) {
+      //if (state.auth === null){
+        //console.log('state.auth = null')
+        //return false
+      //}
       return state.auth !== null && typeof state.auth !== 'undefined'
     },
     auth(state) {
@@ -37,7 +41,7 @@ export default {
   actions: {
     logout(context) {
       context.commit('setAuthentication')
-      router.push('/login')
+      router.push('/auth/login')//.catch(e => {})
     },
     login(context, obj) {
       return axios

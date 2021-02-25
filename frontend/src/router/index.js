@@ -7,7 +7,8 @@ import index from '../views/home/index.vue'
 import feedback from '../views/home/feedback.vue'
 import about from '../views/home/about.vue'
 import contact from '../views/home/contact.vue'
-import useradmin from '../views/home/useradmin.vue';
+import useradmin from '../views/admin/useradmin.vue';
+import configuration from '../views/admin/configuration.vue';
 import userEdit from "../views/lists/users/userEdit.vue";
 // error
 import notFound from '../views/error/notFound.vue'
@@ -25,7 +26,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      redirect: '/home',
+      redirect: '/auth/login',
     },
     {
       path: '/home',
@@ -74,6 +75,14 @@ const router = new VueRouter({
         isAdmin: true
       },
     },
+    {
+      path: '/configuration',
+      component: configuration,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
     //{
     //  path: '/auth/register',
     //  component: register,
@@ -86,8 +95,8 @@ const router = new VueRouter({
       path: '/auth/login',
       component: login,
       meta: {
-        skipIfAuthorized: true,
         isOpen: true,
+        skipIfAuthorized: true,
       },
     },
     {
@@ -128,15 +137,19 @@ router.beforeEach((to, from, next) => {
       }
 
     }
-  } else if (to.matched.some(record => record.meta.isOpen)) {
-    next()
   } else {
-    next({
-      path: '/auth/login',
-      query: {
-        redirect: to.fullPath,
-      },
-    })
+    if ((to.path === '/auth/login')) {
+      next()
+    } else if (to.matched.some(record => record.meta.isOpen)) {
+      next()
+    } else {
+      next({
+        path: '/auth/login',
+        query: {
+          redirect: to.fullPath,
+        },
+      })
+    }
   }
 })
 

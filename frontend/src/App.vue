@@ -52,10 +52,10 @@ export default {
         } else {
           this.$router.push('/home')
         }
-      } else {
-        // swal('You have been logged out.', 'Good bye!', 'info')
-        this.$router.push('/home')
-      }
+      } //else {
+        //Swal.fire('You have been logged out.', 'Good bye!', 'info')
+        //this.$router.push('/auth/login')
+      //}
     },
     $route(to, from) {
       this.setTransition(to, from)

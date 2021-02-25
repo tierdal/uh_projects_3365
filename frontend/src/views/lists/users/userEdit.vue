@@ -44,47 +44,6 @@
             name="is_approver"
             v-model="form.model.is_approver"
           />
-
-          <br />
-          <!--Username
-            <input
-              id="form-email"
-              class="swal2-input"
-              type="text"
-              placeholder="Username"
-              autocomplete="email"
-              name="email"
-              v-model="form.model.email">
-          First Name
-            <input
-              id="form-fname"
-              class="swal2-input"
-              placeholder="First Name"
-              type="text"
-              name="f_name"
-              v-model="form.model.f_name">
-          Last Name
-            <input
-              id="form-lname"
-              class="swal2-input"
-              placeholder="Last Name"
-              type="text"
-              name="l_name"
-              v-model="form.model.l_name">
-          Phone
-            <input
-              id="form-phone"
-              class="swal2-input"
-              type="text"
-              placeholder="Phone"
-              name="phone"
-              v-model="form.model.phone">
-          <input
-            type="checkbox"
-            id="form-isapprover"
-            name="is_approver"
-            class="swal2-checkbox"
-            v-model="form.model.is_approver"> Approver-->
         </div>
         <div class="editForm-right">
           <label class="form-custom-label" for="form-department">Department</label>
