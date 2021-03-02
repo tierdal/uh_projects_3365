@@ -2,23 +2,24 @@
   <div>
     <h2>Helpdesk Configuration</h2>
     <br>
-    <div class="mainForm configrow1">
-      <div class="editForm-left">
+    <vue-tabs active-tab-color="#2778c4"
+              active-text-color="white"
+              type="pills"
+              :start-index="1"
+              direction="vertical"
+    >
+      <v-tab title="Department List">
         <departments-list />
-      </div>
-      <div class="editForm-right">
+      </v-tab>
+
+      <v-tab title="Status List">
         <status-list />
-      </div>
-    </div>
-    <br>
-    <div class="mainForm configrow2">
-      <div class="editForm-left">
+      </v-tab>
+
+      <v-tab title="Issue Type List">
         <issuetype-list />
-      </div>
-      <div class="editForm-right">
-        put next form here
-      </div>
-    </div>
+      </v-tab>
+    </vue-tabs>
   </div>
 </template>
 
@@ -26,12 +27,16 @@
 import departmentList from "../lists/configuration/departmentList.vue";
 import statusList from "../lists/configuration/statusList.vue";
 import issueTypeList from "../lists/configuration/issueTypeList.vue";
+import {VueTabs, VTab} from 'vue-nav-tabs'
+import 'vue-nav-tabs/themes/vue-tabs.css'
 
 export default {
   components: {
     'departments-list' : departmentList,
     'status-list' : statusList,
-    'issuetype-list' : issueTypeList
+    'issuetype-list' : issueTypeList,
+    VueTabs,
+    VTab
   }
 }
 </script>
