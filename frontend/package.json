@@ -18,7 +18,8 @@
     "snyk": "^1.241.0",
     "vue-good-table": "latest",
     "sweetalert2": "^10.15.2",
-    "@braid/vue-formulate": "^2.5.0"
+    "@braid/vue-formulate": "^2.5.0",
+    "vue-nav-tabs": "^0.5.7"
   },
   "description": "frontend",
   "devDependencies": {
@@ -26,6 +27,7 @@
     "@babel/core": "^7.6.4",
     "babel-loader": "^8.0.6",
     "babel-preset-env": "^1.7.0",
+    "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "chalk": "^2.4.2",
     "compression-webpack-plugin": "^2.0.0",
     "copy-webpack-plugin": "^4.6.0",

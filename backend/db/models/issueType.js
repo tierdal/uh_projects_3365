@@ -21,15 +21,15 @@ module.exports = function(sequelize, DataTypes) {
     schema: 'dbo',
     timestamps: true,
     underscored: true,
-    createdAt: 'CREATED_AT',
-    updatedAt: 'UPDATED_AT',
+    createdAt: false,
+    updatedAt: false,
     deletedAt: false,
     /*indexes: [
       {
-        name: "PK__accountT__3213E83F1B5034D0",
+        name: "",
         unique: true,
         fields: [
-          { name: "department_id" },
+          { name: "" },
         ]
       },
     ]*/

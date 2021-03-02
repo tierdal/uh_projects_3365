@@ -197,17 +197,6 @@ export default {
       axios.get(`${config.api}/api/issues/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          /*this.dataLength = response.data.length;
-          console.log('Status: ' + response.status + ' ' + response.statusText)
-          console.log('Headers:')
-          console.log(response.headers)
-          console.log('Config:')
-          console.log(response.config)
-          console.log('Data:')
-          console.log(response.data)
-          console.log(JSON.stringify(response.data))
-          console.log(JSON.stringify(response.data.length))*/
-          console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
