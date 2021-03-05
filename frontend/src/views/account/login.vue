@@ -6,7 +6,7 @@
           <div class="card-body">
             <form @submit.prevent="submit">
               <h2>Sign In</h2>
-              <p>Please provide required information to continue.</p>
+              <!--<p>Please provide required information to continue.</p>-->
 
                 <FormulateInput
                   @validation="validationEmail = $event"
@@ -86,8 +86,15 @@ export default {
       //})
     },
   },
+  beforeCreate: function() {
+    document.body.className = 'login';
+  },
+  beforeDestroy() {
+    document.body.classList.remove('login');
+  }
 }
 </script>
 
 <style lang='stylus'>
+
 </style>
