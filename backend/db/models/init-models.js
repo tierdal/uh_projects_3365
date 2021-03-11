@@ -4,6 +4,8 @@ var _users = require("./users");
 var _roles = require("./roles");
 var _statuses = require("./statuses");
 var _issueType = require("./issueType");
+var _shippingMethods = require("./shippingMethods");
+var _softwareStatus = require("./softwareStatus");
 
 function initModels(sequelize) {
   var departments = _departments(sequelize, DataTypes);
@@ -11,6 +13,8 @@ function initModels(sequelize) {
   var roles = _roles(sequelize, DataTypes);
   var statuses = _statuses(sequelize, DataTypes);
   var issueType = _issueType(sequelize, DataTypes);
+  var shippingMethods = _shippingMethods(sequelize, DataTypes);
+  var softwareStatus = _softwareStatus(sequelize, DataTypes);
 
   departments.hasMany(users, {foreignKey: "departmentId"})
   roles.hasMany(users, {foreignKey: "roleId"})
@@ -31,6 +35,8 @@ function initModels(sequelize) {
     roles,
     statuses,
     issueType,
+    shippingMethods,
+    softwareStatus,
   };
 }
 module.exports = initModels;
