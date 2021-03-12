@@ -142,7 +142,7 @@ export default {
           //console.log(JSON.stringify(this.DB_DATA))
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
+          Swal.fire('Error', 'Something went wrong (Loading User List)', 'error')
         })
     },
     renameKey( obj, oldKey, newKey ) {

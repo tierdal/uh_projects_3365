@@ -21,13 +21,13 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: false,
     deletedAt: false,
     /*indexes: [
-      {
-        name: "PK__accountT__3213E83F1B5034D0",
-        unique: true,
-        fields: [
-          { name: "department_id" },
-        ]
-      },
+        {
+            name: "",
+            unique: true,
+            fields: [
+                { name: "" },
+            ]
+        },
     ]*/
   });
 };
