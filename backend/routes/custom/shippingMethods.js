@@ -1,23 +1,10 @@
 const express = require('express')
 const router = express.Router({ caseSensitive: true })
-//https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
 router.get('/find', (req, res, next) => {
-    //list departments
     const db = req.app.get('db')
-    //console.log('start')
-    //console.log(req)
-    //console.log(req.query.sort)
-    //console.log(req.query.page)
-    //console.log(req.query.per_page)
-    //db.accountType.findAll({raw : true}).then(data => {console.log(data)})
-
-    //console.log('end')
-
     return db.shippingMethods.findAll({
         raw : true,
-        //limit: parseInt(req.query.per_page),
-        //page: parseInt(req.query.page)
     })
         .then((shippingMethods) => res.send(shippingMethods))
         .catch((err) => {
@@ -27,7 +14,6 @@ router.get('/find', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    //create departments
     const name_text = req.body.name
     const db = req.app.get('db')
     db.shippingMethods.create({
@@ -43,19 +29,17 @@ router.post('/create', (req, res, next) => {
 })
 
 router.put('/update', (req, res, next) => {
-    //update departments
-
     const shippingMethods_id = req.body.id
     const name_text = req.body.name
     const db = req.app.get('db')
 
     //console.log(req.body.id)
-    //console.log(req.body.name)
+    console.log(req.body.name)
     //console.log(req.body.description)
     //console.log(JSON.stringify(req.body))
 
     db.shippingMethods.update({
-        shippingMethods_description: name_text
+        shippingMethods_name: name_text
         }, {
             where: {
                 shippingMethods_id: shippingMethods_id
@@ -71,7 +55,6 @@ router.put('/update', (req, res, next) => {
 })
 
 router.delete('/delete/:shippingMethods_id', (req, res, next) => {
-    //delete departments
     const id = req.params.shippingMethods_id;
     const db = req.app.get('db')
 

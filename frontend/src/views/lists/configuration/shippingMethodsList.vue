@@ -128,7 +128,7 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const issueTypeID = params.row.shippingMethods_id
+          const shippingMethodsID = params.row.shippingMethods_id
           axios.delete(`${config.api}/api/shippingMethods/delete/` + shippingMethodsID)
             .then((response) => {
               this.loadData()

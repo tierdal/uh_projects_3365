@@ -27,7 +27,6 @@ router.get('/find', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    //create departments
     const description_text = req.body.description
     const name_text = req.body.name
     const db = req.app.get('db')
