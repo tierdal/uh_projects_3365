@@ -72,7 +72,7 @@ module.exports = function(sequelize, DataTypes) {
     createdAt: 'CREATED_AT',
     updatedAt: 'UPDATED_AT',
     deletedAt: false,
-    indexes: [
+    /*indexes: [
       {
         name: "",
         unique: true,
@@ -80,6 +80,6 @@ module.exports = function(sequelize, DataTypes) {
           { name: "" },
         ]
       },
-    ]
+    ]*/
   });
 };

@@ -217,14 +217,14 @@ export default {
           this.goBack()
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
+          Swal.fire('Error', 'Something went wrong (updating user)', 'error')
         })
     },
     deleteUser(){
       const userID = this.user_id
       axios.delete(`${config.api}/api/users/delete/` + userID)
         .then((response) => {
-          this.loadData()
+          //this.loadData()
           Swal.fire(
             'Done!',
             'The user has been deleted.',
@@ -233,7 +233,7 @@ export default {
           this.goBack()
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
+          Swal.fire('Error', 'Something went wrong (deleting user)', 'error')
         })
     },
     loadData(){
@@ -261,7 +261,7 @@ export default {
           //console.log('Dept: ' + this.departmentId + ', Role: ' + this.roleId + ', Status: ' + this.statusId)
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
+          Swal.fire('Error', 'Something went wrong (finding user)', 'error')
         })
     },
     loadFields(){
@@ -272,7 +272,7 @@ export default {
           //console.log(JSON.stringify(this.DEPT_DATA))
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
+          Swal.fire('Error', 'Something went wrong (loading departments)', 'error')
         })
       axios.get(`${config.api}/api/roles/find`)
         .then((response) => {
@@ -280,7 +280,7 @@ export default {
           //console.log(JSON.stringify(this.ROLE_DATA))
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
+          Swal.fire('Error', 'Something went wrong (loading roles)', 'error')
         })
       axios.get(`${config.api}/api/status/find`)
         .then((response) => {
@@ -288,7 +288,7 @@ export default {
           //console.log(JSON.stringify(this.STATUS_DATA))
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
+          Swal.fire('Error', 'Something went wrong (loading status)', 'error')
         })
     },
     renameKey( obj, oldKey, newKey ) {
