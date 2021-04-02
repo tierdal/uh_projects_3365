@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Shipping Methods List</span>
+        <span class="tableHeading-text">Status List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewShippingMethods">Add New Shipping Methods</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewTeam">Add New Status</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'shippingMethod_id', type: 'asc'}
+          initialSortBy: {field: 'team_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -41,16 +41,16 @@
         @on-row-dblclick="onRowDoubleClick"
       />
     </div>
+
   </div>
+
+
+
 
 </template>
 
 <script>
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-//import { mapActions } from 'vuex'
-//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
-//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -61,14 +61,14 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      myAPI: `${config.api}/api/shippingMethods`,
+      myAPI: `${config.api}/api/teams`,
       dataFields: [{
         label: 'id',
-        field: 'shippingMethod_id',
+        field: 'team_id',
         type: 'number'
       },{
-        label: 'name',
-        field: 'shippingMethod_name'
+        label: 'team_name',
+        field: 'status_description'
       }]
     };
   },
@@ -78,17 +78,12 @@ export default {
   },
   methods: {
     onRowDoubleClick(params){
-      // params.row - row object
-      // params.pageIndex - index of this row on the current page.
-      // params.selected - if selection is enabled this argument
-      // indicates selected or not
-      // params.event - click event
       Swal.fire({
         title: 'Edit Record',
         html:
-          'Item ID: ' + params.row.shippingMethod_id +
+          'Item ID: ' + params.row.team_id +
           '<br>' +
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.shippingMethod_name + '">' +
+          '<form>team_name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.team_name + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -112,10 +107,10 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            id: params.row.shippingMethod_id,
-            name: result.value.name,
+            id: params.row.team_id,
+            description: result.value.name
           }
-          axios.put(`${config.api}/api/shippingMethods/update`, data)
+          axios.put(`${config.api}/api/status/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -128,8 +123,8 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const shippingMethodID = params.row.shippingMethod_id
-          axios.delete(`${config.api}/api/shippingMethods/delete/` + shippingMethodID)
+          const teamID = params.row.team_id
+          axios.delete(`${config.api}/api/teams/delete/` + teamID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -144,7 +139,7 @@ export default {
         }
       })
     },
-    addNewShippingMethods(){
+    addNewStatus(){
       Swal.fire({
         title: 'Add Record',
         html:
@@ -158,16 +153,16 @@ export default {
         preConfirm: () => {
           const name = document.getElementById('form-name').value
           if (!name) {
-            Swal.showValidationMessage(`Name cannot be blank`)
+            Swal.showValidationMessage(`Description cannot be blank`)
           }
           return {name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            name: result.value.name,
+            description: result.value.name
           }
-          axios.post(`${config.api}/api/shippingMethods/create`, data)
+          axios.post(`${config.api}/api/teams/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -183,15 +178,14 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/shippingMethods/find`)
+      axios.get(`${config.api}/api/teams/find`)
         .then((response) => {
           this.DB_DATA = response.data;
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-    },
-    deleteItem(){},
+    }
   },
   beforeMount() {
     this.loadData();
@@ -200,8 +194,8 @@ export default {
 </script>
 
 <style scoped>
-  button {
-    margin-right: 15px;
-    height: 100%;
-  }
+button {
+  margin-right: 15px;
+  height: 100%;
+}
 </style>
