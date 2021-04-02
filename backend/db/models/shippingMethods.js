@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'shippingMethods',
     schema: 'dbo',
-    timestamps: true,
+    timestamps: false,
     underscored: true,
     createdAt: false,
     updatedAt: false,

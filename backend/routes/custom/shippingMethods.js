@@ -17,7 +17,7 @@ router.post('/create', (req, res, next) => {
     const name_text = req.body.name
     const db = req.app.get('db')
     db.shippingMethods.create({
-        shippingMethods_name: name_text
+        shippingMethod_name: name_text
         })
         .then(() => {
             res.status(200).send('OK');
@@ -29,7 +29,7 @@ router.post('/create', (req, res, next) => {
 })
 
 router.put('/update', (req, res, next) => {
-    const shippingMethods_id = req.body.id
+    const shippingMethod_id = req.body.id
     const name_text = req.body.name
     const db = req.app.get('db')
 
@@ -39,10 +39,10 @@ router.put('/update', (req, res, next) => {
     //console.log(JSON.stringify(req.body))
 
     db.shippingMethods.update({
-        shippingMethods_name: name_text
+        shippingMethod_name: name_text
         }, {
             where: {
-                shippingMethods_id: shippingMethods_id
+                shippingMethod_id: shippingMethod_id
             }
         })
         .then(() => {
@@ -54,12 +54,12 @@ router.put('/update', (req, res, next) => {
     })
 })
 
-router.delete('/delete/:shippingMethods_id', (req, res, next) => {
-    const id = req.params.shippingMethods_id;
+router.delete('/delete/:shippingMethod_id', (req, res, next) => {
+    const id = req.params.shippingMethod_id;
     const db = req.app.get('db')
 
     db.shippingMethods.destroy({
-        where: { shippingMethods_id: id }
+        where: { shippingMethod_id: id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');
     }).catch(err => {
