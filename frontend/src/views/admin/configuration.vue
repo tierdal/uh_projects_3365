@@ -17,7 +17,7 @@
       </v-tab>
 
       <v-tab title="Issue Type List">
-        <issuetype-list />
+        <issueType-list />
       </v-tab>
 
       <v-tab title="Shipping Methods List">
@@ -44,7 +44,7 @@ export default {
   components: {
     'departments-list' : departmentList,
     'status-list' : statusList,
-    'issuetype-list' : issueTypeList,
+    'issueType-list' : issueTypeList,
     'shippingMethods-list' : shippingMethodsList,
     'softwareStatus-list' : softwareStatusList,
     VueTabs,
