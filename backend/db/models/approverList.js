@@ -1,25 +1,31 @@
 const Sequelize = require('sequelize');
+const _users = require("./users");
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('slaList', {
-        sla_id: {
-            autoIncrement: true,
+
+    const users = _users(sequelize, DataTypes);
+
+    return sequelize.define('approverList', {
+        user_getsapproved: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true
+            references: {
+                model: users
+                //key: 'user_id'
+            }
         },
-        sla_name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        sla_duration: {
+        user_approver: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: users
+                //key: 'user_id'
+            }
         }
     }, {
         sequelize,
-        tableName: 'slaList',
+        tableName: 'approverList',
         schema: 'dbo',
         timestamps: false,
         underscored: true,

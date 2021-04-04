@@ -1,5 +1,11 @@
 const Sequelize = require('sequelize');
+const _issueCategory = require("./issueCategory");
+const DataTypes = require("sequelize").DataTypes;
+
 module.exports = function(sequelize, DataTypes) {
+
+  const issueCategory = _issueCategory(sequelize, DataTypes);
+  
   return sequelize.define('issueType', {
     issueType_id: {
       autoIncrement: true,
@@ -14,6 +20,13 @@ module.exports = function(sequelize, DataTypes) {
     issueType_description: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    issueCategoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: issueCategory
+      }
     }
   }, {
     sequelize,
@@ -24,14 +37,5 @@ module.exports = function(sequelize, DataTypes) {
     createdAt: false,
     updatedAt: false,
     deletedAt: false,
-    /*indexes: [
-      {
-        name: "",
-        unique: true,
-        fields: [
-          { name: "" },
-        ]
-      },
-    ]*/
   });
 };

@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: departments,
+        model: departments
         //key: 'department_id',
       }
     },
@@ -45,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: roles,
+        model: roles
       }
     },
     is_approver: {
@@ -56,7 +56,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: statuses,
+        model: statuses
       }
     },
     password: {
@@ -71,15 +71,6 @@ module.exports = function(sequelize, DataTypes) {
     underscored: true,
     createdAt: 'CREATED_AT',
     updatedAt: 'UPDATED_AT',
-    deletedAt: false,
-    /*indexes: [
-      {
-        name: "",
-        unique: true,
-        fields: [
-          { name: "" },
-        ]
-      },
-    ]*/
+    deletedAt: false
   });
 };

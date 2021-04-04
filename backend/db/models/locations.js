@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('locations', {
@@ -22,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         location_street2: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         location_city: {
             type: DataTypes.STRING,
