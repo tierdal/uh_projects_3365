@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
+
     return sequelize.define('locations_countryList', {
         country_id: {
             autoIncrement: true,

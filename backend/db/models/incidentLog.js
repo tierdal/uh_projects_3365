@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
     const incidentStatus = _incidentStatus(sequelize, DataTypes);
     const teams = _teams(sequelize, DataTypes);
 
-    return sequelize.define('incidentLogs', {
+    return sequelize.define('incidentLog', {
         incident_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
@@ -91,7 +91,7 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {
         sequelize,
-        tableName: 'incidentLogs',
+        tableName: 'incidentLog',
         schema: 'dbo',
         timestamps: true,
         underscored: true,

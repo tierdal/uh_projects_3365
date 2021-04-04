@@ -1,4 +1,4 @@
-var DataTypes = require("sequelize").DataTypes;
+/*var DataTypes = require("sequelize").DataTypes;
 var _approverList = require("./approverList");
 var _assetList = require("./assetList");
 var _assetStatus = require("./assetStatus");
@@ -107,81 +107,83 @@ function initModels(sequelize) {
   roles.hasMany(users, {foreignKey: "roleId"})
   statuses.hasMany(users, {foreignKey: "statusId"})
 
-  //not sure about this one
-  //issueType.hasMany(users, {foreignKey: "issueTypeId"})
-
-  approverList.belongsTo(users, {foreignkey: "user_getsapproved"});
-  approverList.belongsTo(users, {foreignkey: "user_approver"});
-  assetList.belongsTo(assetStatus, {foreignkey: "assetStatusId"});
-  assetList.belongsTo(assetType, {foreignkey: "assetTypeId"});
-  assetList.belongsTo(vendors, {foreignkey: "vendorId"});
-  assetList.belongsTo(users, {foreignkey: "userId"});
-  auditLog_access.belongsTo(users, {foreignkey: "auditLog_access_userId"});
-  auditLog_approvals.belongsTo(users, {foreignkey: "auditLog_approvals_userId"});
-  auditLog_changeRequests.belongsTo(users, {foreignkey: "auditLog_changeRequests_userId"});
-  auditLog_changeRequests.belongsTo(changeRequests, {foreignkey: "auditLog_changeRequests_requestId"});
-  auditLog_incidents.belongsTo(users, {foreignkey: "auditLog_incidents_userId"});
-  auditLog_incidents.belongsTo(incidentLog, {foreignkey: "auditLog_incidents_incidentId"});
-  auditLog_tasks.belongsTo(users, {foreignkey: "auditLog_tasks_userId"});
-  auditLog_tasks.belongsTo(taskList, {foreignkey: "auditLog_tasks_taskId"});
-  auditLog_tickets.belongsTo(users, {foreignkey: "auditLog_tickets_userId"});
-  auditLog_tickets.belongsTo(ticketLog, {foreignkey: "auditLog_tickets_ticketId"});
-  changeRequests.belongsTo(changeRequestType, {foreignkey: "changeRequestTypeId"});
-  changeRequests.belongsTo(users, {foreignkey: "changeRequest_owner"});
-  changeRequests.belongsTo(users, {foreignkey: "changeRequest_approver"});
-  changeRequests.belongsTo(changeRequestStatus, {foreignkey: "changeRequestStatusId"});
-  contracts.belongsTo(vendors, {foreignkey: "vendorId"});
-  faqList.belongsTo(faqCategory, {foreignkey: "faq_categoryId"});
-  incidentLog.belongsTo(users, {foreignkey: "incident_assignedUser"});
-  incidentLog.belongsTo(users, {foreignkey: "incident_createdBy"});
-  incidentLog.belongsTo(incidentStatus, {foreignkey: "incidentStatusId"});
-  incidentLog.belongsTo(incidentType, {foreignkey: "incident_typeId"});
-  incidentLog.belongsTo(incidentUrgency, {foreignkey: "incidentUrgencyId"});
-  incidentLog.belongsTo(locations, {foreignkey: "incident_location"});
-  incidentLog.belongsTo(teams, {foreignkey: "incident_assignedTeam"});
-  incidentResponseLog.belongsTo(incidentLog, {foreignkey: "incidentId"});
-  incidentResponseLog.belongsTo(users, {foreignkey: "incidentResponseLog_user"});
-  incidentType.belongsTo(teams, {foreignkey: "incidentType_responsible"});
-  incidentUrgency.belongsTo(slaList, {foreignkey: "incidentUrgency_sla"});
-  issueType.belongsTo(issueCategory, {foreignkey: "issueCategoryId"});
-  licenseKeys.belongsTo(softwareAssets, {foreignkey: "softwareId"});
-  licenseKeys.belongsTo(users, {foreignkey: "userId"});
-  priorityList.belongsTo(slaList, {foreignkey: "priority_sla_id"});
-  software_install_status.belongsTo(installStatusList, {foreignkey: "installStatusId"});
-  software_install_status.belongsTo(softwareAssets, {foreignkey: "softwareId"});
-  software_install_status.belongsto(users, {foreignkey: "userId"});
-  softwareAssets.belongsTo(softwareStatus, {foreignkey: "softwareStatusId"});
-  softwareAssets.belongsTo(vendors, {foreignkey: "vendorId"});
-  taskList.belongsTo(users, {foreignkey: "task_approver"});
-  taskList.belongsTo(users, {foreignkey: "task_owner"});
-  taskList.belongsTo(requestStatus, {foreignkey: "requestStatusId"});
-  taskList.belongsTo(locations, {foreignkey: "shippingLocationId"});
-  tasklist.belongsTo(shippingMethods, {foreignkey: "shippingMethodId"});
-  taskList.belongsTo(ticketLog, {foreignkey: "ticketId"});
-  teamMembership.belongsTo(teams, {foreignkey: "teamId"});
-  teamMembership.belongsTo(users, {foreignkey: "userId"});
-  ticketLog.belongsTo(users, {foreignkey: "assigned_user"});
-  ticketLog.belongsTo(users, {foreignkey: "created_by"});
-  ticketLog.belongsTo(assetList, {foreignkey: "assetId"});
-  ticketLog.belongsTo(issueCategory, {foreignkey: "issueCategoryId"});
-  ticketLog.belongsTo(issueType, {foreignkey: "issueId"});
-  ticketLog.belongsTo(locations, {foreignkey: "locationId"});
-  ticketLog.belongsTo(priorityList, {foreignkey: "priorityId"});
-  ticketLog.belongsTo(requestStatus, {foreignkey: "requestStatusId"});
-  ticketLog.belongsTo(resolvedList, {foreignkey: "resolvedId"});
-  ticketLog.belongsTo(softwareAssets, {foreignkey: "softwareId"});
-  ticketLog.belongsTo(teams, {foreignkey: "teamId"});
   users.belongsTo(departments, {foreignKey: "departmentId"});
   users.belongsTo(roles, {foreignKey: "roleId"});
   users.belongsTo(statuses, {foreignKey: "statusId"});
-  vendors.belongsTo(locations, {foreignkey: "locationId"});
-  vendors.belongsTo(paymentTerms, {foreignkey: "paymentTermId"});
-  workLog.belongsTo(ticketLog, {foreignkey: "ticketId"});
-  workLog.belongsTo(users, {foreignkey: "userId"});
 
+  //not sure about this one
+  //issueType.hasMany(users, {foreignKey: "issueTypeId"})
+
+  /*
+  approverList.belongsTo(users, {foreignKey: "user_getsapproved"});
+  approverList.belongsTo(users, {foreignKey: "user_approver"});
+  assetList.belongsTo(assetStatus, {foreignKey: "assetStatusId"});
+  assetList.belongsTo(assetType, {foreignKey: "assetTypeId"});
+  assetList.belongsTo(vendors, {foreignKey: "vendorId"});
+  assetList.belongsTo(users, {foreignKey: "userId"});
+  auditLog_access.belongsTo(users, {foreignKey: "auditLog_access_userId"});
+  auditLog_approvals.belongsTo(users, {foreignKey: "auditLog_approvals_userId"});
+  auditLog_changeRequests.belongsTo(users, {foreignKey: "auditLog_changeRequests_userId"});
+  auditLog_changeRequests.belongsTo(changeRequests, {foreignKey: "auditLog_changeRequests_requestId"});
+  auditLog_incidents.belongsTo(users, {foreignKey: "auditLog_incidents_userId"});
+  auditLog_incidents.belongsTo(incidentLog, {foreignKey: "auditLog_incidents_incidentId"});
+  auditLog_tasks.belongsTo(users, {foreignKey: "auditLog_tasks_userId"});
+  auditLog_tasks.belongsTo(taskList, {foreignKey: "auditLog_tasks_taskId"});
+  auditLog_tickets.belongsTo(users, {foreignKey: "auditLog_tickets_userId"});
+  auditLog_tickets.belongsTo(ticketLog, {foreignKey: "auditLog_tickets_ticketId"});
+  changeRequests.belongsTo(changeRequestType, {foreignKey: "changeRequestTypeId"});
+  changeRequests.belongsTo(users, {foreignKey: "changeRequest_owner"});
+  changeRequests.belongsTo(users, {foreignKey: "changeRequest_approver"});
+  changeRequests.belongsTo(changeRequestStatus, {foreignKey: "changeRequestStatusId"});
+  contracts.belongsTo(vendors, {foreignKey: "vendorId"});
+  faqList.belongsTo(faqCategory, {foreignKey: "faq_categoryId"});
+  incidentLog.belongsTo(users, {foreignKey: "incident_assignedUser"});
+  incidentLog.belongsTo(users, {foreignKey: "incident_createdBy"});
+  incidentLog.belongsTo(incidentStatus, {foreignKey: "incidentStatusId"});
+  incidentLog.belongsTo(incidentType, {foreignKey: "incident_typeId"});
+  incidentLog.belongsTo(incidentUrgency, {foreignKey: "incidentUrgencyId"});
+  incidentLog.belongsTo(locations, {foreignKey: "incident_location"});
+  incidentLog.belongsTo(teams, {foreignKey: "incident_assignedTeam"});
+  incidentResponseLog.belongsTo(incidentLog, {foreignKey: "incidentId"});
+  incidentResponseLog.belongsTo(users, {foreignKey: "incidentResponseLog_user"});
+  incidentType.belongsTo(teams, {foreignKey: "incidentType_responsible"});
+  incidentUrgency.belongsTo(slaList, {foreignKey: "incidentUrgency_sla"});
+  issueType.belongsTo(issueCategory, {foreignKey: "issueCategoryId"});
+  licenseKeys.belongsTo(softwareAssets, {foreignKey: "softwareId"});
+  licenseKeys.belongsTo(users, {foreignKey: "userId"});
+  priorityList.belongsTo(slaList, {foreignKey: "priority_sla_id"});
+  software_install_status.belongsTo(installStatusList, {foreignKey: "installStatusId"});
+  software_install_status.belongsTo(softwareAssets, {foreignKey: "softwareId"});
+  software_install_status.belongsTo(users, {foreignKey: "userId"});
+  softwareAssets.belongsTo(softwareStatus, {foreignKey: "softwareStatusId"});
+  softwareAssets.belongsTo(vendors, {foreignKey: "vendorId"});
+  taskList.belongsTo(users, {foreignKey: "task_approver"});
+  taskList.belongsTo(users, {foreignKey: "task_owner"});
+  taskList.belongsTo(requestStatus, {foreignKey: "requestStatusId"});
+  taskList.belongsTo(locations, {foreignKey: "shippingLocationId"});
+  taskList.belongsTo(shippingMethods, {foreignKey: "shippingMethodId"});
+  taskList.belongsTo(ticketLog, {foreignKey: "ticketId"});
+  teamMembership.belongsTo(teams, {foreignKey: "teamId"});
+  teamMembership.belongsTo(users, {foreignKey: "userId"});
+  ticketLog.belongsTo(users, {foreignKey: "assigned_user"});
+  ticketLog.belongsTo(users, {foreignKey: "created_by"});
+  ticketLog.belongsTo(assetList, {foreignKey: "assetId"});
+  ticketLog.belongsTo(issueCategory, {foreignKey: "issueCategoryId"});
+  ticketLog.belongsTo(issueType, {foreignKey: "issueId"});
+  ticketLog.belongsTo(locations, {foreignKey: "locationId"});
+  ticketLog.belongsTo(priorityList, {foreignKey: "priorityId"});
+  ticketLog.belongsTo(requestStatus, {foreignKey: "requestStatusId"});
+  ticketLog.belongsTo(resolvedList, {foreignKey: "resolvedId"});
+  ticketLog.belongsTo(softwareAssets, {foreignKey: "softwareId"});
+  ticketLog.belongsTo(teams, {foreignKey: "teamId"});
+  vendors.belongsTo(locations, {foreignKey: "locationId"});
+  vendors.belongsTo(paymentTerms, {foreignKey: "paymentTermId"});
+  workLog.belongsTo(ticketLog, {foreignKey: "ticketId"});
+  workLog.belongsTo(users, {foreignKey: "userId"});
 
 
   return {
+    /*
     approverList,
     assetList,
     assetStatus,
@@ -232,8 +234,11 @@ function initModels(sequelize) {
     users,
     vendors,
     workLog
+
+
   };
 }
 module.exports = initModels;
 module.exports.initModels = initModels;
 module.exports.default = initModels;
+*/

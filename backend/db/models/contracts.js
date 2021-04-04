@@ -41,15 +41,6 @@ module.exports = function(sequelize, DataTypes) {
         underscored: true,
         createdAt: false,
         updatedAt: false,
-        deletedAt: false,
-        /*indexes: [
-            {
-                name: "",
-                unique: true,
-                fields: [
-                    { name: "" },
-                ]
-            },
-        ]*/
+        deletedAt: false
     });
 };

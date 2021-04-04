@@ -30,7 +30,7 @@ module.exports = function(sequelize, DataTypes) {
         locationId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            referenes: {
+            references: {
                 model: locations
                 //key: location_id
             }
