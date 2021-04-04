@@ -120,7 +120,7 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         is_resolved: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BOOLEAN,
             allowNull: true
         },
         resolvedId: {
@@ -133,6 +133,10 @@ module.exports = function(sequelize, DataTypes) {
         },
         resolution_notes: {
             type: DataTypes.STRING,
+            allowNull: true
+        },
+        CLOSED_AT: {
+            type: DataTypes.DATE,
             allowNull: true
         }
     }, {
