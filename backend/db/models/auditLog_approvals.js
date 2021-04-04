@@ -1,6 +1,11 @@
 const Sequelize = require('sequelize');
+const _users = require("./users");
+const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
+
+    const users = _users(sequelize, DataTypes);
+
     return sequelize.define('auditLog_appovals', {
         auditLog_approvals_id: {
             autoIncrement: true,
@@ -11,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
         auditLog_approvals_userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            reference {
+            references: {
                 model: users
             }
         },

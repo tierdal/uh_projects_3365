@@ -1,6 +1,11 @@
 const Sequelize = require('sequelize');
+const _users = require("./users");
+const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
+
+    const users = _users(sequelize, DataTypes);
+
     return sequelize.define('approverList', {
         user_getsapproved: {
             type: DataTypes.INTEGER,

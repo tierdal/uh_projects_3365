@@ -1,45 +1,47 @@
 const Sequelize = require('sequelize');
+const _softwareAssets = require("./softwareAssets");
 const _users = require("./users");
-const _ticketLog = require("./ticketLog");
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
 
+    const softwareAssets = _softwareAssets(sequelize, DataTypes);
     const users = _users(sequelize, DataTypes);
-    const ticketLog = _ticketLog(sequelize, DataTypes);
 
-    return sequelize.define('auditLog_tickets', {
-        auditLog_tickets_id: {
+    return sequelize.define('licenseKeys', {
+        license_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        auditLog_tickets_userId: {
+        softwareId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: softwareAssets
+                //key: software_id
+            }
+        },
+        license_key: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: users
-            }
-        },
-        auditLog_tickets_action: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        auditLog_tickets_ticketId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: ticketLog
+                //key: user_id
             }
         }
     }, {
         sequelize,
-        tableName: 'auditLog_tickets',
+        tableName: 'licenseKeys',
         schema: 'dbo',
         timestamps: false,
         underscored: true,
-        createdAt: 'CREATED_AT',
+        createdAt: false,
         updatedAt: false,
         deletedAt: false
     });

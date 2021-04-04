@@ -1,30 +1,41 @@
 const Sequelize = require('sequelize');
+const _faqCategory = require("./faqCategory");
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('issueCategory', {
-        issueCategory_id: {
+
+    const faqCategory = _faqCategory(sequelize, DataTypes);
+
+    return sequelize.define('faqList', {
+        faq_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        issueCategory_name: {
+        faq_title: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        issueCategory_description: {
+        faq_body: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        faq_categoryId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: faqCategory
+            }
         }
     }, {
         sequelize,
-        tableName: 'issueCategory',
+        tableName: 'faqList',
         schema: 'dbo',
-        timestamps: false,
+        timestamps: true,
         underscored: true,
         createdAt: false,
         updatedAt: false,
-        deletedAt: false
+        deletedAt: false,
     });
 };

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const _users = require("./users");
 const _ticketLog = require("./ticketLog");
+const _users = require("./users");
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
@@ -8,38 +8,44 @@ module.exports = function(sequelize, DataTypes) {
     const users = _users(sequelize, DataTypes);
     const ticketLog = _ticketLog(sequelize, DataTypes);
 
-    return sequelize.define('auditLog_tickets', {
-        auditLog_tickets_id: {
+    return sequelize.define('workLog', {
+        workLog_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        auditLog_tickets_userId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: users
-            }
-        },
-        auditLog_tickets_action: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        auditLog_tickets_ticketId: {
+        ticketId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: ticketLog
+                //key: ticket_id
             }
+        },
+        workLog_time: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: users
+                //key: user_id
+            }
+        },
+        workLog_text: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'auditLog_tickets',
+        tableName: 'workLog',
         schema: 'dbo',
         timestamps: false,
         underscored: true,
-        createdAt: 'CREATED_AT',
+        createdAt: false,
         updatedAt: false,
         deletedAt: false
     });

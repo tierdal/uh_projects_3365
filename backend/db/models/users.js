@@ -35,15 +35,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     departmentId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
       references: {
-        model: departments,
+        model: departments
         //key: 'department_id',
       }
     },
     roleId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
       references: {
         model: roles
       }

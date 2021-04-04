@@ -1,45 +1,47 @@
 const Sequelize = require('sequelize');
+const _softwareAssets = require("./softwareAssets");
 const _users = require("./users");
-const _ticketLog = require("./ticketLog");
+const _installStatusList = require("./installStatusList");
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
 
+    const softwareAssets = _softwareAssets(sequelize, DataTypes);
     const users = _users(sequelize, DataTypes);
-    const ticketLog = _ticketLog(sequelize, DataTypes);
+    const installStatusList = _installStatusList(sequelize, DataTypes);
 
-    return sequelize.define('auditLog_tickets', {
-        auditLog_tickets_id: {
-            autoIncrement: true,
+    return sequelize.define('software_install_status', {
+        softwareId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true
+            references: {
+                model: softwareAssets
+                //key: software_id
+            }
         },
-        auditLog_tickets_userId: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: users
+                //key: user_id
             }
         },
-        auditLog_tickets_action: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        auditLog_tickets_ticketId: {
+        installStatusId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: ticketLog
+                model: installStatusList
+                //key: installStatus_id
             }
         }
     }, {
         sequelize,
-        tableName: 'auditLog_tickets',
+        tableName: 'software_install_status',
         schema: 'dbo',
         timestamps: false,
         underscored: true,
-        createdAt: 'CREATED_AT',
+        createdAt: false,
         updatedAt: false,
         deletedAt: false
     });

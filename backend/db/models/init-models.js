@@ -1,6 +1,6 @@
 var DataTypes = require("sequelize").DataTypes;
 var _approverList = require("./approverList");
-var _assetList = request("./assetList");
+var _assetList = require("./assetList");
 var _assetStatus = require("./assetStatus");
 var _assetType = require("./assetType");
 var _auditLog_access = require("./auditLog_access");

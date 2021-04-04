@@ -1,6 +1,17 @@
 const Sequelize = require('sequelize');
+const _assetStatus = require("./assetStatus");
+const _assetType = require("./assetType");
+const _vendors = require("./vendors");
+const _users = require("./users");
+const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
+
+    const assetStatus = _assetStatus(sequelize, DataTypes);
+    const assetType = _assetType(sequelize, DataTypes);
+    const vendors = _vendors(sequelize, DataTypes);
+    const users = _users(sequelize, DataTypes);
+
     return sequelize.define('assetList', {
         asset_id: {
             autoIncrement: true,
@@ -18,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         serial_number: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         assetStatusId: {
             type: DataTypes.INTEGER,

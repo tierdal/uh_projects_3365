@@ -1,6 +1,13 @@
 const Sequelize = require('sequelize');
+const _users = require("./users");
+const _incidentLog = require("./incidentLog");
+const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
+
+    const users = _users(sequelize, DataTypes);
+    const incidentLog = _incidentLog(sequelize, DataTypes);
+
     return sequelize.define('auditLog_incidents', {
         auditLog_incidents_id: {
             autoIncrement: true,

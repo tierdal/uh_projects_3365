@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('assetType', {
@@ -10,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         assetType_name: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false
         }
     }, {
         sequelize,

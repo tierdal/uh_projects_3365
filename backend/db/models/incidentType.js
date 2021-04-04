@@ -1,21 +1,33 @@
 const Sequelize = require('sequelize');
+const _teams = require("./teams");
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('requestStatus', {
-        resolved_id: {
+
+    const teams = _teams(sequelize, DataTypes);
+
+    return sequelize.define('incidentType', {
+        incidentType_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        resolved_name: {
+        incidentType_name: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        incidentType_responsible: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: teams
+                //key: team_id
+            }
         }
     }, {
         sequelize,
-        tableName: 'requestStatus',
+        tableName: 'incidentType',
         schema: 'dbo',
         timestamps: false,
         underscored: true,

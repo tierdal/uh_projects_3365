@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('locations_us_zipList', {

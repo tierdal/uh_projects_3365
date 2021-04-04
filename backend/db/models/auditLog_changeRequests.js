@@ -1,8 +1,15 @@
 const Sequelize = require('sequelize');
+const _users = require("./users");
+const _changeRequests = require("./changeRequests");
+const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
+
+    const users = _users(sequelize, DataTypes);
+    const changeRequests = _changeRequests(sequelize, DataTypes);
+
     return sequelize.define('auditLog_changeRequests', {
-        auditLog_chnageRequests_id: {
+        auditLog_changeRequests_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,

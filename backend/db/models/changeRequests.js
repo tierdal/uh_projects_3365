@@ -1,6 +1,17 @@
 const Sequelize = require('sequelize');
+const _changeRequestStatus = require("./changeRequestStatus");
+const _users = require("./users");
+const _assetList = require("./assetList");
+const _softwareAssets = require("./softwareAssets");
+const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
+
+    const changeRequestStatus = _changeRequestStatus(sequelize, DataTypes);
+    const users = _users(sequelize, DataTypes);
+    const assetList = _assetList(sequelize, DataTypes);
+    const softwareAssets = _softwareAssets(sequelize, DataTypes);
+
     return sequelize.define('changeRequests', {
         changeRequest_id: {
             autoIncrement: true,
@@ -32,14 +43,14 @@ module.exports = function(sequelize, DataTypes) {
         },
         hardwareAssetId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: assetList
             }
         },
         softwareAssetId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             referenecs: {
                 model: softwareAssets
             }
