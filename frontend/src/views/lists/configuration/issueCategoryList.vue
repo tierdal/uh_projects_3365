@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Status List</span>
+        <span class="tableHeading-text">Issue Category List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewTeam">Add New Status</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewIssueCategory">Add New Issue Category</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'team_id', type: 'asc'}
+          initialSortBy: {field: 'issueCategory_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -41,16 +41,16 @@
         @on-row-dblclick="onRowDoubleClick"
       />
     </div>
-
   </div>
-
-
-
 
 </template>
 
 <script>
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
+//import { mapActions } from 'vuex'
+//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
+//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
+//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -61,14 +61,17 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      myAPI: `${config.api}/api/teams`,
+      myAPI: `${config.api}/api/issueCategorys`,
       dataFields: [{
         label: 'id',
-        field: 'team_id',
+        field: 'issueCategory_id',
         type: 'number'
       },{
-        label: 'team_name',
-        field: 'status_description'
+        label: 'name',
+        field: 'issueCategory_name'
+      },{
+        label: 'description',
+        field: 'issueCategory_description'
       }]
     };
   },
@@ -78,12 +81,19 @@ export default {
   },
   methods: {
     onRowDoubleClick(params){
+      // params.row - row object
+      // params.pageIndex - index of this row on the current page.
+      // params.selected - if selection is enabled this argument
+      // indicates selected or not
+      // params.event - click event
       Swal.fire({
         title: 'Edit Record',
         html:
-          'Item ID: ' + params.row.team_id +
+          'Item ID: ' + params.row.issueCategory_id +
           '<br>' +
-          '<form>team_name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.team_name + '">' +
+          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.issueCategory_name + '">' +
+          '</form>' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.issueCategory_description + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -98,19 +108,21 @@ export default {
           confirmButton: 'order-3',
         },
         preConfirm: () => {
+          const description = document.getElementById('form-description').value
           const name = document.getElementById('form-name').value
-          if (!name) {
-            Swal.showValidationMessage(`Name cannot be blank`)
+          if (!description && !name) {
+            Swal.showValidationMessage(`Name or Description cannot be blank`)
           }
-          return {name: name}
+          return {description: description, name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            id: params.row.team_id,
-            description: result.value.name
+            id: params.row.issueCategory_id,
+            name: result.value.name,
+            description: result.value.description
           }
-          axios.put(`${config.api}/api/status/update`, data)
+          axios.put(`${config.api}/api/issueCategorys/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -123,8 +135,8 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const teamID = params.row.team_id
-          axios.delete(`${config.api}/api/teams/delete/` + teamID)
+          const issueCategoryID = params.row.issueCategory_id
+          axios.delete(`${config.api}/api/issueCategorys/delete/` + issueCategoryID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -139,11 +151,13 @@ export default {
         }
       })
     },
-    addNewStatus(){
+    addNewIssueCategory(){
       Swal.fire({
         title: 'Add Record',
         html:
           '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
+          '</form>' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -151,18 +165,20 @@ export default {
         confirmButtonText: 'Submit',
         cancelButtonText: 'Cancel',
         preConfirm: () => {
+          const description = document.getElementById('form-description').value
           const name = document.getElementById('form-name').value
-          if (!name) {
-            Swal.showValidationMessage(`Description cannot be blank`)
+          if (!description && !name) {
+            Swal.showValidationMessage(`Name or Description cannot be blank`)
           }
-          return {name: name}
+          return {description: description, name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            description: result.value.name
+            name: result.value.name,
+            description: result.value.description
           }
-          axios.post(`${config.api}/api/teams/create`, data)
+          axios.post(`${config.api}/api/issueCategorys/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -178,14 +194,15 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/teams/find`)
+      axios.get(`${config.api}/api/issueCategorys/find`)
         .then((response) => {
           this.DB_DATA = response.data;
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-    }
+    },
+    deleteItem(){},
   },
   beforeMount() {
     this.loadData();

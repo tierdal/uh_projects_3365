@@ -27,6 +27,15 @@
       <v-tab title="Software Status List">
         <softwareStatus-list />
       </v-tab>
+
+      <v-tab title="Teams List">
+        <teams-list />
+      </v-tab>
+
+      <v-tab title="Issue Category List">
+        <issueCategory-list />
+      </v-tab>
+
     </vue-tabs>
   </div>
 </template>
@@ -37,6 +46,8 @@ import statusList from "../lists/configuration/statusList.vue";
 import issueTypeList from "../lists/configuration/issueTypeList.vue";
 import shippingMethodsList from "../lists/configuration/shippingMethodsList.vue";
 import softwareStatusList from "../lists/configuration/softwareStatusList.vue";
+import teamList from "../lists/configuration/teamList.vue";
+import issueCategoryList from "../lists/configuration/issueCategoryList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -47,6 +58,8 @@ export default {
     'issueType-list' : issueTypeList,
     'shippingMethods-list' : shippingMethodsList,
     'softwareStatus-list' : softwareStatusList,
+    'teams-list' : teamList,
+    'issueCategory-list' : issueCategoryList,
     VueTabs,
     VTab
   }
