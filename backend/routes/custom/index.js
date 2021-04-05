@@ -11,6 +11,9 @@ const users = require('./users')
 const issueTypes = require('./issueType')
 const shippingMethods = require('./shippingMethods')
 const softwareStatus = require('./softwareStatus')
+const teams = require('./teams')
+const issueCategory = require('./issueCategory')
+const requestStatus = require('./requestStatus')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -21,5 +24,8 @@ router.use('/api/users', users)
 router.use('/api/issues', issueTypes)
 router.use('/api/shippingMethods', shippingMethods)
 router.use('/api/softwareStatus', softwareStatus)
+router.use('/api/teams', teams)
+router.use('/api/issueCategory', issueCategory)
+router.use('/api/requestStatus', requestStatus)
 
 module.exports = router

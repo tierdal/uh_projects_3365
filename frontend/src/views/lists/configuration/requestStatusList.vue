@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Issue Category List</span>
+        <span class="tableHeading-text">Request Status List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewIssueCategory">Add New Issue Category</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewRequestStatus">Add New Request Status</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'issueCategory_id', type: 'asc'}
+          initialSortBy: {field: 'requestStatus_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -61,17 +61,14 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      myAPI: `${config.api}/api/issueCategory`,
+      myAPI: `${config.api}/api/requestStatus`,
       dataFields: [{
         label: 'id',
-        field: 'issueCategory_id',
+        field: 'requestStatus_id',
         type: 'number'
       },{
         label: 'name',
-        field: 'issueCategory_name'
-      },{
-        label: 'description',
-        field: 'issueCategory_description'
+        field: 'requestStatus_name'
       }]
     };
   },
@@ -81,19 +78,12 @@ export default {
   },
   methods: {
     onRowDoubleClick(params){
-      // params.row - row object
-      // params.pageIndex - index of this row on the current page.
-      // params.selected - if selection is enabled this argument
-      // indicates selected or not
-      // params.event - click event
       Swal.fire({
         title: 'Edit Record',
         html:
-          'Item ID: ' + params.row.issueCategory_id +
+          'Item ID: ' + params.row.requestStatus_id +
           '<br>' +
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.issueCategory_name + '">' +
-          '</form>' +
-          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.issueCategory_description + '">' +
+          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.requestStatus_name + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -108,21 +98,19 @@ export default {
           confirmButton: 'order-3',
         },
         preConfirm: () => {
-          const description = document.getElementById('form-description').value
           const name = document.getElementById('form-name').value
-          if (!description && !name) {
-            Swal.showValidationMessage(`Name or Description cannot be blank`)
+          if (!name) {
+            Swal.showValidationMessage(`Name cannot be blank`)
           }
-          return {description: description, name: name}
+          return {name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            id: params.row.issueCategory_id,
+            id: params.row.requestStatus_id,
             name: result.value.name,
-            description: result.value.description
           }
-          axios.put(`${config.api}/api/issueCategory/update`, data)
+          axios.put(`${config.api}/api/requestStatus/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -135,8 +123,8 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const issueCategoryID = params.row.issueCategory_id
-          axios.delete(`${config.api}/api/issueCategory/delete/` + issueCategoryID)
+          const requestStatusID = params.row.requestStatusid
+          axios.delete(`${config.api}/api/requestStatus/delete/` + requestStatusID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -151,13 +139,11 @@ export default {
         }
       })
     },
-    addNewIssueCategory(){
+    addNewRequestStatus(){
       Swal.fire({
         title: 'Add Record',
         html:
           '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
-          '</form>' +
-          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -165,20 +151,18 @@ export default {
         confirmButtonText: 'Submit',
         cancelButtonText: 'Cancel',
         preConfirm: () => {
-          const description = document.getElementById('form-description').value
           const name = document.getElementById('form-name').value
-          if (!description && !name) {
-            Swal.showValidationMessage(`Name or Description cannot be blank`)
+          if (!name) {
+            Swal.showValidationMessage(`Name cannot be blank`)
           }
-          return {description: description, name: name}
+          return {name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
             name: result.value.name,
-            description: result.value.description
           }
-          axios.post(`${config.api}/api/issueCategory/create`, data)
+          axios.post(`${config.api}/api/requestStatus/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -194,7 +178,7 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/issueCategory/find`)
+      axios.get(`${config.api}/api/requestStatus/find`)
         .then((response) => {
           this.DB_DATA = response.data;
         })
