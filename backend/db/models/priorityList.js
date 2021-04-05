@@ -1,26 +1,38 @@
 const Sequelize = require('sequelize');
+const _slaList = require("./slaList");
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('statuses', {
-        status_id: {
+
+    const slaList = _slaList(sequelize, DataTypes);
+
+    return sequelize.define('prioritylist', {
+        priority_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        status_description: {
+        priority_name: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        priority_sla_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: slaList
+                //key: sla_id
+            }
         }
     }, {
         sequelize,
-        tableName: 'statuses',
+        tableName: 'priorityList',
         schema: 'dbo',
-        timestamps: true,
+        timestamps: false,
         underscored: true,
         createdAt: false,
         updatedAt: false,
-        deletedAt: false,
+        deletedAt: false
     });
 };

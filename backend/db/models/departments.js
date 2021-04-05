@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize');
+const DataTypes = require("sequelize").DataTypes;
+
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('departments', {
     department_id: {
@@ -20,14 +22,5 @@ module.exports = function(sequelize, DataTypes) {
     createdAt: false,
     updatedAt: false,
     deletedAt: false,
-    /*indexes: [
-      {
-        name: "PK__accountT__3213E83F1B5034D0",
-        unique: true,
-        fields: [
-          { name: "department_id" },
-        ]
-      },
-    ]*/
   });
 };

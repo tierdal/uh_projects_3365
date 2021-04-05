@@ -2,25 +2,25 @@ const Sequelize = require('sequelize');
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('statuses', {
-        status_id: {
+    return sequelize.define('incidentStatus', {
+        incidentStatus_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        status_description: {
+        incidentStatus_name: {
             type: DataTypes.STRING,
             allowNull: false
         }
     }, {
         sequelize,
-        tableName: 'statuses',
+        tableName: 'incidentStatus',
         schema: 'dbo',
-        timestamps: true,
+        timestamps: false,
         underscored: true,
         createdAt: false,
         updatedAt: false,
-        deletedAt: false,
+        deletedAt: false
     });
 };
