@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router({ caseSensitive: true })
-//https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
+
+// https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
 
 router.get('/find', (req, res, next) => {
@@ -38,11 +39,11 @@ router.put('/update', (req, res, next) => {
 
     const issueCategory_id = req.body.id
     const issueCategory_names = req.body.name
-    const issueCategory_text = req.body.description
+    const description_text = req.body.description
     const db = req.app.get('db')
 
     db.issueType.update({
-        issueCategory_description: issueCategory_text,
+        issueCategory_description: description_text,
         issueCategory_name: issueCategory_names
     }, {
         where: {
@@ -63,7 +64,7 @@ router.delete('/delete/:issueCategory_id', (req, res, next) => {
     const id = req.params.issueCategory_id;
     const db = req.app.get('db')
 
-    db.issueType.destroy({
+    db.issueCategory.destroy({
         where: { issueCategory_id: id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');

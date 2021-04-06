@@ -15,6 +15,9 @@ router.get('/find', (req, res, next) => {
     //console.log('end')
 
     return db.issueType.findAll({
+        include: [
+            db.issueCategory
+            ],
         raw : true,
         //limit: parseInt(req.query.per_page),
         //page: parseInt(req.query.page)

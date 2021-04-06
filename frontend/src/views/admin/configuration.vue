@@ -40,6 +40,10 @@
         <requestStatus-list />
       </v-tab>
 
+      <v-tab title="Asset Type List">
+        <assetType-list />
+      </v-tab>
+
     </vue-tabs>
   </div>
 </template>
@@ -53,6 +57,7 @@ import softwareStatusList from "../lists/configuration/softwareStatusList.vue";
 import teamList from "../lists/configuration/teamList.vue";
 import issueCategoryList from "../lists/configuration/issueCategoryList.vue";
 import requestStatusList from "../lists/configuration/requestStatusList.vue";
+import assetTypeList from "../lists/configuration/assetTypeList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -66,6 +71,7 @@ export default {
     'teams-list' : teamList,
     'issueCategory-list' : issueCategoryList,
     'requestStatus-list' : requestStatusList,
+    'assetType-list' : assetTypeList,
     VueTabs,
     VTab
   }
