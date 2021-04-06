@@ -15,6 +15,7 @@ const teams = require('./teams')
 const issueCategory = require('./issueCategory')
 const requestStatus = require('./requestStatus')
 const assetType = require('./assetType')
+const locationType = require('./locationType')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -29,5 +30,6 @@ router.use('/api/teams', teams)
 router.use('/api/issueCategory', issueCategory)
 router.use('/api/requestStatus', requestStatus)
 router.use('/api/assetType', assetType)
+router.use('/api/locationType', locationType)
 
 module.exports = router
