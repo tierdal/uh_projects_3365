@@ -1,23 +1,15 @@
 const express = require('express')
+
 const router = express.Router({ caseSensitive: true })
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
 router.get('/find', (req, res, next) => {
-    //list departments
-    const db = req.app.get('db')
-    //console.log('start')
-    //console.log(req)
-    //console.log(req.query.sort)
-    //console.log(req.query.page)
-    //console.log(req.query.per_page)
-    //db.accountType.findAll({raw : true}).then(data => {console.log(data)})
 
-    //console.log('end')
+    const db = req.app.get('db')
 
     return db.softwareStatus.findAll({
         raw : true,
-        //limit: parseInt(req.query.per_page),
-        //page: parseInt(req.query.page)
+
     })
         .then((softwareStatus) => res.send(softwareStatus))
         .catch((err) => {

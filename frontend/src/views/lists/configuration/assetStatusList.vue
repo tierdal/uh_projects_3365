@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Asset Type List</span>
+        <span class="tableHeading-text">Asset Status List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewAssetType">Add New Asset Type</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewAssetStatus">Add New Asset Status</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'assetType_id', type: 'asc'}
+          initialSortBy: {field: 'assetStatus_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -61,14 +61,14 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      myAPI: `${config.api}/api/assetType`,
+      myAPI: `${config.api}/api/assetStatus`,
       dataFields: [{
         label: 'id',
-        field: 'assetType_id',
+        field: 'assetStatus_id',
         type: 'number'
       },{
-        label: 'name',
-        field: 'assetType_name'
+        label: 'description',
+        field: 'assetStatus_description'
       }]
     };
   },
@@ -86,9 +86,9 @@ export default {
       Swal.fire({
         title: 'Edit Record',
         html:
-          'Item ID: ' + params.row.assetType_id +
+          'Item ID: ' + params.row.assetStatus_id +
           '<br>' +
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.assetType_name + '">' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.assetStatus_description + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -103,19 +103,19 @@ export default {
           confirmButton: 'order-3',
         },
         preConfirm: () => {
-          const name = document.getElementById('form-name').value
-          if (!name) {
-            Swal.showValidationMessage(`Name cannot be blank`)
+          const description = document.getElementById('form-description').value
+          if (!description) {
+            Swal.showValidationMessage(`description cannot be blank`)
           }
-          return {name: name}
+          return {description: description}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            id: params.row.assetType_id,
-            name: result.value.name
+            id: params.row.assetStatus_id,
+            description: result.value.description,
           }
-          axios.put(`${config.api}/api/assetType/update`, data)
+          axios.put(`${config.api}/api/assetStatus/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -128,8 +128,8 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const assetTypeID = params.row.assetType_id
-          axios.delete(`${config.api}/api/assetType/delete/` + assetTypeID)
+          const assetStatusID = params.row.assetStatus_id
+          axios.delete(`${config.api}/api/assetStatus/delete/` + assetStatusID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -144,11 +144,11 @@ export default {
         }
       })
     },
-    addNewAssetType(){
+    addNewAssetStatus(){
       Swal.fire({
         title: 'Add Record',
         html:
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -156,18 +156,18 @@ export default {
         confirmButtonText: 'Submit',
         cancelButtonText: 'Cancel',
         preConfirm: () => {
-          const name = document.getElementById('form-name').value
-          if (!name) {
-            Swal.showValidationMessage(`Name cannot be blank`)
+          const description = document.getElementById('form-description').value
+          if (!description) {
+            Swal.showValidationMessage(`Description cannot be blank`)
           }
-          return {name: name}
+          return {description: description}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            name: result.value.name
+            description: result.value.description,
           }
-          axios.post(`${config.api}/api/assetType/create`, data)
+          axios.post(`${config.api}/api/assetStatus/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -183,7 +183,7 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/assetType/find`)
+      axios.get(`${config.api}/api/assetStatus/find`)
         .then((response) => {
           this.DB_DATA = response.data;
         })
