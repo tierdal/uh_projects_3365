@@ -21,6 +21,7 @@ const faqCategory = require('./faqCategory')
 const slaList = require('./slaList')
 const installStatus = require('./installStatus')
 const shippingStatus = require('./shippingStatus')
+const paymentTerms = require('./paymentTerms')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -41,5 +42,6 @@ router.use('/api/faqCategory', faqCategory)
 router.use('/api/slaList', slaList)
 router.use('/api/installStatus', installStatus)
 router.use('/api/shippingStatus', shippingStatus)
+router.use('/api/paymentTerms', paymentTerms)
 
 module.exports = router

@@ -68,6 +68,10 @@
         <shippingStatusList-list />
       </v-tab>
 
+      <v-tab title="Payment Terms List">
+        <paymentTermsList-list />
+      </v-tab>
+
     </vue-tabs>
   </div>
 </template>
@@ -88,6 +92,7 @@ import faqCategoryList from "../lists/configuration/faqCategoryList.vue";
 import slaListList from "../lists/configuration/slaListList.vue";
 import installStatusListList from "../lists/configuration/installStatusListList.vue";
 import shippingStatusList from "../lists/configuration/shippingStatusList.vue";
+import paymentTermsList from "../lists/configuration/paymentTermsList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -108,6 +113,7 @@ export default {
     'slaList-list' : slaListList,
     'installStatusList-list' : installStatusListList,
     'shippingStatusList-list' : shippingStatusList,
+    'paymentTermsList-list' : paymentTermsList,
     VueTabs,
     VTab
   }
