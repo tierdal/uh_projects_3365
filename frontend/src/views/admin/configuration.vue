@@ -52,6 +52,18 @@
         <assetStatus-list />
       </v-tab>
 
+      <v-tab title="FAQ Category List">
+        <faqCategory-list />
+      </v-tab>
+
+      <v-tab title="SLA List">
+        <slaList-list />
+      </v-tab>
+
+      <v-tab title="Install Status List">
+        <installStatusList-list />
+      </v-tab>
+
     </vue-tabs>
   </div>
 </template>
@@ -68,6 +80,9 @@ import requestStatusList from "../lists/configuration/requestStatusList.vue";
 import assetTypeList from "../lists/configuration/assetTypeList.vue";
 import locationTypeList from "../lists/configuration/locationTypeList.vue";
 import assetStatusList from "../lists/configuration/assetStatusList.vue";
+import faqCategoryList from "../lists/configuration/faqCategoryList.vue";
+import slaListList from "../lists/configuration/slaListList.vue";
+import installStatusListList from "../lists/configuration/installStatusListList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -84,6 +99,9 @@ export default {
     'assetType-list' : assetTypeList,
     'locationType-list' : locationTypeList,
     'assetStatus-list' : assetStatusList,
+    'faqCategory-list' : faqCategoryList,
+    'slaList-list' : slaListList,
+    'installStatusList-list' : installStatusListList,
     VueTabs,
     VTab
   }

@@ -42,7 +42,7 @@ router.put('/update', (req, res, next) => {
     const description_text = req.body.description
     const db = req.app.get('db')
 
-    db.issueType.update({
+    db.issueCategory.update({
         issueCategory_description: description_text,
         issueCategory_name: issueCategory_names
     }, {

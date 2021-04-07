@@ -17,6 +17,9 @@ const requestStatus = require('./requestStatus')
 const assetType = require('./assetType')
 const locationType = require('./locationType')
 const assetStatus = require('./assetStatus')
+const faqCategory = require('./faqCategory')
+const slaList = require('./slaList')
+const installStatus = require('./installStatus')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -33,5 +36,8 @@ router.use('/api/requestStatus', requestStatus)
 router.use('/api/assetType', assetType)
 router.use('/api/locationType', locationType)
 router.use('/api/assetStatus', assetStatus)
+router.use('/api/faqCategory', faqCategory)
+router.use('/api/slaList', slaList)
+router.use('/api/installStatus', installStatus)
 
 module.exports = router
