@@ -23,6 +23,7 @@ const installStatus = require('./installStatus')
 const shippingStatus = require('./shippingStatus')
 const paymentTerms = require('./paymentTerms')
 const resolvedList = require('./resolvedList')
+const changeRequestType = require('./changeRequestType')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -45,5 +46,6 @@ router.use('/api/installStatus', installStatus)
 router.use('/api/shippingStatus', shippingStatus)
 router.use('/api/paymentTerms', paymentTerms)
 router.use('/api/resolvedList', resolvedList)
+router.use('/api/changeRequestType', changeRequestType)
 
 module.exports = router
