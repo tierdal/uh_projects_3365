@@ -84,6 +84,10 @@
         <changeRequestStatusList-list />
       </v-tab>
 
+      <v-tab title="incident Status List">
+        <incidentStatusList-list />
+      </v-tab>
+
     </vue-tabs>
   </div>
 </template>
@@ -108,6 +112,7 @@ import paymentTermsList from "../lists/configuration/paymentTermsList.vue";
 import resolvedList from "../lists/configuration/resolvedListList.vue";
 import changeRequestTypeList from "../lists/configuration/changeRequestTypeList.vue";
 import changeRequestStatusList from "../lists/configuration/changeRequestStatusList.vue";
+import incidentStatusList from "../lists/configuration/incidentStatusList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -132,6 +137,7 @@ export default {
     'resolvedList-list' : resolvedList,
     'changeRequestTypeList-list' : changeRequestTypeList,
     'changeRequestStatusList-list' : changeRequestStatusList,
+    'incidentStatusList-list' : incidentStatusList,
     VueTabs,
     VTab
   }
