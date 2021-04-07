@@ -20,6 +20,7 @@ const assetStatus = require('./assetStatus')
 const faqCategory = require('./faqCategory')
 const slaList = require('./slaList')
 const installStatus = require('./installStatus')
+const shippingStatus = require('./shippingStatus')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -39,5 +40,6 @@ router.use('/api/assetStatus', assetStatus)
 router.use('/api/faqCategory', faqCategory)
 router.use('/api/slaList', slaList)
 router.use('/api/installStatus', installStatus)
+router.use('/api/shippingStatus', shippingStatus)
 
 module.exports = router

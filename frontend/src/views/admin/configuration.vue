@@ -64,6 +64,10 @@
         <installStatusList-list />
       </v-tab>
 
+      <v-tab title="Shipping Status List">
+        <shippingStatusList-list />
+      </v-tab>
+
     </vue-tabs>
   </div>
 </template>
@@ -83,6 +87,7 @@ import assetStatusList from "../lists/configuration/assetStatusList.vue";
 import faqCategoryList from "../lists/configuration/faqCategoryList.vue";
 import slaListList from "../lists/configuration/slaListList.vue";
 import installStatusListList from "../lists/configuration/installStatusListList.vue";
+import shippingStatusList from "../lists/configuration/shippingStatusList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -102,6 +107,7 @@ export default {
     'faqCategory-list' : faqCategoryList,
     'slaList-list' : slaListList,
     'installStatusList-list' : installStatusListList,
+    'shippingStatusList-list' : shippingStatusList,
     VueTabs,
     VTab
   }
