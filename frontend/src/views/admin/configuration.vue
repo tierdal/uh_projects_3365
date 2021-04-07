@@ -72,6 +72,10 @@
         <paymentTermsList-list />
       </v-tab>
 
+      <v-tab title="Resolved List">
+        <resolvedList-list />
+      </v-tab>
+
     </vue-tabs>
   </div>
 </template>
@@ -93,6 +97,7 @@ import slaListList from "../lists/configuration/slaListList.vue";
 import installStatusListList from "../lists/configuration/installStatusListList.vue";
 import shippingStatusList from "../lists/configuration/shippingStatusList.vue";
 import paymentTermsList from "../lists/configuration/paymentTermsList.vue";
+import resolvedList from "../lists/configuration/resolvedListList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -114,6 +119,7 @@ export default {
     'installStatusList-list' : installStatusListList,
     'shippingStatusList-list' : shippingStatusList,
     'paymentTermsList-list' : paymentTermsList,
+    'resolvedList-list' : resolvedList,
     VueTabs,
     VTab
   }

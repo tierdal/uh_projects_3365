@@ -22,6 +22,7 @@ const slaList = require('./slaList')
 const installStatus = require('./installStatus')
 const shippingStatus = require('./shippingStatus')
 const paymentTerms = require('./paymentTerms')
+const resolvedList = require('./resolvedList')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -43,5 +44,6 @@ router.use('/api/slaList', slaList)
 router.use('/api/installStatus', installStatus)
 router.use('/api/shippingStatus', shippingStatus)
 router.use('/api/paymentTerms', paymentTerms)
+router.use('/api/resolvedList', resolvedList)
 
 module.exports = router
