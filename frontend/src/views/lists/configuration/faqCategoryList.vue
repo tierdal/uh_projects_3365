@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Status List</span>
+        <span class="tableHeading-text">FAQ Category List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewTeam">Add New Status</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewfaqCategory">Add New FAQ Category</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'team_id', type: 'asc'}
+          initialSortBy: {field: 'faq_category_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -41,16 +41,16 @@
         @on-row-dblclick="onRowDoubleClick"
       />
     </div>
-
   </div>
-
-
-
 
 </template>
 
 <script>
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
+//import { mapActions } from 'vuex'
+//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
+//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
+//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -61,14 +61,14 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      myAPI: `${config.api}/api/teams`,
+      myAPI: `${config.api}/api/faqCategory`,
       dataFields: [{
         label: 'id',
-        field: 'team_id',
+        field: 'faq_category_id',
         type: 'number'
       },{
-        label: 'team_name',
-        field: 'status_description'
+        label: 'description',
+        field: 'faq_category_description'
       }]
     };
   },
@@ -78,12 +78,13 @@ export default {
   },
   methods: {
     onRowDoubleClick(params){
+
       Swal.fire({
         title: 'Edit Record',
         html:
-          'Item ID: ' + params.row.team_id +
+          'Item ID: ' + params.row.faq_category_id +
           '<br>' +
-          '<form>team_name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.team_name + '">' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.faq_category_description + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -98,19 +99,19 @@ export default {
           confirmButton: 'order-3',
         },
         preConfirm: () => {
-          const name = document.getElementById('form-name').value
-          if (!name) {
-            Swal.showValidationMessage(`Name cannot be blank`)
+          const description = document.getElementById('form-description').value
+          if (!description) {
+            Swal.showValidationMessage(`description cannot be blank`)
           }
-          return {name: name}
+          return {description: description}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            id: params.row.team_id,
-            description: result.value.name
+            id: params.row.faq_category_id,
+            description: result.value.description,
           }
-          axios.put(`${config.api}/api/status/update`, data)
+          axios.put(`${config.api}/api/faqCategory/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -123,8 +124,8 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const teamID = params.row.team_id
-          axios.delete(`${config.api}/api/teams/delete/` + teamID)
+          const faq_categoryID = params.row.faq_category_id
+          axios.delete(`${config.api}/api/faqCategory/delete/` + faq_categoryID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -139,11 +140,11 @@ export default {
         }
       })
     },
-    addNewStatus(){
+    addNewfaqCategory(){
       Swal.fire({
         title: 'Add Record',
         html:
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -151,18 +152,18 @@ export default {
         confirmButtonText: 'Submit',
         cancelButtonText: 'Cancel',
         preConfirm: () => {
-          const name = document.getElementById('form-name').value
-          if (!name) {
+          const description = document.getElementById('form-description').value
+          if (!description) {
             Swal.showValidationMessage(`Description cannot be blank`)
           }
-          return {name: name}
+          return {description: description}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            description: result.value.name
+            description: result.value.description,
           }
-          axios.post(`${config.api}/api/teams/create`, data)
+          axios.post(`${config.api}/api/faqCategory/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -178,14 +179,15 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/teams/find`)
+      axios.get(`${config.api}/api/faqCategory/find`)
         .then((response) => {
           this.DB_DATA = response.data;
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-    }
+    },
+    deleteItem(){},
   },
   beforeMount() {
     this.loadData();

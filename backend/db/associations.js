@@ -178,7 +178,7 @@ module.exports = {
     models.auditLog_changeRequests.belongsTo(models.changeRequests, {foreignKey: "auditLog_changeRequests_requestId"});
 
     //issueType
-    models.issueCategory.hasMany(models.issueCategory, {foreignKey: "issueCategoryId"});
+    models.issueCategory.hasMany(models.issueType, {foreignKey: "issueCategoryId"});
     models.issueType.belongsTo(models.issueCategory, {foreignKey: "issueCategoryId"});
 
     //incidentType
