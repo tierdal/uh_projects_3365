@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             primaryKey: true
         },
-        assetStatus_description: {
+        assetStatus_name: {
             type: DataTypes.STRING,
             allowNull: true
         }

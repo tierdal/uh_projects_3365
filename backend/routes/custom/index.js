@@ -26,6 +26,7 @@ const resolvedList = require('./resolvedList')
 const changeRequestType = require('./changeRequestType')
 const changeRequestStatus = require('./changeRequestStatus')
 const incidentStatus = require('./incidentStatus')
+const priorityList = require('./priorityList')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -51,5 +52,6 @@ router.use('/api/resolvedList', resolvedList)
 router.use('/api/changeRequestType', changeRequestType)
 router.use('/api/changeRequestStatus', changeRequestStatus)
 router.use('/api/incidentStatus', incidentStatus)
+router.use('/api/priorityList', priorityList)
 
 module.exports = router

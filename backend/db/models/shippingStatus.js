@@ -3,13 +3,13 @@ const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('shippingStatus', {
-        resolved_id: {
+        shippingStatus_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        resolved_name: {
+        shippingStatus_name: {
             type: DataTypes.STRING,
             allowNull: false
         }
