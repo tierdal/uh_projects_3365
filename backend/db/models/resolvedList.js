@@ -3,13 +3,13 @@ const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('resolvedList', {
-        resolved_id: {
+        resolvedList_id: {
             autoIncrement: true,
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        resolved_name: {
+        resolvedList_name: {
             type: DataTypes.STRING,
             allowNull: false
         }

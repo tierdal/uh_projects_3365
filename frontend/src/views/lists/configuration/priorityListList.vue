@@ -70,9 +70,8 @@ export default {
         label: 'name',
         field: 'priority_name'
       },{
-        label: 'sla_id',
-        field: 'priority_sla_id',
-        type: 'number'
+        label: 'SLA',
+        field: 'sla_name'
       }]
     };
   },
@@ -82,128 +81,25 @@ export default {
   },
   methods: {
     onRowDoubleClick(params){
-      // params.row - row object
-      // params.pageIndex - index of this row on the current page.
-      // params.selected - if selection is enabled this argument
-      // indicates selected or not
-      // params.event - click event
-      Swal.fire({
-        title: 'Edit Record',
-        html:
-          'Item ID: ' + params.row.priority_id +
-          '<br>' +
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.priority_name + '">' +
-          '</form>' +
-          '<form>SLA ID <input id="form-id" class="swal2-input" placeholder="SLA ID" value="' + params.row.priority_sla_id + '">' +
-          '</form>'
-        ,
-        showCancelButton: true,
-        showDenyButton: true,
-        focusConfirm: false,
-        confirmButtonText: 'Submit',
-        cancelButtonText: 'Cancel',
-        denyButtonText: `Delete Record`,
-        customClass: {
-          denyButton: 'order-1 right-gap',
-          cancelButton: 'order-2',
-          confirmButton: 'order-3',
-        },
-        preConfirm: () => {
-          const priority_sla_id = document.getElementById('form-id').value
-          const name = document.getElementById('form-name').value
-          if (!priority_sla_id && !name) {
-            Swal.showValidationMessage(`Name or priority_sla_id cannot be blank`)
-          }
-          return {priority_sla_id: priority_sla_id, name: name}
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const data = {
-            id: params.row.priority_id,
-            name: result.value.name,
-            priority_sla_id: result.value.priority_sla_id
-          }
-          axios.put(`${config.api}/api/priorityList/update`, data)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been updated.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
-        } else if (result.isDenied){
-          const priorityID = params.row.priority_id
-          axios.delete(`${config.api}/api/priorityList/delete/` + priorityID)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been deleted.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
-        }
-      })
     },
     addNewPriority(){
-      Swal.fire({
-        title: 'Add Record',
-        html:
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
-          '</form>' +
-          '<form>SLA ID <input id="form-id" class="swal2-input" placeholder="SLA ID">' +
-          '</form>'
-        ,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: 'Submit',
-        cancelButtonText: 'Cancel',
-        preConfirm: () => {
-          const priority_sla_id = document.getElementById('form-id').value
-          const name = document.getElementById('form-name').value
-          if (!priority_sla_id && !name) {
-            Swal.showValidationMessage(`Name or priority_sla_id cannot be blank`)
-          }
-          return {priority_sla_id: priority_sla_id, name: name}
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const data = {
-            name: result.value.name,
-            priority_sla_id: result.value.priority_sla_id
-          }
-          axios.post(`${config.api}/api/priorityList/create`, data)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been created.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
-        }
-      })
+
     },
     loadData(){
       axios.get(`${config.api}/api/priorityList/find`)
         .then((response) => {
           this.DB_DATA = response.data;
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'slaList.sla_name','sla_name'))
+          //console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
     },
-    deleteItem(){},
+    renameKey( obj, oldKey, newKey ) {
+      obj[newKey] = obj[oldKey];
+      delete obj[oldKey];
+    }
   },
   beforeMount() {
     this.loadData();

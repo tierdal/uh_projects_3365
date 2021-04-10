@@ -18,10 +18,10 @@ router.get('/find', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    const description_text = req.body.description
+    const name_text = req.body.name
     const db = req.app.get('db')
     db.assetStatus.create({
-        softwareStatus_description: description_text
+        assetStatus_name: name_text
     })
         .then(() => {
             res.status(200).send('OK');
@@ -35,11 +35,11 @@ router.post('/create', (req, res, next) => {
 router.put('/update', (req, res, next) => {
 
     const assetStatus_id = req.body.id
-    const description_text = req.body.description
+    const name_text = req.body.name
     const db = req.app.get('db')
 
     db.assetStatus.update({
-        assetStatus_description: description_text
+        assetStatus_name: name_text
     }, {
         where: {
             assetStatus_id: assetStatus_id

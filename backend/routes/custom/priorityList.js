@@ -25,6 +25,9 @@ router.post('/create', (req, res, next) => {
     const name_text = req.body.name
     const db = req.app.get('db')
     db.priorityList.create({
+        include: [
+            db.slaList
+        ],
         priority_sla_id: sla_id,
         priority_name: name_text
     })
@@ -70,6 +73,9 @@ router.delete('/delete/:priorityList_id', (req, res, next) => {
     const db = req.app.get('db')
 
     db.priorityList.destroy({
+        include: [
+            db.slaList
+        ],
         where: { priority_id: id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');

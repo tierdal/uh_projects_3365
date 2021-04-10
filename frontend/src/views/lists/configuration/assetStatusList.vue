@@ -67,8 +67,8 @@ export default {
         field: 'assetStatus_id',
         type: 'number'
       },{
-        label: 'description',
-        field: 'assetStatus_description'
+        label: 'name',
+        field: 'assetStatus_name'
       }]
     };
   },
@@ -78,17 +78,13 @@ export default {
   },
   methods: {
     onRowDoubleClick(params){
-      // params.row - row object
-      // params.pageIndex - index of this row on the current page.
-      // params.selected - if selection is enabled this argument
-      // indicates selected or not
-      // params.event - click event
+
       Swal.fire({
         title: 'Edit Record',
         html:
           'Item ID: ' + params.row.assetStatus_id +
           '<br>' +
-          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.assetStatus_description + '">' +
+          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.assetStatus_name + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -103,17 +99,17 @@ export default {
           confirmButton: 'order-3',
         },
         preConfirm: () => {
-          const description = document.getElementById('form-description').value
-          if (!description) {
-            Swal.showValidationMessage(`description cannot be blank`)
+          const name = document.getElementById('form-name').value
+          if (!name) {
+            Swal.showValidationMessage(`name cannot be blank`)
           }
-          return {description: description}
+          return {name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
             id: params.row.assetStatus_id,
-            description: result.value.description,
+            name: result.value.name
           }
           axios.put(`${config.api}/api/assetStatus/update`, data)
             .then((response) => {
@@ -148,7 +144,7 @@ export default {
       Swal.fire({
         title: 'Add Record',
         html:
-          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
+          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -156,16 +152,16 @@ export default {
         confirmButtonText: 'Submit',
         cancelButtonText: 'Cancel',
         preConfirm: () => {
-          const description = document.getElementById('form-description').value
-          if (!description) {
-            Swal.showValidationMessage(`Description cannot be blank`)
+          const name = document.getElementById('form-name').value
+          if (!name) {
+            Swal.showValidationMessage(`name cannot be blank`)
           }
-          return {description: description}
+          return {name: name}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            description: result.value.description,
+            name: result.value.name
           }
           axios.post(`${config.api}/api/assetStatus/create`, data)
             .then((response) => {

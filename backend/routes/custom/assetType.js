@@ -23,7 +23,7 @@ router.post('/create', (req, res, next) => {
     const name_text = req.body.name
     const db = req.app.get('db')
     db.assetType.create({
-        issueType_name: name_text
+        assetType_name: name_text
     })
         .then(() => {
             res.status(200).send('OK');
@@ -42,7 +42,7 @@ router.put('/update', (req, res, next) => {
     const db = req.app.get('db')
 
     db.assetType.update({
-        issueType_name: assetType_names
+        assetType_name: assetType_names
     }, {
         where: {
             assetType_id: assetType_id
@@ -67,7 +67,7 @@ router.delete('/delete/:assetType_id', (req, res, next) => {
     }).then(() => {
         res.status(200).send('The record has been deleted!');
     }).catch(err => {
-        console.log('There was an error deleting issueType', JSON.stringify(err))
+        console.log('There was an error deleting assetType', JSON.stringify(err))
         return res.send(err)
     });
 })
