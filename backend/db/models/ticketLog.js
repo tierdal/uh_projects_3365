@@ -135,6 +135,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true
         },
+        CREATED_AT: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
         CLOSED_AT: {
             type: DataTypes.DATE,
             allowNull: true

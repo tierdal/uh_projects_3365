@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import 'bootswatch/dist/lux/bootstrap.min.css'
+import 'vue-search-select/dist/VueSearchSelect.css'
 //import '../node_modules/@braid/vue-formulate/themes/snow/snow.scss';
 import './assets/css/animations.styl'
 import './assets/css/pace.styl'

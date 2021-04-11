@@ -10,6 +10,9 @@ import contact from '../views/home/contact.vue'
 import useradmin from '../views/admin/useradmin.vue';
 import configuration from '../views/admin/configuration.vue';
 import userEdit from "../views/lists/users/userEdit.vue";
+import ticketList from "../views/lists/tickets/ticketList.vue";
+import ticketEdit from "../views/lists/tickets/ticketEdit.vue";
+import ticketView from "../views/lists/tickets/ticketView.vue";
 // error
 import notFound from '../views/error/notFound.vue'
 // account
@@ -69,6 +72,34 @@ const router = new VueRouter({
       path: '/useradmin/edit',
       name: '/useradmin/edit',
       component: userEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/tickets',
+      component: ticketList,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+      },
+    },
+    {
+      path: '/tickets/view',
+      name: '/tickets/view',
+      component: ticketView,
+      props: true,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+      },
+    },
+    {
+      path: '/tickets/edit',
+      name: '/tickets/edit',
+      component: ticketEdit,
       props: true,
       meta: {
         //isOpen: true,

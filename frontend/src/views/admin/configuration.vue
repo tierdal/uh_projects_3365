@@ -84,7 +84,7 @@
         <changeRequestStatusList-list />
       </v-tab>
 
-      <v-tab title="incident Status List">
+      <v-tab title="Incident Status List">
         <incidentStatusList-list />
       </v-tab>
 

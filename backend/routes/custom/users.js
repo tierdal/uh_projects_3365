@@ -10,23 +10,8 @@ const router = express.Router({ caseSensitive: true })
 
 router.get('/find', (req, res, next) => {
 
-    //const departments = _departments(sequelize, DataTypes);
-    //const roles = _roles(sequelize, DataTypes);
-
-    //console.log('start')
-    //list users
     const db = req.app.get('db')
-    //console.log(req)
-    //console.log(req.query.sort)
-    //console.log(req.query.page)
-    //console.log(req.query.per_page)
-    //db.accountType.findAll({raw : true}).then(data => {console.log(data)})
-
-    //console.log(db.users)
-    //console.log('end')
-
     return db.users.findAll({
-    //const usersResults = db.users.findAll({
         include: [
             db.statuses,
             db.roles,
@@ -39,9 +24,19 @@ router.get('/find', (req, res, next) => {
             console.log('There was an error querying users', JSON.stringify(err))
             return res.send(err)
         });
+})
 
-    //console.log(usersResults.user_id)
+router.get('/findtickets', (req, res, next) => {
 
+    const db = req.app.get('db')
+    return db.ticketLog.findAll({
+        raw : true
+    })
+        .then((ticketLog) => res.send(ticketLog))
+        .catch((err) => {
+            console.log('There was an error querying users', JSON.stringify(err))
+            return res.send(err)
+        });
 })
 router.get('/find/:userID', (req, res, next) => {
     //list users
