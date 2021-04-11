@@ -231,35 +231,51 @@ export default {
     },
     updateUser(){
       const userID = this.user_id
-      axios.put(`${config.api}/api/users/update/` + userID, this.form.model)
-        .then((response) => {
-          this.loadData()
-          Swal.fire(
-            'Done!',
-            'The user has been updated.',
-            'success'
-          )
-          this.goBack()
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong (updating user)', 'error')
-        })
+      if (this.user_id === 1) {
+        Swal.fire(
+          'Stop!',
+          'You cannot update the Admin user.',
+          'error'
+        )
+      } else {
+        axios.put(`${config.api}/api/users/update/` + userID, this.form.model)
+          .then((response) => {
+            this.loadData()
+            Swal.fire(
+              'Done!',
+              'The user has been updated.',
+              'success'
+            )
+            this.goBack()
+          })
+          .catch(() => {
+            Swal.fire('Error', 'Something went wrong (updating user)', 'error')
+          })
+      }
     },
     deleteUser(){
       const userID = this.user_id
-      axios.delete(`${config.api}/api/users/delete/` + userID)
-        .then((response) => {
-          //this.loadData()
-          Swal.fire(
-            'Done!',
-            'The user has been deleted.',
-            'success'
-          )
-          this.goBack()
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong (deleting user)', 'error')
-        })
+      if (this.user_id === 1) {
+        Swal.fire(
+          'Stop!',
+          'You cannot update the Admin user.',
+          'error'
+        )
+      } else {
+        axios.delete(`${config.api}/api/users/delete/` + userID)
+          .then((response) => {
+            //this.loadData()
+            Swal.fire(
+              'Done!',
+              'The user has been deleted.',
+              'success'
+            )
+            this.goBack()
+          })
+          .catch(() => {
+            Swal.fire('Error', 'Something went wrong (deleting user)', 'error')
+          })
+      }
     },
     loadData(){
       axios.get(`${config.api}/api/users/find/` + this.user_id)

@@ -1,5 +1,6 @@
 import session from '../utilities/session'
 import axios from '../utilities/axios'
+import lumberjack from '../utilities/lumberjack'
 import config from '../config'
 import router from '../router'
 import Swal from 'sweetalert2'
@@ -40,14 +41,18 @@ export default {
   },
   actions: {
     logout(context) {
-      context.commit('setAuthentication')
-      router.push('/auth/login')//.catch(e => {})
+      lumberjack.logAudit(1, 2, '')
+      setTimeout(() => {
+        context.commit('setAuthentication')
+        router.push('/auth/login')//.catch(e => {})
+      }, 500)
     },
     login(context, obj) {
       return axios
         .post(`${config.api}/auth/login`, obj)
         .then(res => {
           context.commit('setAuthentication', res.data)
+          lumberjack.logAudit(1, 1, '')
         })
         .catch(() => {
           Swal.fire({

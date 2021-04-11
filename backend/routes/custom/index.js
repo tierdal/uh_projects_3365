@@ -28,6 +28,7 @@ const changeRequestStatus = require('./changeRequestStatus')
 const incidentStatus = require('./incidentStatus')
 const priorityList = require('./priorityList')
 const tickets = require('./tickets')
+const lumberjack = require('./lumberjack')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -55,5 +56,6 @@ router.use('/api/changeRequestStatus', changeRequestStatus)
 router.use('/api/incidentStatus', incidentStatus)
 router.use('/api/priorityList', priorityList)
 router.use('/api/tickets', tickets)
+router.use('/api/lumberjack', lumberjack)
 
 module.exports = router

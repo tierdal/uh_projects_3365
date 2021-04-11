@@ -147,7 +147,7 @@ module.exports = function(sequelize, DataTypes) {
         sequelize,
         tableName: 'ticketLog',
         schema: 'dbo',
-        timestamps: false,
+        timestamps: true,
         underscored: true,
         createdAt: 'CREATED_AT',
         updatedAt: 'UPDATED_AT',

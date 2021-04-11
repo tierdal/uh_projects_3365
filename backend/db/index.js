@@ -34,8 +34,8 @@ const sequelize = new Sequelize(
     },
     define: {
       timestamps: true,
-      createdAt: 'createdAt',
-      updatedAt: 'updatedAt',
+      createdAt: 'CREATED_AT',
+      updatedAt: 'UPDATED_AT',
       underscored: false,
       freezeTableName: true
     },
