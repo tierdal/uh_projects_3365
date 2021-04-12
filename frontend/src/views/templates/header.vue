@@ -4,12 +4,12 @@
       <li class="nav-item"><span class="navbar-brand">Frontend</span></li>
       <li class="nav-item"><router-link class="nav-link" to="/home">Home</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/tickets">Tickets</router-link></li>
-      <li class="nav-item"><router-link class="nav-link" to="/contact">Contact</router-link></li>
+      <li class="nav-item"><router-link class="nav-link" to="/faq">FAQ</router-link></li>
       <li v-if="adminCheck" class="nav-item"><a class="nav-link" href="#">Admin</a>
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="/useradmin">User Manager</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/configuration">Configuration</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="/home">Foo</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/faqadmin">FAQ Manager</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/contact">Bar</router-link></li>
         </ul>
       </li>
