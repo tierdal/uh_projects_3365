@@ -20,6 +20,20 @@ router.get('/find', (req, res, next) => {
         });
 })
 
+router.get('/findlist', (req, res, next) => {
+    const db = req.app.get('db')
+
+    return db.priorityList.findAll({
+        attributes:['priority_id','priority_name'],
+        raw : true,
+    })
+        .then((priorityList) => res.send(priorityList))
+        .catch((err) => {
+            console.log('There was an error querying priorityList', JSON.stringify(err))
+            return res.send(err)
+        });
+})
+
 router.post('/create', (req, res, next) => {
     const sla_id = req.body.sla_id
     const name_text = req.body.name

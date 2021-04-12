@@ -135,6 +135,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true
         },
+        CREATED_AT: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
         CLOSED_AT: {
             type: DataTypes.DATE,
             allowNull: true
@@ -143,7 +147,7 @@ module.exports = function(sequelize, DataTypes) {
         sequelize,
         tableName: 'ticketLog',
         schema: 'dbo',
-        timestamps: false,
+        timestamps: true,
         underscored: true,
         createdAt: 'CREATED_AT',
         updatedAt: 'UPDATED_AT',

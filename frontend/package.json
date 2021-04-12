@@ -19,7 +19,9 @@
     "vue-good-table": "latest",
     "sweetalert2": "^10.15.2",
     "@braid/vue-formulate": "^2.5.0",
-    "vue-nav-tabs": "^0.5.7"
+    "vue-nav-tabs": "^0.5.7",
+    "lodash": "latest",
+    "vue-search-select": "^2.9.3"
   },
   "description": "frontend",
   "devDependencies": {

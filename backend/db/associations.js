@@ -103,8 +103,8 @@ module.exports = {
     models.resolvedList.hasMany(models.ticketLog, {foreignKey: "resolvedId"});
     models.softwareAssets.hasMany(models.ticketLog, {foreignKey: "softwareId"});
     models.teams.hasMany(models.ticketLog, {foreignKey: "teamId"});
-    models.ticketLog.belongsTo(models.users, {foreignKey: "assigned_user"});
-    models.ticketLog.belongsTo(models.users, {foreignKey: "created_by"});
+    models.ticketLog.belongsTo(models.users, {as: 'assignedUser', foreignKey: "assigned_user"});
+    models.ticketLog.belongsTo(models.users, {as: 'createdBy', foreignKey: "created_by"});
     models.ticketLog.belongsTo(models.assetList, {foreignKey: "assetId"});
     models.ticketLog.belongsTo(models.issueCategory, {foreignKey: "issueCategoryId"});
     models.ticketLog.belongsTo(models.issueType, {foreignKey: "issueId"});

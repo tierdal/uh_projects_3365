@@ -47,7 +47,14 @@
         </div>
         <div class="editForm-right">
           <label class="form-custom-label" for="form-department">Department</label>
-            <select
+          <model-list-select :list="DEPT_DATA"
+                             v-model="form.model.departmentId"
+                             option-value="department_id"
+                             id="form-department"
+                             option-text="department_description"
+                             placeholder="select one">
+          </model-list-select>
+            <!--<select
               v-model="form.model.departmentId"
               id="form-department"
               name="department_id"
@@ -57,9 +64,16 @@
                 v-bind:value="department.department_id">
                 {{ department.department_description }}
               </option>
-            </select>
+            </select>-->
           <label class="form-custom-label" for="form-role">Role</label>
-          <select
+          <model-list-select :list="ROLE_DATA"
+                             v-model="form.model.roleId"
+                             id="form-role"
+                             option-value="role_id"
+                             option-text="role_description"
+                             placeholder="select one">
+          </model-list-select>
+          <!--<select
             v-model="form.model.roleId"
             id="form-role"
             name="role_id"
@@ -69,19 +83,26 @@
               v-bind:value="option.role_id">
               {{ option.role_description }}
             </option>
-          </select>
+          </select>-->
           <label class="form-custom-label" for="form-status">Status</label>
-            <select
-              v-model="form.model.statusId"
-              id="form-status"
-              name="status_id"
-              class="form-custom-dropdown">
-              <option
-                v-for="status in STATUS_DATA"
-                v-bind:value="status.status_id">
-                {{ status.status_description }}
-              </option>
-            </select>
+          <model-list-select :list="STATUS_DATA"
+                             v-model="form.model.statusId"
+                             id="form-status"
+                             option-value="status_id"
+                             option-text="status_description"
+                             placeholder="select item">
+          </model-list-select>
+          <!--<select
+            v-model="form.model.statusId"
+            id="form-status"
+            name="status_id"
+            class="form-custom-dropdown">
+            <option
+              v-for="status in STATUS_DATA"
+              v-bind:value="status.status_id">
+              {{ status.status_description }}
+            </option>
+          </select>-->
           <FormulateInput
             type="group"
             name="passwords"
@@ -127,8 +148,10 @@
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 import axios from '../../../utilities/axios';
 import config from '../../../config';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import {mapActions} from "vuex";
+import { ModelListSelect } from 'vue-search-select';
+import { ModelSelect } from 'vue-search-select'
 
 export default {
   props: ["user_id"],
@@ -162,6 +185,8 @@ export default {
     };
   },
   components: {
+    ModelSelect,
+    ModelListSelect
   },
   computed:{
     validationFormCheck: function () {
@@ -206,35 +231,51 @@ export default {
     },
     updateUser(){
       const userID = this.user_id
-      axios.put(`${config.api}/api/users/update/` + userID, this.form.model)
-        .then((response) => {
-          this.loadData()
-          Swal.fire(
-            'Done!',
-            'The user has been updated.',
-            'success'
-          )
-          this.goBack()
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong (updating user)', 'error')
-        })
+      if (this.user_id === 1) {
+        Swal.fire(
+          'Stop!',
+          'You cannot update the Admin user.',
+          'error'
+        )
+      } else {
+        axios.put(`${config.api}/api/users/update/` + userID, this.form.model)
+          .then((response) => {
+            this.loadData()
+            Swal.fire(
+              'Done!',
+              'The user has been updated.',
+              'success'
+            )
+            this.goBack()
+          })
+          .catch(() => {
+            Swal.fire('Error', 'Something went wrong (updating user)', 'error')
+          })
+      }
     },
     deleteUser(){
       const userID = this.user_id
-      axios.delete(`${config.api}/api/users/delete/` + userID)
-        .then((response) => {
-          //this.loadData()
-          Swal.fire(
-            'Done!',
-            'The user has been deleted.',
-            'success'
-          )
-          this.goBack()
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong (deleting user)', 'error')
-        })
+      if (this.user_id === 1) {
+        Swal.fire(
+          'Stop!',
+          'You cannot update the Admin user.',
+          'error'
+        )
+      } else {
+        axios.delete(`${config.api}/api/users/delete/` + userID)
+          .then((response) => {
+            //this.loadData()
+            Swal.fire(
+              'Done!',
+              'The user has been deleted.',
+              'success'
+            )
+            this.goBack()
+          })
+          .catch(() => {
+            Swal.fire('Error', 'Something went wrong (deleting user)', 'error')
+          })
+      }
     },
     loadData(){
       axios.get(`${config.api}/api/users/find/` + this.user_id)

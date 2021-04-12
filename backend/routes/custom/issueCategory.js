@@ -18,6 +18,20 @@ router.get('/find', (req, res, next) => {
         });
 })
 
+router.get('/findlist', (req, res, next) => {
+    const db = req.app.get('db')
+
+    return db.issueCategory.findAll({
+        attributes:['issueCategory_id','issueCategory_name'],
+        raw : true,
+    })
+        .then((issueCategory) => res.send(issueCategory))
+        .catch((err) => {
+            console.log('There was an error querying issueCategory', JSON.stringify(err))
+            return res.send(err)
+        });
+})
+
 router.post('/create', (req, res, next) => {
     const description_text = req.body.description
     const name_text = req.body.name
