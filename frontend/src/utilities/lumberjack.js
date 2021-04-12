@@ -35,24 +35,10 @@ export default {
     },
 
     logAuditAccess(logAction) {
-      //logAction: 1 = Login, 2 = Logout
       const DATA = []
-      switch (logAction) {
-        case 1:
-          this.DATA = {
-            userId: this.getUserId(),
-            logAction: 'login'
-          }
-          break
-        case 2:
-          this.DATA = {
-            userId: this.getUserId(),
-            logAction: 'logout'
-          }
-          break
-        default:
-          console.log('Wrong logAction')
-          break
+      this.DATA = {
+        userId: this.getUserId(),
+        logAction: logAction
       }
       //console.log(JSON.stringify(this.DATA))
       axios.post(`${config.api}/api/lumberjack/logAuditAccess`, this.DATA)

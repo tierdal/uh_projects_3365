@@ -1,7 +1,4 @@
 const express = require('express')
-const Sequelize = require("sequelize");
-const {models} = require("../../db");
-const { QueryTypes } = require('sequelize')
 const router = express.Router({ caseSensitive: true })
 
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
@@ -14,12 +11,12 @@ router.get('/find', (req, res, next) => {
             {
                 model: db.users,
                 as: 'createdBy',
-                attributes: ['user_id','f_name','l_name']
+                attributes: ['user_id','email','f_name','l_name']
             },
             {
                 model: db.users,
                 as: 'assignedUser',
-                attributes: ['user_id','f_name','l_name']
+                attributes: ['user_id','email','f_name','l_name']
             },
             {
                 model: db.assetList,
@@ -69,23 +66,41 @@ router.get('/find', (req, res, next) => {
         });
 })
 
+router.get('/findlist', (req, res, next) => {
+    const db = req.app.get('db')
+
+    return db.tickets.findAll({
+        attributes:['ticket_id','ticket_name'],
+        raw : true,
+    })
+        .then((tickets) => res.send(tickets))
+        .catch((err) => {
+            console.log('There was an error querying tickets', JSON.stringify(err))
+            return res.send(err)
+        });
+})
+
 router.get('/find/:ticketID', (req, res, next) => {
     const ticket_id = req.params.ticketID
     const db = req.app.get('db')
 
     return db.ticketLog.find({
         where: {ticket_id:ticket_id},
-        /*include: [
+        include: [
             {
                 model: db.users,
                 as: 'createdBy',
-                attributes: ['user_id','f_name','l_name']
+                attributes: ['user_id','email','f_name','l_name']
             },
             {
                 model: db.users,
                 as: 'assignedUser',
-                attributes: ['user_id','f_name','l_name']
+                attributes: ['user_id','email','f_name','l_name']
             },
+            {
+                model: db.teams,
+                attributes: ['team_id','team_name']
+            }/*,
             {
                 model: db.assetList,
                 attributes: ['asset_id','asset_name']
@@ -117,12 +132,8 @@ router.get('/find/:ticketID', (req, res, next) => {
             {
                 model: db.softwareAssets,
                 attributes: ['software_id','software_name']
-            },
-            {
-                model: db.teams,
-                attributes: ['team_id','team_name']
-            }
-        ]*/
+            },*/
+        ]
     })
         .then((ticketLog) => {
             res.send(ticketLog)

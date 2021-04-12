@@ -41,7 +41,7 @@ export default {
   },
   actions: {
     logout(context) {
-      lumberjack.logAudit(1, 2, '')
+      lumberjack.logAudit(1, 'logout', '')
       setTimeout(() => {
         context.commit('setAuthentication')
         router.push('/auth/login')//.catch(e => {})
@@ -52,7 +52,7 @@ export default {
         .post(`${config.api}/auth/login`, obj)
         .then(res => {
           context.commit('setAuthentication', res.data)
-          lumberjack.logAudit(1, 1, '')
+          lumberjack.logAudit(1, 'login', '')
         })
         .catch(() => {
           Swal.fire({

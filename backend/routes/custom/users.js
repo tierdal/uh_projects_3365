@@ -25,19 +25,6 @@ router.get('/find', (req, res, next) => {
             return res.send(err)
         });
 })
-
-router.get('/findtickets', (req, res, next) => {
-
-    const db = req.app.get('db')
-    return db.ticketLog.findAll({
-        raw : true
-    })
-        .then((ticketLog) => res.send(ticketLog))
-        .catch((err) => {
-            console.log('There was an error querying users', JSON.stringify(err))
-            return res.send(err)
-        });
-})
 router.get('/find/:userID', (req, res, next) => {
     //list users
     const user_id = req.params.userID

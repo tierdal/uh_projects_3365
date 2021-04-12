@@ -122,7 +122,7 @@ export default {
             name: result.value.name,
             description: result.value.description
           }
-          axios.put(`${config.api}/api/issues/update`, data)
+          axios.put(`${config.api}/api/issueType/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -136,7 +136,7 @@ export default {
             })
         } else if (result.isDenied){
           const issueTypeID = params.row.issueType_id
-          axios.delete(`${config.api}/api/issues/delete/` + issueTypeID)
+          axios.delete(`${config.api}/api/issueType/delete/` + issueTypeID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -178,7 +178,7 @@ export default {
             name: result.value.name,
             description: result.value.description
           }
-          axios.post(`${config.api}/api/issues/create`, data)
+          axios.post(`${config.api}/api/issueType/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -194,7 +194,7 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/issues/find`)
+      axios.get(`${config.api}/api/issueType/find`)
         .then((response) => {
           this.DB_DATA = response.data;
         })
