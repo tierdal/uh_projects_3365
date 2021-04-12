@@ -22,7 +22,7 @@ router.get('/findlist', (req, res, next) => {
     const db = req.app.get('db')
 
     return db.issueType.findAll({
-        attributes:['issueType_id','issueType_description'],
+        attributes:['issueType_id','issueType_name'],
         raw : true,
     })
         .then((issueType) => res.send(issueType))

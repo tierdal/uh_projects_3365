@@ -100,7 +100,7 @@ router.get('/find/:ticketID', (req, res, next) => {
             {
                 model: db.teams,
                 attributes: ['team_id','team_name']
-            }/*,
+            },
             {
                 model: db.assetList,
                 attributes: ['asset_id','asset_name']
@@ -132,7 +132,7 @@ router.get('/find/:ticketID', (req, res, next) => {
             {
                 model: db.softwareAssets,
                 attributes: ['software_id','software_name']
-            },*/
+            },
         ]
     })
         .then((ticketLog) => {
