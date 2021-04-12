@@ -5,6 +5,14 @@
       <li class="nav-item"><router-link class="nav-link" to="/home">Home</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/tickets">Tickets</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/contact">Contact</router-link></li>
+      <li v-if="helpdeskCheck" class="nav-item"><a class="nav-link" href="#">Management</a>
+        <ul class="navbar-nav-submenu">
+          <li class="nav-item-submenu"><router-link class="nav-link" to="#">Me</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="#">Is</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="#">Foo</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="#">Bar</router-link></li>
+        </ul>
+      </li>
       <li v-if="adminCheck" class="nav-item"><a class="nav-link" href="#">Admin</a>
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="/useradmin">User Manager</router-link></li>
@@ -38,7 +46,8 @@ export default {
   name: 'HeaderTemplate',
   data() {
     return {
-      adminCheck: false
+      adminCheck: false,
+      helpdeskCheck: false
     }
   },
   methods: {
@@ -52,6 +61,14 @@ export default {
       } else {
         //console.log('not-admin')
         return this.adminCheck = false
+      }
+    },
+    isITdepartmentCheck(){
+      const department = session.getUser().departmentId
+      if (department === 1){
+        return this.helpdeskCheck = true
+      } else {
+        return this.helpdeskCheck = false
       }
     },
     confirmLogout() {
@@ -72,6 +89,7 @@ export default {
   },
   beforeMount() {
     this.isAdmin()
+    this.isITdepartmentCheck()
   }
 }
 </script>
