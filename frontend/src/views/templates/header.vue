@@ -4,7 +4,7 @@
       <li class="nav-item"><router-link to="/home"><span class="navbar-brand"><img src="src/assets/img/gulf_logo.png" alt="logo" class="navbar-logo"></span></router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/home">Home</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/tickets">Tickets</router-link></li>
-      <li class="nav-item"><router-link class="nav-link" to="/contact">Contact</router-link></li>
+      <li class="nav-item"><router-link class="nav-link" to="/faq">FAQ</router-link></li>
       <li v-if="helpdeskCheck" class="nav-item"><a class="nav-link" href="#">Management</a>
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="#">Me</router-link></li>
@@ -17,7 +17,7 @@
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="/useradmin">User Manager</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/configuration">Configuration</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="/home">Foo</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/faqadmin">FAQ Manager</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/contact">Bar</router-link></li>
         </ul>
       </li>

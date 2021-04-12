@@ -20,6 +20,9 @@ import register from '../views/account/register.vue'
 import login from '../views/account/login.vue'
 import account from '../views/account/index.vue'
 import session from '../utilities/session'
+import faqMain from "../views/lists/faq/faq.vue";
+import faqadmin from "../views/lists/faq/faqadmin.vue";
+import faqEdit from "../views/lists/faq/faqEdit.vue";
 
 vue.use(VueRouter)
 
@@ -46,8 +49,8 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/contact',
-      component: contact,
+      path: '/faq',
+      component: faqMain,
       meta: {
         //isOpen: true,
       },
@@ -55,6 +58,25 @@ const router = new VueRouter({
     {
       path: '/feedback',
       component: feedback,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/faqadmin',
+      component: faqadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/faqadmin/edit',
+      name: '/faqadmin/edit',
+      component: faqEdit,
+      props: true,
       meta: {
         //isOpen: true,
         isAdmin: true
