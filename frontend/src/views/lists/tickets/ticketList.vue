@@ -100,7 +100,7 @@ export default {
 
     onRowDoubleClick(params){
       this.$router.push({
-        name: '/tickets/edit',
+        name: '/tickets/view',
         params: {
           ticket_id: params.row.ticket_id
         }

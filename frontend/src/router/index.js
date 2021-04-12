@@ -103,7 +103,7 @@ const router = new VueRouter({
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
       },
     },
     {

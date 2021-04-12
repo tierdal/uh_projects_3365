@@ -4,18 +4,13 @@
       <div class="dashlabel">
         Ticket Number: {{ this.ticket_id }}
       </div>
-      <!--<h1 class="display-3">Demo</h1>
-      <p>Demo System.</p>-->
     </div>
 
     <div class="editForm">
       <div class="editFormFooter-left">
         <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
-        <button v-if="isITdepartment && !isNewTicket" class="swal2-editform swal2-styled" v-on:click="assignTicket">Assign Ticket</button>
       </div>
       <div class="editFormFooter-right">
-        <button v-if="isNewTicket" class="swal2-editform swal2-styled addNewButton" :disabled="validationFormCheck === 0" v-on:click="addTicket">Add New Ticket</button>
-        <button v-if="!isNewTicket" class="swal2-editform swal2-styled deleteButton" v-on:click="deleteTicket">Delete Ticket</button>
         <button v-if="!isNewTicket" class="swal2-editform swal2-styled updateButton" :disabled="validationFormCheck === 0" v-on:click="updateTicket">Update Ticket</button>
       </div>
     </div>
@@ -51,6 +46,15 @@
                            placeholder="select one">
         </model-list-select>
         <br />
+        <label class="form-custom-label" for="form-priority">Priority</label>
+        <model-list-select :list="PRILIST_DATA"
+                           v-model="form.model.priorityId"
+                           id="form-priority"
+                           option-value="priority_id"
+                           option-text="priority_name"
+                           placeholder="select one">
+        </model-list-select>
+        <br />
         <label class="form-custom-label" for="form-issuecategory">Issue Category</label>
         <model-list-select :list="ISSUECAT_DATA"
                            v-model="form.model.issueCategoryId"
@@ -65,7 +69,7 @@
                            v-model="form.model.issueId"
                            id="form-issuetype"
                            option-value="issueType_id"
-                           option-text="issueType_description"
+                           option-text="issueType_name"
                            placeholder="select one">
         </model-list-select>
       </div>
@@ -133,7 +137,6 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
 import axios from "../../../utilities/axios";
 import config from "../../../config";
 import Swal from "sweetalert2";
@@ -202,9 +205,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['register']),
     goBack(){
-      this.$router.push('/tickets')
+      this.$router.push({
+        name: '/tickets/view',
+        params: {
+          ticket_id: this.ticket_id
+        }
+      })
     },
     addTicket(){
     },
@@ -224,33 +231,19 @@ export default {
           Swal.fire('Error', 'Something went wrong (updating ticket)', 'error')
         })
     },
-    deleteTicket(){
-      const ticketID = this.ticket_id
-      axios.delete(`${config.api}/api/tickets/delete/` + ticketID)
-        .then((response) => {
-          Swal.fire(
-            'Done!',
-            'The ticket has been deleted.',
-            'success'
-          )
-          this.goBack()
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong (deleting ticket)', 'error')
-        })
-    },
     assignTicket(){},
     loadData(){
       axios.get(`${config.api}/api/tickets/find/` + this.ticket_id)
         .then((response) => {
           this.DB_DATA = response.data;
-          console.log(JSON.stringify(this.DB_DATA))
+          //console.log(JSON.stringify(this.DB_DATA))
           this.form.model.ticketName = response.data.ticket_title,
           this.form.model.ticketDescription = response.data.ticket_description,
           this.form.model.locationId = response.data.locationId,
           this.form.model.assetId = response.data.assetId,
           this.form.model.softwareId = response.data.softwareId,
           this.form.model.requestStatusId = response.data.requestStatusId,
+          this.form.model.priorityId = response.data.priorityId,
           this.form.model.issueId = response.data.issueId,
           this.form.model.issueCategoryId = response.data.issueCategoryId,
           this.form.model.teamId = response.data.teamId,
@@ -331,11 +324,8 @@ export default {
     isITdepartmentCheck(){
       const department = session.getUser().departmentId
       if (department === 1){
-        //non-admin doesnt see stuff
-        //console.log('admin')
         return this.isITdepartment = true
       } else {
-        //console.log('not-admin')
         return this.isITdepartment = false
       }
     }

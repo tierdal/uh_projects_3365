@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul class="navbar-nav">
-      <li class="nav-item"><span class="navbar-brand">Frontend</span></li>
+      <li class="nav-item"><router-link to="/home"><span class="navbar-brand"><img src="src/assets/img/gulf_logo.png" alt="logo" class="navbar-logo"></span></router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/home">Home</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/tickets">Tickets</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/contact">Contact</router-link></li>
