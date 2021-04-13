@@ -69,10 +69,7 @@
         <incidentStatusList-list />
       </v-tab>
       <v-tab title="Priority List">
-        <PriorityList-list />
-      </v-tab>
-      <v-tab title="Priority List">
-        <PriorityList-list />
+        <priorityList-list />
       </v-tab>
     </vue-tabs>
   </div>
@@ -88,7 +85,7 @@ import teamList from "../lists/configuration/teamList.vue";
 import issueCategoryList from "../lists/configuration/issueCategoryList.vue";
 import requestStatusList from "../lists/configuration/requestStatusList.vue";
 import assetTypeList from "../lists/configuration/assetTypeList.vue";
-import locationTypeList from "../lists/configuration/locationTypeList.vue";
+import locationTypeList from "../lists/locations/locationTypeList.vue";
 import assetStatusList from "../lists/configuration/assetStatusList.vue";
 import faqCategoryList from "../lists/faq/faqCategoryList.vue";
 import slaListList from "../lists/configuration/slaListList.vue";
@@ -99,7 +96,7 @@ import resolvedList from "../lists/configuration/resolvedListList.vue";
 import changeRequestTypeList from "../lists/configuration/changeRequestTypeList.vue";
 import changeRequestStatusList from "../lists/configuration/changeRequestStatusList.vue";
 import incidentStatusList from "../lists/configuration/incidentStatusList.vue";
-import PriorityList from "../lists/configuration/PriorityListList.vue";
+import priorityList from "../lists/configuration/priorityListList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -125,7 +122,7 @@ export default {
     'changeRequestTypeList-list' : changeRequestTypeList,
     'changeRequestStatusList-list' : changeRequestStatusList,
     'incidentStatusList-list' : incidentStatusList,
-    'PriorityList-list' : PriorityList,
+    'priorityList-list' : priorityList,
     VueTabs,
     VTab
   }

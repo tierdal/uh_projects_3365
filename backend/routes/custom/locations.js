@@ -6,7 +6,8 @@ router.get('/find', (req, res, next) => {
     const db = req.app.get('db')
 
     return db.locations.findAll({
-        raw : true,
+
+        raw : true
     })
         .then((locations) => res.send(locations))
         .catch((err) => {

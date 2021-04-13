@@ -55,7 +55,6 @@ router.put('/update', (req, res, next) => {
 })
 
 router.delete('/delete/:locationType_id', (req, res, next) => {
-    //delete departments
     const id = req.params.locationType_id;
     const db = req.app.get('db')
 

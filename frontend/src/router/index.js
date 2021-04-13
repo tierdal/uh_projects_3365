@@ -23,6 +23,9 @@ import session from '../utilities/session'
 import faqMain from "../views/lists/faq/faq.vue";
 import faqadmin from "../views/lists/faq/faqadmin.vue";
 import faqEdit from "../views/lists/faq/faqEdit.vue";
+import locationadmin from "../views/lists/locations/locationadmin.vue";
+import locationEdit from "../views/lists/locations/locationEdit.vue";
+import locationList from "../views/lists/locations/locationList.vue";
 
 vue.use(VueRouter)
 
@@ -76,6 +79,32 @@ const router = new VueRouter({
       path: '/faqadmin/edit',
       name: '/faqadmin/edit',
       component: faqEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/locationList',
+      component: locationList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/locationadmin',
+      component: locationadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/locationadmin/edit',
+      name: '/locationadmin/edit',
+      component: locationEdit,
       props: true,
       meta: {
         //isOpen: true,
