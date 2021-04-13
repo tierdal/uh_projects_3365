@@ -11,91 +11,69 @@
       <v-tab title="Department List">
         <departments-list />
       </v-tab>
-
       <v-tab title="Status List">
         <status-list />
       </v-tab>
-
       <v-tab title="Issue Type List">
         <issueType-list />
       </v-tab>
-
       <v-tab title="Shipping Methods List">
         <shippingMethods-list />
       </v-tab>
-
       <v-tab title="Software Status List">
         <softwareStatus-list />
       </v-tab>
-
       <v-tab title="Teams List">
         <teams-list />
       </v-tab>
-
       <v-tab title="Issue Category List">
         <issueCategory-list />
       </v-tab>
-
       <v-tab title="Request Status List">
         <requestStatus-list />
       </v-tab>
-
       <v-tab title="Asset Type List">
         <assetType-list />
       </v-tab>
-
       <v-tab title="Location Type List">
         <locationType-list />
       </v-tab>
-
       <v-tab title="Asset Status List">
         <assetStatus-list />
       </v-tab>
-
       <v-tab title="FAQ Category List">
         <faqCategory-list />
       </v-tab>
-
       <v-tab title="SLA List">
         <slaList-list />
       </v-tab>
-
       <v-tab title="Install Status List">
         <installStatusList-list />
       </v-tab>
-
       <v-tab title="Shipping Status List">
         <shippingStatusList-list />
       </v-tab>
-
       <v-tab title="Payment Terms List">
         <paymentTermsList-list />
       </v-tab>
-
       <v-tab title="Resolved List">
         <resolvedList-list />
       </v-tab>
-
       <v-tab title="Change Request Type List">
         <changeRequestTypeList-list />
       </v-tab>
-
       <v-tab title="Change Request Status List">
         <changeRequestStatusList-list />
       </v-tab>
-
       <v-tab title="Incident Status List">
         <incidentStatusList-list />
       </v-tab>
-
       <v-tab title="Priority List">
         <PriorityList-list />
       </v-tab>
-
       <v-tab title="Priority List">
         <PriorityList-list />
       </v-tab>
-
     </vue-tabs>
   </div>
 </template>
@@ -122,7 +100,6 @@ import changeRequestTypeList from "../lists/configuration/changeRequestTypeList.
 import changeRequestStatusList from "../lists/configuration/changeRequestStatusList.vue";
 import incidentStatusList from "../lists/configuration/incidentStatusList.vue";
 import PriorityList from "../lists/configuration/PriorityListList.vue";
-import softwareStatus from "../lists/configuration/softwareStatus.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -148,7 +125,6 @@ export default {
     'changeRequestTypeList-list' : changeRequestTypeList,
     'changeRequestStatusList-list' : changeRequestStatusList,
     'incidentStatusList-list' : incidentStatusList,
-    'PriorityList-list' : PriorityList,
     'PriorityList-list' : PriorityList,
     VueTabs,
     VTab
