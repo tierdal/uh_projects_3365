@@ -9,10 +9,10 @@ import about from '../views/home/about.vue'
 import contact from '../views/home/contact.vue'
 import useradmin from '../views/admin/useradmin.vue';
 import configuration from '../views/admin/configuration.vue';
-import userEdit from "../views/lists/users/userEdit.vue";
-import ticketList from "../views/lists/tickets/ticketList.vue";
-import ticketEdit from "../views/lists/tickets/ticketEdit.vue";
-import ticketView from "../views/lists/tickets/ticketView.vue";
+import userEdit from "../views/admin/users/userEdit.vue";
+import ticketList from "../views/helpdesk/tickets/ticketList.vue";
+import ticketEdit from "../views/helpdesk/tickets/ticketEdit.vue";
+import ticketView from "../views/helpdesk/tickets/ticketView.vue";
 // error
 import notFound from '../views/error/notFound.vue'
 // account
@@ -20,12 +20,12 @@ import register from '../views/account/register.vue'
 import login from '../views/account/login.vue'
 import account from '../views/account/index.vue'
 import session from '../utilities/session'
-import faqMain from "../views/lists/faq/faq.vue";
-import faqadmin from "../views/lists/faq/faqadmin.vue";
-import faqEdit from "../views/lists/faq/faqEdit.vue";
-import locationadmin from "../views/lists/locations/locationadmin.vue";
-import locationEdit from "../views/lists/locations/locationEdit.vue";
-import locationList from "../views/lists/locations/locationList.vue";
+import faqMain from "../views/helpdesk/faq.vue";
+import faqadmin from "../views/management/faq/faqadmin.vue";
+import faqEdit from "../views/management/faq/faqEdit.vue";
+import locationadmin from "../views/management/locations/locationadmin.vue";
+import locationEdit from "../views/management/locations/locationEdit.vue";
+import locationList from "../views/management/locations/locationList.vue";
 
 vue.use(VueRouter)
 
@@ -67,7 +67,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/faqadmin',
+      path: '/manage/faq',
       component: faqadmin,
       props: true,
       meta: {
@@ -76,8 +76,8 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/faqadmin/edit',
-      name: '/faqadmin/edit',
+      path: '/manage/faq/edit',
+      name: '/manage/faq/edit',
       component: faqEdit,
       props: true,
       meta: {
@@ -93,7 +93,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/locationadmin',
+      path: '/manage/locations',
       component: locationadmin,
       props: true,
       meta: {
@@ -102,8 +102,8 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/locationadmin/edit',
-      name: '/locationadmin/edit',
+      path: '/manage/locations/edit',
+      name: '/manage/locations/edit',
       component: locationEdit,
       props: true,
       meta: {
@@ -165,14 +165,14 @@ const router = new VueRouter({
         isAdmin: true
       },
     },
-    //{
-    //  path: '/auth/register',
-    //  component: register,
-    //  meta: {
-    //    skipIfAuthorized: true,
-    //    isOpen: true,
-    //  },
-    //},
+    /*{
+      path: '/auth/register',
+      component: register,
+      meta: {
+        skipIfAuthorized: true,
+        isOpen: true,
+      },
+    },*/
     {
       path: '/auth/login',
       component: login,

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ticketList from "../lists/tickets/ticketList.vue";
+import ticketList from "../helpdesk/tickets/ticketList.vue";
 export default {
   name: "dash-admin",
   components: {
