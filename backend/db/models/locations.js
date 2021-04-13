@@ -29,6 +29,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        location_state: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         location_zip: {
             type: DataTypes.STRING,
             allowNull: false

@@ -80,17 +80,7 @@ export default {
       this.$router.push('/faqadmin')
     },
     addFaq(){
-      //this.$validator.validateAll().then(res => {
-      //if (res) {
       this.register(this.form.model)
-      //} else {
-      //Swal.fire({
-      //title: 'Not so fast!',
-      //text: 'Please provide required data in valid format',
-      //icon: 'warning',
-      //})
-      //}
-      //})
     },
     updateFaq(){
       const faqID = this.faq_id
