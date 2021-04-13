@@ -76,27 +76,27 @@
 </template>
 
 <script>
-import departmentList from "../lists/configuration/departmentList.vue";
-import statusList from "../lists/configuration/statusList.vue";
-import issueTypeList from "../lists/configuration/issueTypeList.vue";
-import shippingMethodsList from "../lists/configuration/shippingMethodsList.vue";
-import softwareStatusList from "../lists/configuration/softwareStatusList.vue";
-import teamList from "../lists/configuration/teamList.vue";
-import issueCategoryList from "../lists/configuration/issueCategoryList.vue";
-import requestStatusList from "../lists/configuration/requestStatusList.vue";
-import assetTypeList from "../lists/configuration/assetTypeList.vue";
-import locationTypeList from "../lists/locations/locationTypeList.vue";
-import assetStatusList from "../lists/configuration/assetStatusList.vue";
-import faqCategoryList from "../lists/faq/faqCategoryList.vue";
-import slaListList from "../lists/configuration/slaListList.vue";
-import installStatusListList from "../lists/configuration/installStatusListList.vue";
-import shippingStatusList from "../lists/configuration/shippingStatusList.vue";
-import paymentTermsList from "../lists/configuration/paymentTermsList.vue";
-import resolvedList from "../lists/configuration/resolvedListList.vue";
-import changeRequestTypeList from "../lists/configuration/changeRequestTypeList.vue";
-import changeRequestStatusList from "../lists/configuration/changeRequestStatusList.vue";
-import incidentStatusList from "../lists/configuration/incidentStatusList.vue";
-import priorityList from "../lists/configuration/priorityListList.vue";
+import departmentList from "./configuration/departmentList.vue";
+import statusList from "./configuration/statusList.vue";
+import issueTypeList from "./configuration/issueTypeList.vue";
+import shippingMethodsList from "./configuration/shippingMethodsList.vue";
+import softwareStatusList from "./configuration/softwareStatusList.vue";
+import teamList from "./configuration/teamList.vue";
+import issueCategoryList from "./configuration/issueCategoryList.vue";
+import requestStatusList from "./configuration/requestStatusList.vue";
+import assetTypeList from "./configuration/assetTypeList.vue";
+import locationTypeList from "./configuration/locationTypeList.vue";
+import assetStatusList from "./configuration/assetStatusList.vue";
+import faqCategoryList from "./configuration/faqCategoryList.vue";
+import slaListList from "./configuration/slaListList.vue";
+import installStatusListList from "./configuration/installStatusListList.vue";
+import shippingStatusList from "./configuration/shippingStatusList.vue";
+import paymentTermsList from "./configuration/paymentTermsList.vue";
+import resolvedList from "./configuration/resolvedListList.vue";
+import changeRequestTypeList from "./configuration/changeRequestTypeList.vue";
+import changeRequestStatusList from "./configuration/changeRequestStatusList.vue";
+import incidentStatusList from "./configuration/incidentStatusList.vue";
+import priorityList from "./configuration/priorityListList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 

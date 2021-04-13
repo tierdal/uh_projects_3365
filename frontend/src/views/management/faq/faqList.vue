@@ -86,14 +86,14 @@ export default {
   methods: {
     onRowDoubleClick(params){
       this.$router.push({
-        name: '/faqadmin/edit',
+        name: '/manage/faq/edit',
         params: {
           faq_id: params.row.faq_id
         }
       })
     },
     addNewFAQ(){
-      this.$router.push('/faqadmin/edit')
+      this.$router.push('/manage/faq/edit')
     },
     loadData(){
       axios.get(`${config.api}/api/faqList/find`)

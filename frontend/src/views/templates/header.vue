@@ -7,19 +7,14 @@
       <li class="nav-item"><router-link class="nav-link" to="/faq">FAQ</router-link></li>
       <li v-if="helpdeskCheck" class="nav-item"><a class="nav-link" href="#">Management</a>
         <ul class="navbar-nav-submenu">
-          <li class="nav-item-submenu"><router-link class="nav-link" to="#">Me</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="#">Is</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="#">Foo</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="#">Bar</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="faqadmin">FAQ Manager</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="locationadmin">Location Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/faq">FAQ Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/locations">Location Manager</router-link></li>
         </ul>
       </li>
       <li v-if="adminCheck" class="nav-item"><a class="nav-link" href="#">Admin</a>
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="/useradmin">User Manager</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/configuration">Configuration</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="/contact">Bar</router-link></li>
         </ul>
       </li>
     </ul>

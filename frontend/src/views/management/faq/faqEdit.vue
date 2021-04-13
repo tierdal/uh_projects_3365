@@ -34,11 +34,9 @@
     <div class="editForm">
       <div class="editFormFooter-left">
         <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
-      </div>
-      <div class="editFormFooter-right">
         <button class="swal2-editform swal2-styled addNewButton" v-on:click="addFaq">Add New FAQ</button>
-        <button class="swal2-editform swal2-styled deleteButton" v-on:click="deleteFaq">Delete Faq</button>
-        <button class="swal2-editform swal2-styled updateButton" v-on:click="updateFaq">Update Faq</button>
+        <button class="swal2-editform swal2-styled deleteButton" v-on:click="deleteFaq">Delete FAQ</button>
+        <button class="swal2-editform swal2-styled updateButton" v-on:click="updateFaq">Update FAQ</button>
       </div>
     </div>
   </div>
@@ -77,7 +75,7 @@ export default {
   },
   methods: {
     goBack(){
-      this.$router.push('/faqadmin')
+      this.$router.push('/manage/faq')
     },
     addFaq(){
       this.register(this.form.model)
