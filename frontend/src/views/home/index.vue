@@ -8,7 +8,7 @@
       <p>Demo System.</p>-->
     </div>
     <div class="buttonRibbon">
-      <button class="swal2-styled buttonRibbon-style" v-on:click="">New Ticket</button>
+      <button class="swal2-styled buttonRibbon-style" v-on:click="addNewTicket">New Ticket</button>
       <button class="swal2-styled buttonRibbon-style" v-on:click="">New Incident</button>
       <button class="swal2-styled buttonRibbon-style" v-on:click="">New Change Request</button>
     </div>
@@ -45,6 +45,9 @@ export default {
         //console.log('not-admin')
         return this.adminCheck = false
       }
+    },
+    addNewTicket(){
+      this.$router.push('/tickets/edit')
     }
   },
   beforeMount() {

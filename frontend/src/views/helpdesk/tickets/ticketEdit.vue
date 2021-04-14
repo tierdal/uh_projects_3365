@@ -1,8 +1,11 @@
 <template>
   <div>
     <div class="jumbotron dashboard">
-      <div class="dashlabel">
+      <div v-if="!isNewTicket" class="dashlabel">
         Ticket Number: {{ this.ticket_id }}
+      </div>
+      <div v-else class="dashlabel">
+        Adding New Ticket
       </div>
     </div>
 
@@ -143,7 +146,7 @@ import Swal from "sweetalert2";
 import _ from "lodash";
 import session from "../../../utilities/session";
 import { ModelListSelect } from 'vue-search-select';
-import { ModelSelect } from 'vue-search-select'
+import { ModelSelect } from 'vue-search-select';
 
 export default {
   name: "ticketEdit",
@@ -206,12 +209,14 @@ export default {
   },
   methods: {
     goBack(){
-      this.$router.push({
-        name: '/tickets/view',
-        params: {
-          ticket_id: this.ticket_id
-        }
-      })
+      if(this.isNewTicket){ this.$router.push('/tickets') } else {
+        this.$router.push({
+          name: '/tickets/view',
+          params: {
+            ticket_id: this.ticket_id
+          }
+        })
+      }
     },
     addTicket(){
     },
@@ -270,6 +275,7 @@ export default {
       axios.get(`${config.api}/api/locations/findlist`)
         .then((response) => {
           this.LOCATION_DATA = response.data;
+          console.log(response.data)
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading locations)', 'error')
