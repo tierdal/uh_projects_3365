@@ -23,6 +23,12 @@ import faqEdit from "../views/management/faq/faqEdit.vue";
 import locationadmin from "../views/management/locations/locationadmin.vue";
 import locationEdit from "../views/management/locations/locationEdit.vue";
 import locationList from "../views/management/locations/locationList.vue";
+import vendorList from "../views/lists/vendors/vendorList.vue";
+import vendoradmin from "../views/lists/vendors/vendoradmin.vue";
+import vendorEdit from "../views/lists/vendors/vendorEdit.vue";
+import contractList from "../views/lists/contracts/contractList.vue";
+import contractadmin from "../views/lists/contracts/contractadmin.vue";
+import contractEdit from "../views/lists/contracts/contractEdit.vue";
 
 vue.use(VueRouter)
 
@@ -137,6 +143,58 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+      },
+    },
+    {//vendor
+      path: '/vendorList',
+      component: vendorList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/vendoradmin',
+      component: vendoradmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/vendors/edit',
+      name: '/vendors/edit',
+      component: vendorEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {//contract
+      path: '/contractList',
+      component: contractList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/contractadmin',
+      component: contractadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/contract/edit',
+      name: '/contract/edit',
+      component: contractEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
       },
     },
     {

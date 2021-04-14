@@ -34,6 +34,7 @@ const vendors = require('./vendors')
 const assetList = require('./assetList')
 const softwareAssets = require('./softwareAssets')
 const faqList = require('./faqList')
+const contracts = require('./contracts')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -67,5 +68,6 @@ router.use('/api/vendors', vendors)
 router.use('/api/assetList', assetList)
 router.use('/api/softwareAssets', softwareAssets)
 router.use('/api/faqList', faqList)
+router.use('/api/contracts', contracts)
 
 module.exports = router
