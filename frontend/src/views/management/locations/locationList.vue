@@ -109,8 +109,6 @@ export default {
       axios.get(`${config.api}/api/locations/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          //this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','locationTypeDesc'))
-          console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')

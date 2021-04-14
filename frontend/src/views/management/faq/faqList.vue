@@ -100,7 +100,6 @@ export default {
         .then((response) => {
           this.DB_DATA = response.data;
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'faqCategory.faq_category_description','faqcategoryDesc'))
-          console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')

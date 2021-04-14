@@ -4,9 +4,6 @@ import VueRouter from 'vue-router'
 import store from '../store'
 // home
 import index from '../views/home/index.vue'
-import feedback from '../views/home/feedback.vue'
-import about from '../views/home/about.vue'
-import contact from '../views/home/contact.vue'
 import useradmin from '../views/admin/useradmin.vue';
 import configuration from '../views/admin/configuration.vue';
 import userEdit from "../views/admin/users/userEdit.vue";
@@ -45,25 +42,10 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/about',
-      component: about,
-      meta: {
-        //isOpen: true,
-      },
-    },
-    {
       path: '/faq',
       component: faqMain,
       meta: {
         //isOpen: true,
-      },
-    },
-    {
-      path: '/feedback',
-      component: feedback,
-      meta: {
-        //isOpen: true,
-        isAdmin: true
       },
     },
     {
