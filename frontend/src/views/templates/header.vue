@@ -9,6 +9,7 @@
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/faq">FAQ Manager</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/locations">Location Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/vendorList">Vendor Manager</router-link></li>
         </ul>
       </li>
       <li v-if="adminCheck" class="nav-item"><a class="nav-link" href="#">Admin</a>
