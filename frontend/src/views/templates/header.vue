@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <ul class="navbar-nav">
-      <li class="nav-item"><router-link to="/home"><span class="navbar-brand"><img src="src/assets/img/gulf_logo.png" alt="logo" class="navbar-logo"></span></router-link></li>
+      <li class="nav-item"><router-link to="/home"><span class="navbar-brand"><img src="@/assets/img/favicon.png" alt="logo" class="navbar-logo"></span></router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/home">Home</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/tickets">Tickets</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/faq">FAQ</router-link></li>
@@ -9,11 +9,11 @@
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/faq">FAQ Manager</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/locations">Location Manager</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="/vendorList">Vendor Manager</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="/contractList">Contract Manager</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="/softwareAssetsList">Software Assets Manager</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="/licenseKeysList">License Keys Manager</router-link></li>
-          <li class="nav-item-submenu"><router-link class="nav-link" to="/assetList">Asset Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/vendors">Vendor Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/contracts">Contract Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/softwareassets">Software Assets Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/licensekeys">License Keys Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/hardwareassets">Hardware Assets Manager</router-link></li>
         </ul>
       </li>
       <li v-if="adminCheck" class="nav-item"><a class="nav-link" href="#">Admin</a>

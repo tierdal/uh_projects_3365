@@ -23,21 +23,21 @@ import faqEdit from "../views/management/faq/faqEdit.vue";
 import locationadmin from "../views/management/locations/locationadmin.vue";
 import locationEdit from "../views/management/locations/locationEdit.vue";
 import locationList from "../views/management/locations/locationList.vue";
-import vendorList from "../views/lists/vendors/vendorList.vue";
-import vendoradmin from "../views/lists/vendors/vendoradmin.vue";
-import vendorEdit from "../views/lists/vendors/vendorEdit.vue";
-import contractList from "../views/lists/contracts/contractList.vue";
-import contractadmin from "../views/lists/contracts/contractadmin.vue";
-import contractEdit from "../views/lists/contracts/contractEdit.vue";
-import softwareAssetsList from "../views/lists/software/softwareAssetsList.vue";
-import softwareAssetsadmin from "../views/lists/software/softwareAssetsadmin.vue";
-import softwareAssetsEdit from "../views/lists/software/softwareAssetsEdit.vue";
-import licenseKeysList from "../views/lists/licenseKeys/licenseKeysList.vue";
-import licenseKeysadmin from "../views/lists/licenseKeys/licenseKeysadmin.vue";
-import licenseKeysEdit from "../views/lists/licenseKeys/licenseKeysEdit.vue";
-import assetList from "../views/lists/assets/assetList.vue";
-import assetadmin from "../views/lists/assets/assetadmin.vue";
-import assetEdit from "../views/lists/assets/assetEdit.vue";
+import vendorList from "../views/management/vendors/vendorList.vue";
+import vendoradmin from "../views/management/vendors/vendoradmin.vue";
+import vendorEdit from "../views/management/vendors/vendorEdit.vue";
+import contractList from "../views/management/contracts/contractList.vue";
+import contractadmin from "../views/management/contracts/contractadmin.vue";
+import contractEdit from "../views/management/contracts/contractEdit.vue";
+import softwareAssetsList from "../views/management/softwareassets/softwareAssetsList.vue";
+import softwareAssetsadmin from "../views/management/softwareassets/softwareAssetsadmin.vue";
+import softwareAssetsEdit from "../views/management/softwareassets/softwareAssetsEdit.vue";
+import licenseKeysList from "../views/management/licensekeys/licenseKeysList.vue";
+import licenseKeysadmin from "../views/management/licensekeys/licenseKeysadmin.vue";
+import licenseKeysEdit from "../views/management/licensekeys/licenseKeysEdit.vue";
+import assetList from "../views/management/hardwareassets/assetList.vue";
+import assetadmin from "../views/management/hardwareassets/assetadmin.vue";
+import assetEdit from "../views/management/hardwareassets/assetEdit.vue";
 
 vue.use(VueRouter)
 
@@ -80,13 +80,6 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         isAdmin: true
-      },
-    },
-    {
-      path: '/locationList',
-      component: locationList,
-      meta: {
-        //isOpen: true,
       },
     },
     {
@@ -154,134 +147,99 @@ const router = new VueRouter({
         //isAdmin: true
       },
     },
-    {//vendor
-      path: '/vendorList',
-      component: vendorList,
-      meta: {
-        //isOpen: true,
-      },
-    },
     {
-      path: '/vendoradmin',
+      path: '/manage/vendors',
       component: vendoradmin,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
       },
     },
     {
-      path: '/vendors/edit',
-      name: '/vendors/edit',
+      path: '/manage/vendors/edit',
+      name: '/manage/vendors/edit',
       component: vendorEdit,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
-      },
-    },
-    {//contract
-      path: '/contractList',
-      component: contractList,
-      meta: {
-        //isOpen: true,
+        //isAdmin: true
       },
     },
     {
-      path: '/contractadmin',
+      path: '/manage/contracts',
       component: contractadmin,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
       },
     },
     {
-      path: '/contract/edit',
-      name: '/contract/edit',
+      path: '/manage/contracts/edit',
+      name: '/manage/contracts/edit',
       component: contractEdit,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
-      },
-    },
-    {//softwareAssets
-      path: '/softwareAssetsList',
-      component: softwareAssetsList,
-      meta: {
-        //isOpen: true,
+        //isAdmin: true
       },
     },
     {
-      path: '/softwareAssetsadmin',
+      path: '/manage/softwareassets',
       component: softwareAssetsadmin,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
       },
     },
     {
-      path: '/softwareAssets/edit',
-      name: '/softwareAssets/edit',
+      path: '/manage/softwareassets/edit',
+      name: '/manage/softwareassets/edit',
       component: softwareAssetsEdit,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
-      },
-    },
-    {//licenseKeys
-      path: '/licenseKeysList',
-      component: licenseKeysList,
-      meta: {
-        //isOpen: true,
+        //isAdmin: true
       },
     },
     {
-      path: '/licenseKeysadmin',
+      path: '/manage/licensekeys',
       component: licenseKeysadmin,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
       },
     },
     {
-      path: '/licenseKeys/edit',
-      name: '/licenseKeys/edit',
+      path: '/manage/licensekeys/edit',
+      name: '/manage/licensekeys/edit',
       component: licenseKeysEdit,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
-      },
-    },
-    {//asset
-      path: '/assetList',
-      component: assetList,
-      meta: {
-        //isOpen: true,
+        //isAdmin: true
       },
     },
     {
-      path: '/assetadmin',
+      path: '/manage/hardwareassets',
       component: assetadmin,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
       },
     },
     {
-      path: '/asset/edit',
-      name: '/asset/edit',
+      path: '/manage/hardwareassets/edit',
+      name: '/manage/hardwareassets/edit',
       component: assetEdit,
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
       },
     },
     {

@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     goBack(){
-      this.$router.push('/licenseKeysList')
+      this.$router.push('/manage/licensekeys')
     },
     addLicenseKey(){
       this.register(this.form.model)
