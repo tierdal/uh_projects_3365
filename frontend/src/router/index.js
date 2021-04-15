@@ -32,6 +32,9 @@ import contractEdit from "../views/lists/contracts/contractEdit.vue";
 import softwareAssetsList from "../views/lists/software/softwareAssetsList.vue";
 import softwareAssetsadmin from "../views/lists/software/softwareAssetsadmin.vue";
 import softwareAssetsEdit from "../views/lists/software/softwareAssetsEdit.vue";
+import licenseKeysList from "../views/lists/licenseKeys/licenseKeysList.vue";
+import licenseKeysadmin from "../views/lists/licenseKeys/licenseKeysadmin.vue";
+import licenseKeysEdit from "../views/lists/licenseKeys/licenseKeysEdit.vue";
 
 vue.use(VueRouter)
 
@@ -220,6 +223,32 @@ const router = new VueRouter({
       path: '/softwareAssets/edit',
       name: '/softwareAssets/edit',
       component: softwareAssetsEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {//licenseKeys
+      path: '/licenseKeysList',
+      component: licenseKeysList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/licenseKeysadmin',
+      component: licenseKeysadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/licenseKeys/edit',
+      name: '/licenseKeys/edit',
+      component: licenseKeysEdit,
       props: true,
       meta: {
         //isOpen: true,

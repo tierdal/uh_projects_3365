@@ -35,6 +35,7 @@ const assetList = require('./assetList')
 const softwareAssets = require('./softwareAssets')
 const faqList = require('./faqList')
 const contracts = require('./contracts')
+const licenseKeys = require('./licenseKeys')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -69,5 +70,6 @@ router.use('/api/assetList', assetList)
 router.use('/api/softwareAssets', softwareAssets)
 router.use('/api/faqList', faqList)
 router.use('/api/contracts', contracts)
+router.use('/api/licenseKeys', licenseKeys)
 
 module.exports = router
