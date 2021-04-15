@@ -46,11 +46,6 @@
 </template>
 
 <script>
-//https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-//import { mapActions } from 'vuex'
-//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
-//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -76,32 +71,29 @@ export default {
       },{
         label: 'vendorId',
         field: 'vendorId'
-      },{
-        label: 'file',
-        field: 'contract_file'
       }]
     };
   },
-
   components: {
     'vue-good-table': VueGoodTable
   },
   methods: {
     onRowDoubleClick(params){
       this.$router.push({
-        name: '/contrarctadmin/edit',
+        name: '/manage/contracts/edit',
         params: {
           contract_id: params.row.contract_id
         }
       })
     },
     addNewContract(){
-      this.$router.push('/contrarctadmin/edit')
+      this.$router.push('/manage/contracts/edit')
     },
     loadData(){
       axios.get(`${config.api}/api/contracts/find`)
         .then((response) => {
           this.DB_DATA = response.data;
+          //console.log(this.DB_DATA)
           //this.DB_DATA.forEach( obj => this.renameKey(obj, 'faqCategory.faq_category_description','faqcategoryDesc'))
         })
         .catch(() => {

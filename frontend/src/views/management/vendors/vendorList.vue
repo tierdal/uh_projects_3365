@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Asset List</span>
+        <span class="tableHeading-text">Vendor List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewAsset">Add New Asset</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewVendor">Add New Vendor</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'asset_id', type: 'asc'}
+          initialSortBy: {field: 'vendor_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -61,42 +61,31 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      ASSETSTATUS_DATA: [],
-      ASSETTYPE_DATA: [],
-      VENDOR_DATA: [],
-      USERS_DATA: [],
-      myAPI: `${config.api}/api/assetList`,
+      LOCATIONS_DATA: [],
+      PAYMENTTERMS_DATA: [],
+      myAPI: `${config.api}/api/vendors`,
       dataFields: [{
         label: 'id',
-        field: 'asset_id',
+        field: 'vendor_id',
         type: 'number'
       },{
         label: 'name',
-        field: 'asset_name'
+        field: 'vendor_name'
       },{
-        label: 'description',
-        field: 'asset_description'
+        label: 'email',
+        field: 'vendor_email'
       },{
-        label: 'serial number',
-        field: 'serial_number'
+        label: 'phone',
+        field: 'vendor_phone'
       },{
-        label: 'assetStatusId',
-        field: 'assetStatusId'
-      },{
-        label: 'assetTypeId',
-        field: 'assetTypeId'
-      },{
-        label: 'vendorId',
-        field: 'vendorId'
-      },{
-        label: 'userId',
-        field: 'userId'
-      },{
-        label: 'purchase date',
-        field: 'purchase_date'
+        label: 'locationId',
+        field: 'locationId'
       },{
         label: 'notes',
-        field: 'asset_notes'
+        field: 'vendor_notes'
+      },{
+        label: 'paymenttermId',
+        field: 'paymentTermId'
       }]
     };
   },
@@ -107,17 +96,17 @@ export default {
   methods: {
     onRowDoubleClick(params){
       this.$router.push({
-        name: '/assetadmin/edit',
+        name: '/manage/vendors/edit',
         params: {
-          asset_id: params.row.asset_id
+          vendor_id: params.row.vendor_id
         }
       })
     },
-    addNewAsset(){
-      this.$router.push('/assetadmin/edit')
+    addNewVendor(){
+      this.$router.push('/manage/vendors/edit')
     },
     loadData(){
-      axios.get(`${config.api}/api/assetList/find`)
+      axios.get(`${config.api}/api/vendors/find`)
         .then((response) => {
           this.DB_DATA = response.data;
           //this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','locationTypeDesc'))

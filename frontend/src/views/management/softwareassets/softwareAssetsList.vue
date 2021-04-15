@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Vendor List</span>
+        <span class="tableHeading-text">Software Asset List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewVendor">Add New Vendor</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewSoftwareAsset">Add New Software Asset</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'vendor_id', type: 'asc'}
+          initialSortBy: {field: 'software_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -46,11 +46,6 @@
 </template>
 
 <script>
-//https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-//import { mapActions } from 'vuex'
-//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
-//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -61,31 +56,31 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      LOCATIONS_DATA: [],
-      PAYMENTTERMS_DATA: [],
-      myAPI: `${config.api}/api/vendors`,
+      VENDOR_DATA: [],
+      SOFTWARESTATUS_DATA: [],
+      myAPI: `${config.api}/api/softwareAssets`,
       dataFields: [{
         label: 'id',
-        field: 'vendor_id',
+        field: 'software_id',
         type: 'number'
       },{
         label: 'name',
-        field: 'vendor_name'
+        field: 'software_name'
       },{
-        label: 'email',
-        field: 'vendor_email'
+        label: 'description',
+        field: 'software_description'
       },{
-        label: 'phone',
-        field: 'vendor_phone'
+        label: 'softwareStatusId',
+        field: 'softwareStatusId'
       },{
-        label: 'locationId',
-        field: 'locationId'
+        label: 'vendorId',
+        field: 'vendorId'
+      },{
+        label: 'purchase_date',
+        field: 'purchase_date'
       },{
         label: 'notes',
-        field: 'vendor_notes'
-      },{
-        label: 'paymenttermId',
-        field: 'paymentTermId'
+        field: 'software_notes'
       }]
     };
   },
@@ -96,17 +91,17 @@ export default {
   methods: {
     onRowDoubleClick(params){
       this.$router.push({
-        name: '/vendoradmin/edit',
+        name: '/manage/softwareassets/edit',
         params: {
-          vendor_id: params.row.vendor_id
+          software_id: params.row.software_id
         }
       })
     },
-    addNewVendor(){
-      this.$router.push('/vendoradmin/edit')
+    addNewSoftwareAsset(){
+      this.$router.push('/manage/softwareassets/edit')
     },
     loadData(){
-      axios.get(`${config.api}/api/vendors/find`)
+      axios.get(`${config.api}/api/softwareAssets/find`)
         .then((response) => {
           this.DB_DATA = response.data;
           //this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','locationTypeDesc'))

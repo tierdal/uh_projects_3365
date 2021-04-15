@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">License Keys List</span>
+        <span class="tableHeading-text">Asset List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewLicenseKeys">Add New License Keys</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewAsset">Add New Asset</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'software_id', type: 'asc'}
+          initialSortBy: {field: 'asset_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -46,11 +46,6 @@
 </template>
 
 <script>
-//https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-//import { mapActions } from 'vuex'
-//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
-//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -61,22 +56,42 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      USER_DATA: [],
-      SOFTWAREASSETS_DATA: [],
-      myAPI: `${config.api}/api/licenseKeys`,
+      ASSETSTATUS_DATA: [],
+      ASSETTYPE_DATA: [],
+      VENDOR_DATA: [],
+      USERS_DATA: [],
+      myAPI: `${config.api}/api/assetList`,
       dataFields: [{
         label: 'id',
-        field: 'license_id',
+        field: 'asset_id',
         type: 'number'
       },{
-        label: 'softwareId',
-        field: 'softwareId'
+        label: 'name',
+        field: 'asset_name'
       },{
-        label: 'license key',
-        field: 'license_key'
+        label: 'description',
+        field: 'asset_description'
+      },{
+        label: 'serial number',
+        field: 'serial_number'
+      },{
+        label: 'assetStatusId',
+        field: 'assetStatusId'
+      },{
+        label: 'assetTypeId',
+        field: 'assetTypeId'
+      },{
+        label: 'vendorId',
+        field: 'vendorId'
       },{
         label: 'userId',
         field: 'userId'
+      },{
+        label: 'purchase date',
+        field: 'purchase_date'
+      },{
+        label: 'notes',
+        field: 'asset_notes'
       }]
     };
   },
@@ -87,17 +102,17 @@ export default {
   methods: {
     onRowDoubleClick(params){
       this.$router.push({
-        name: '/licenseKeysadmin/edit',
+        name: '/manage/hardwareassets/edit',
         params: {
-          license_id: params.row.license_id
+          asset_id: params.row.asset_id
         }
       })
     },
-    addNewLicenseKeys(){
-      this.$router.push('/licenseKeys/edit')
+    addNewAsset(){
+      this.$router.push('/manage/hardwareassets/edit')
     },
     loadData(){
-      axios.get(`${config.api}/api/licenseKeys/find`)
+      axios.get(`${config.api}/api/assetList/find`)
         .then((response) => {
           this.DB_DATA = response.data;
           //this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','locationTypeDesc'))

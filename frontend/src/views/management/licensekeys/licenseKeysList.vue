@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">Software Asset List</span>
+        <span class="tableHeading-text">License Keys List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewSoftwareAsset">Add New Software Asset</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewLicenseKeys">Add New License Keys</button>
       </div>
     </div>
 
@@ -46,11 +46,6 @@
 </template>
 
 <script>
-//https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-//import { mapActions } from 'vuex'
-//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
-//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -61,31 +56,22 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      VENDOR_DATA: [],
-      SOFTWARESTATUS_DATA: [],
-      myAPI: `${config.api}/api/softwareAssets`,
+      USER_DATA: [],
+      SOFTWAREASSETS_DATA: [],
+      myAPI: `${config.api}/api/licenseKeys`,
       dataFields: [{
         label: 'id',
-        field: 'software_id',
+        field: 'license_id',
         type: 'number'
       },{
-        label: 'name',
-        field: 'software_name'
+        label: 'softwareId',
+        field: 'softwareId'
       },{
-        label: 'description',
-        field: 'software_description'
+        label: 'license key',
+        field: 'license_key'
       },{
-        label: 'softwareStatusId',
-        field: 'softwareStatusId'
-      },{
-        label: 'vendorId',
-        field: 'vendorId'
-      },{
-        label: 'purchase_date',
-        field: 'purchase_date'
-      },{
-        label: 'notes',
-        field: 'software_notes'
+        label: 'userId',
+        field: 'userId'
       }]
     };
   },
@@ -96,17 +82,17 @@ export default {
   methods: {
     onRowDoubleClick(params){
       this.$router.push({
-        name: '/softwareAssetsadmin/edit',
+        name: '/manage/licensekeys/edit',
         params: {
-          software_id: params.row.software_id
+          license_id: params.row.license_id
         }
       })
     },
-    addNewSoftwareAsset(){
-      this.$router.push('/softwareAssetsadmin/edit')
+    addNewLicenseKeys(){
+      this.$router.push('/manage/licensekeys/edit')
     },
     loadData(){
-      axios.get(`${config.api}/api/softwareAssets/find`)
+      axios.get(`${config.api}/api/licenseKeys/find`)
         .then((response) => {
           this.DB_DATA = response.data;
           //this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','locationTypeDesc'))

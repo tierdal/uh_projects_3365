@@ -86,7 +86,7 @@ import issueCategoryList from "./configuration/issueCategoryList.vue";
 import requestStatusList from "./configuration/requestStatusList.vue";
 import assetTypeList from "./configuration/assetTypeList.vue";
 import locationTypeList from "./configuration/locationTypeList.vue";
-import assetStatusList from "../lists/software/assetStatusList.vue";
+import assetStatusList from "./configuration/assetStatusList.vue";
 import faqCategoryList from "./configuration/faqCategoryList.vue";
 import slaListList from "./configuration/slaListList.vue";
 import installStatusListList from "./configuration/installStatusListList.vue";
