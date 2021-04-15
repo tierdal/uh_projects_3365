@@ -94,7 +94,7 @@ export default {
       })
     },
     addNewLicenseKeys(){
-      this.$router.push('/licenseKeysadmin/edit')
+      this.$router.push('/licenseKeys/edit')
     },
     loadData(){
       axios.get(`${config.api}/api/licenseKeys/find`)
