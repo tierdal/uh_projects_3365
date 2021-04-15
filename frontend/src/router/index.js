@@ -23,6 +23,21 @@ import faqEdit from "../views/management/faq/faqEdit.vue";
 import locationadmin from "../views/management/locations/locationadmin.vue";
 import locationEdit from "../views/management/locations/locationEdit.vue";
 import locationList from "../views/management/locations/locationList.vue";
+import vendorList from "../views/lists/vendors/vendorList.vue";
+import vendoradmin from "../views/lists/vendors/vendoradmin.vue";
+import vendorEdit from "../views/lists/vendors/vendorEdit.vue";
+import contractList from "../views/lists/contracts/contractList.vue";
+import contractadmin from "../views/lists/contracts/contractadmin.vue";
+import contractEdit from "../views/lists/contracts/contractEdit.vue";
+import softwareAssetsList from "../views/lists/software/softwareAssetsList.vue";
+import softwareAssetsadmin from "../views/lists/software/softwareAssetsadmin.vue";
+import softwareAssetsEdit from "../views/lists/software/softwareAssetsEdit.vue";
+import licenseKeysList from "../views/lists/licenseKeys/licenseKeysList.vue";
+import licenseKeysadmin from "../views/lists/licenseKeys/licenseKeysadmin.vue";
+import licenseKeysEdit from "../views/lists/licenseKeys/licenseKeysEdit.vue";
+import assetList from "../views/lists/assets/assetList.vue";
+import assetadmin from "../views/lists/assets/assetadmin.vue";
+import assetEdit from "../views/lists/assets/assetEdit.vue";
 
 vue.use(VueRouter)
 
@@ -137,6 +152,136 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+      },
+    },
+    {//vendor
+      path: '/vendorList',
+      component: vendorList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/vendoradmin',
+      component: vendoradmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/vendors/edit',
+      name: '/vendors/edit',
+      component: vendorEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {//contract
+      path: '/contractList',
+      component: contractList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/contractadmin',
+      component: contractadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/contract/edit',
+      name: '/contract/edit',
+      component: contractEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {//softwareAssets
+      path: '/softwareAssetsList',
+      component: softwareAssetsList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/softwareAssetsadmin',
+      component: softwareAssetsadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/softwareAssets/edit',
+      name: '/softwareAssets/edit',
+      component: softwareAssetsEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {//licenseKeys
+      path: '/licenseKeysList',
+      component: licenseKeysList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/licenseKeysadmin',
+      component: licenseKeysadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/licenseKeys/edit',
+      name: '/licenseKeys/edit',
+      component: licenseKeysEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {//asset
+      path: '/assetList',
+      component: assetList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/assetadmin',
+      component: assetadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/asset/edit',
+      name: '/asset/edit',
+      component: assetEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
       },
     },
     {
