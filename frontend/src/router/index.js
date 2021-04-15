@@ -35,6 +35,9 @@ import softwareAssetsEdit from "../views/lists/software/softwareAssetsEdit.vue";
 import licenseKeysList from "../views/lists/licenseKeys/licenseKeysList.vue";
 import licenseKeysadmin from "../views/lists/licenseKeys/licenseKeysadmin.vue";
 import licenseKeysEdit from "../views/lists/licenseKeys/licenseKeysEdit.vue";
+import assetList from "../views/lists/assets/assetList.vue";
+import assetadmin from "../views/lists/assets/assetadmin.vue";
+import assetEdit from "../views/lists/assets/assetEdit.vue";
 
 vue.use(VueRouter)
 
@@ -249,6 +252,32 @@ const router = new VueRouter({
       path: '/licenseKeys/edit',
       name: '/licenseKeys/edit',
       component: licenseKeysEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {//asset
+      path: '/assetList',
+      component: assetList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/assetadmin',
+      component: assetadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/asset/edit',
+      name: '/asset/edit',
+      component: assetEdit,
       props: true,
       meta: {
         //isOpen: true,
