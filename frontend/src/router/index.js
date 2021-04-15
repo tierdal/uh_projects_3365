@@ -29,6 +29,9 @@ import vendorEdit from "../views/lists/vendors/vendorEdit.vue";
 import contractList from "../views/lists/contracts/contractList.vue";
 import contractadmin from "../views/lists/contracts/contractadmin.vue";
 import contractEdit from "../views/lists/contracts/contractEdit.vue";
+import softwareAssetsList from "../views/lists/software/softwareAssetsList.vue";
+import softwareAssetsadmin from "../views/lists/software/softwareAssetsadmin.vue";
+import softwareAssetsEdit from "../views/lists/software/softwareAssetsEdit.vue";
 
 vue.use(VueRouter)
 
@@ -191,6 +194,32 @@ const router = new VueRouter({
       path: '/contract/edit',
       name: '/contract/edit',
       component: contractEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {//softwareAssets
+      path: '/softwareAssetsList',
+      component: softwareAssetsList,
+      meta: {
+        //isOpen: true,
+      },
+    },
+    {
+      path: '/softwareAssetsadmin',
+      component: softwareAssetsadmin,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    {
+      path: '/softwareAssets/edit',
+      name: '/softwareAssets/edit',
+      component: softwareAssetsEdit,
       props: true,
       meta: {
         //isOpen: true,
