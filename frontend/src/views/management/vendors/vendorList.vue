@@ -79,13 +79,13 @@ export default {
         field: 'vendor_phone'
       },{
         label: 'locationId',
-        field: 'locationId'
+        field: 'locationName'
       },{
         label: 'notes',
         field: 'vendor_notes'
       },{
         label: 'paymenttermId',
-        field: 'paymentTermId'
+        field: 'paymentTermName'
       }]
     };
   },
@@ -109,20 +109,17 @@ export default {
       axios.get(`${config.api}/api/vendors/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          //this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','locationTypeDesc'))
-          //this.DB_DATA.forEach( obj => this.renameKey(obj, 'paymentTerm.paymentTerm_name','paymentTerm'))
-          //need to link relationships for name data
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'location.location_name','locationName'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'paymentTerm.paymentTerm_name','paymentTermName'))
           //console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-    },
-    deleteItem(){},
-  },
-  renameKey( obj, oldKey, newKey ) {
-    obj[newKey] = obj[oldKey];
-    delete obj[oldKey];
+    },  renameKey( obj, oldKey, newKey ) {
+      obj[newKey] = obj[oldKey];
+      delete obj[oldKey];
+    }
   },
   beforeMount() {
     this.loadData();

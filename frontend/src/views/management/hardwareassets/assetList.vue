@@ -75,17 +75,17 @@ export default {
         label: 'serial number',
         field: 'serial_number'
       },{
-        label: 'assetStatusId',
-        field: 'assetStatusId'
+        label: 'asset Status Name',
+        field: 'assetStatusName'
       },{
-        label: 'assetTypeId',
-        field: 'assetTypeId'
+        label: 'asset Type Name',
+        field: 'assetTypeName'
       },{
-        label: 'vendorId',
-        field: 'vendorId'
+        label: 'vendor Name',
+        field: 'vendorName'
       },{
-        label: 'userId',
-        field: 'userId'
+        label: 'username',
+        field: 'userName'
       },{
         label: 'purchase date',
         field: 'purchase_date'
@@ -116,19 +116,24 @@ export default {
         .then((response) => {
           this.DB_DATA = response.data;
           //this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','locationTypeDesc'))
-          //this.DB_DATA.forEach( obj => this.renameKey(obj, 'paymentTerm.paymentTerm_name','paymentTerm'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'assetStatus.assetStatus_name','assetStatusName'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'assetType.assetType_name','assetTypeName'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'vendor.vendor_name','vendorName'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.f_name','userName'))
           //need to link relationships for name data
-          //console.log(JSON.stringify(response.data))
+          console.log(JSON.stringify(this.DB_DATA))
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong', 'error')
+          Swal.fire('Error', 'Something went wrong2', 'error')
         })
+      //this.DB_DATA.forEach( obj => this.renameKey(obj, 'assetStatus.assetStatus_name','assetStatusName'))
     },
-    deleteItem(){},
-  },
-  renameKey( obj, oldKey, newKey ) {
-    obj[newKey] = obj[oldKey];
-    delete obj[oldKey];
+    //deleteItem(){},
+    renameKey( obj, oldKey, newKey ) {
+      obj[newKey] = obj[oldKey];
+      delete obj[oldKey];
+  }
+
   },
   beforeMount() {
     this.loadData();

@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'software_id', type: 'asc'}
+          initialSortBy: {field: 'license_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -65,13 +65,13 @@ export default {
         type: 'number'
       },{
         label: 'softwareId',
-        field: 'softwareId'
+        field: 'softwareName'
       },{
         label: 'license key',
         field: 'license_key'
       },{
         label: 'userId',
-        field: 'userId'
+        field: 'users'
       }]
     };
   },
@@ -95,20 +95,18 @@ export default {
       axios.get(`${config.api}/api/licenseKeys/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          //this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','locationTypeDesc'))
-          //this.DB_DATA.forEach( obj => this.renameKey(obj, 'paymentTerm.paymentTerm_name','paymentTerm'))
-          //need to link relationships for name data
-          //console.log(JSON.stringify(response.data))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.f_name','users'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'softwareAsset.software_name','softwareName'))
+          console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
     },
-    deleteItem(){},
-  },
-  renameKey( obj, oldKey, newKey ) {
-    obj[newKey] = obj[oldKey];
-    delete obj[oldKey];
+    renameKey( obj, oldKey, newKey ) {
+      obj[newKey] = obj[oldKey];
+      delete obj[oldKey];
+    }
   },
   beforeMount() {
     this.loadData();

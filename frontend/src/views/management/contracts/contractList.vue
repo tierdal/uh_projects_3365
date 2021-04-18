@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'faq_id', type: 'asc'}
+          initialSortBy: {field: 'contract_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -70,7 +70,7 @@ export default {
         field: 'contract_description'
       },{
         label: 'vendorId',
-        field: 'vendorId'
+        field: 'VendorName'
       }]
     };
   },
@@ -93,8 +93,9 @@ export default {
       axios.get(`${config.api}/api/contracts/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          //console.log(this.DB_DATA)
-          //this.DB_DATA.forEach( obj => this.renameKey(obj, 'faqCategory.faq_category_description','faqcategoryDesc'))
+          console.log(this.DB_DATA)
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'vendor.vendor_name','VendorName'))
+          //needs to work on
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
