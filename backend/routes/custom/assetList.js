@@ -37,8 +37,8 @@ router.get('/find', (req, res, next) => {
         });
 })
 
-router.get('/find/:assetID', (req, res, next) => {
-    const asset_id = req.params.assetID
+router.get('/findlist', (req, res, next) => {
+    //const asset_id = req.params.assetID
 
     const db = req.app.get('db')
 
