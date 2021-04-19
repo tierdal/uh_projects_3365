@@ -116,6 +116,7 @@
         Work Log
       </div>
     </div>
+    <ticket-worklog v-bind:ticket_id="ticket_id"></ticket-worklog>
 
     <Modal
       v-show="isModalVisible"
@@ -163,6 +164,7 @@ import Modal from "../../templates/Modal.vue";
 import { ModelListSelect } from 'vue-search-select';
 import { ModelSelect } from 'vue-search-select';
 import lumberjack from '../../../utilities/lumberjack'
+import ticketWorklog from "./ticketWorklog.vue";
 
 export default {
   name: "ticketView",
@@ -170,7 +172,8 @@ export default {
   components: {
     Modal,
     ModelSelect,
-    ModelListSelect
+    ModelListSelect,
+    ticketWorklog
   },
   data() {
     return {
