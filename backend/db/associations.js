@@ -14,7 +14,7 @@ module.exports = {
     models.faqList.belongsTo(models.faqCategory, {foreignKey: "faq_categoryId"});
 
     //locations
-    models.locationType.hasMany(models.locations, {foreignKey: "locationId"});
+    models.locationType.hasMany(models.locations, {foreignKey: "locationTypeId"});
     models.locations.belongsTo(models.locationType, {foreignKey: "locationTypeId"});
 
     //vendors

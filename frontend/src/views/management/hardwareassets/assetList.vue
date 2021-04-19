@@ -112,7 +112,7 @@ export default {
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'vendor.vendor_name','vendorName'))
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.email','userName'))
           //need to link relationships for name data
-          console.log(JSON.stringify(this.DB_DATA))
+          //console.log(JSON.stringify(this.DB_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (finding assets)', 'error')

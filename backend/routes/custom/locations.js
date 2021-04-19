@@ -6,7 +6,9 @@ router.get('/find', (req, res, next) => {
     const db = req.app.get('db')
 
     return db.locations.findAll({
-
+        include: [
+            db.locationType
+        ],
         raw : true
     })
         .then((locations) => res.send(locations))
