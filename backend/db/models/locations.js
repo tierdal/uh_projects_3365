@@ -1,7 +1,11 @@
 const Sequelize = require('sequelize');
 const DataTypes = require("sequelize").DataTypes;
+const _locationType = require("./locationType");
 
 module.exports = function(sequelize, DataTypes) {
+
+    const locationType = _locationType(sequelize, DataTypes);
+
     return sequelize.define('locations', {
         location_id: {
             autoIncrement: true,
@@ -13,9 +17,13 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        locationType_id: {
-            type: DataTypes.STRING,
-            allowNull: false
+        locationTypeId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: locationType
+                //key: locationType_id
+            }
         },
         location_street: {
             type: DataTypes.STRING,
