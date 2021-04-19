@@ -7,7 +7,12 @@ router.get('/find', (req, res, next) => {
     const db = req.app.get('db')
 
     return db.contracts.findAll({
-
+        include: [
+            {
+                model: db.vendors,
+                attributes: ['vendor_id','vendor_name']
+            }
+            ],
         raw : true
     })
         .then((contracts) => res.send(contracts))
