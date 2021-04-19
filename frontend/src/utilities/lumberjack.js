@@ -35,6 +35,7 @@ export default {
     },
 
     logAuditAccess(logAction) {
+      //1 - access
       const DATA = []
       this.DATA = {
         userId: this.getUserId(),
@@ -60,7 +61,18 @@ export default {
     },
 
     logAuditTickets(logAction, logExtra) {
-
+      //5 - tickets
+      const DATA = []
+      this.DATA = {
+        userId: this.getUserId(),
+        logAction: logAction,
+        logExtra: logExtra
+      }
+      //console.log(JSON.stringify(this.DATA))
+      axios.post(`${config.api}/api/lumberjack/logAuditTickets`, this.DATA)
+        .catch(() => {
+          console.log('Something went wrong with submitting logAuditTickets')
+        })
     },
 
     logAuditApprovals(logAction) {

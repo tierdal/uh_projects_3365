@@ -9,7 +9,7 @@
     <div class="editForm">
       <div class="editFormFooter-left">
         <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
-        <button v-if="isITdepartment" class="swal2-editform swal2-styled" v-on:click="assignTicket">Assign Ticket</button>
+        <button v-if="isITdepartment" class="swal2-editform swal2-styled" v-on:click="assignTicketShow">Assign Ticket</button>
       </div>
       <div class="editFormFooter-right">
         <button class="swal2-editform swal2-styled" v-on:click="editTicket">Edit Ticket</button>
@@ -116,6 +116,40 @@
         Work Log
       </div>
     </div>
+
+    <Modal
+      v-show="isModalVisible"
+      @close="assignTicketClose"
+      @submit="assignTicket"
+    >
+      <template v-slot:header>
+        This is a new modal header.
+      </template>
+
+      <template v-slot:body>
+        <label class="form-custom-label" for="form-assigneduser">Assigned User</label>
+        <model-list-select :list="USER_DATA"
+                           v-model="form.model.assignedToId"
+                           id="form-assigneduser"
+                           option-value="user_id"
+                           option-text="email"
+                           placeholder="select one">
+        </model-list-select>
+        <br>
+        <label class="form-custom-label" for="form-assignedteam">Assigned Team</label>
+        <model-list-select :list="TEAM_DATA"
+                           v-model="form.model.assignedTeamId"
+                           id="form-assignedteam"
+                           option-value="team_id"
+                           option-text="team_name"
+                           placeholder="select one">
+        </model-list-select>
+      </template>
+
+      <template v-slot:footer>
+      </template>
+    </Modal>
+
   </div>
 </template>
 
@@ -125,20 +159,35 @@ import config from "../../../config";
 import Swal from "sweetalert2";
 import _ from "lodash";
 import session from "../../../utilities/session";
+import Modal from "../../templates/Modal.vue";
+import { ModelListSelect } from 'vue-search-select';
+import { ModelSelect } from 'vue-search-select';
+import lumberjack from '../../../utilities/lumberjack'
 
 export default {
   name: "ticketView",
   props: ["ticket_id"],
+  components: {
+    Modal,
+    ModelSelect,
+    ModelListSelect
+  },
   data() {
     return {
+      isModalVisible: false,
       isITdepartment: false,
+      isNewTicket: true,
       DB_DATA: [],
+      USER_DATA: [],
+      TEAM_DATA: [],
       form: {
         model: {
           ticketName: '',
           ticketDescription: '',
           createdBy: '',
+          assignedToId: '',
           assignedTo: '',
+          assignedTeamId: '',
           assignedTeam: '',
           locationName: '',
           assetName: '',
@@ -161,7 +210,23 @@ export default {
     goBack(){
       this.$router.push('/tickets')
     },
-    assignTicket(){},
+    assignTicket(){
+      const ticketID = this.ticket_id
+      axios.put(`${config.api}/api/tickets/assign/` + ticketID, this.form.model)
+        .then((response) => {
+          Swal.fire(
+            'Done!',
+            'The ticket has been updated.',
+            'success'
+          )
+          lumberjack.logAudit(5, 'assign', this.ticket_id)
+          this.assignTicketClose()
+          this.loadData()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (updating ticket)', 'error')
+        })
+    },
     editTicket(){
       this.$router.push({
         name: '/tickets/edit',
@@ -184,7 +249,8 @@ export default {
           this.form.model.softwareId = response.data.softwareId,
           this.form.model.issueId = response.data.issueId,
           this.form.model.issueCategoryId = response.data.issueCategoryId,
-          this.form.model.teamId = response.data.teamId,
+          this.form.model.assignedToId = response.data.assigned_user,
+          this.form.model.assignedTeamId = response.data.teamId,
           this.form.model.isResolved = response.data.is_resolved,
           this.form.model.resolvedId = response.data.resolvedId,
           this.form.model.resolutionNotes = response.data.resolution_notes,
@@ -220,6 +286,22 @@ export default {
           Swal.fire('Error', 'Something went wrong (finding ticket)', 'error')
         })
     },
+    loadAssignedFields(){
+      axios.get(`${config.api}/api/users/find`)
+        .then((response) => {
+          this.USER_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading users)', 'error')
+        })
+      axios.get(`${config.api}/api/teams/find`)
+        .then((response) => {
+          this.TEAM_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading teams)', 'error')
+        })
+    },
     isITdepartmentCheck(){
       const department = session.getUser().departmentId
       if (department === 1){
@@ -227,6 +309,13 @@ export default {
       } else {
         return this.isITdepartment = false
       }
+    },
+    assignTicketShow(){
+      this.loadAssignedFields()
+      this.isModalVisible = true;
+    },
+    assignTicketClose(){
+      this.isModalVisible = false;
     }
   },
   beforeMount() {
@@ -242,5 +331,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

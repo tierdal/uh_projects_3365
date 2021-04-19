@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
         sequelize,
         tableName: 'auditLog_tickets',
         schema: 'dbo',
-        timestamps: false,
+        timestamps: true,
         underscored: true,
         createdAt: 'CREATED_AT',
         updatedAt: false,

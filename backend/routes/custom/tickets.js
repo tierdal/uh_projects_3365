@@ -144,49 +144,87 @@ router.get('/find/:ticketID', (req, res, next) => {
         });
 })
 
-/*
-router.put('/update/:userID', (req, res, next) => {
-    //update users
+router.post('/create', (req, res, next) => {
+    const db = req.app.get('db')
 
-    const user_id = req.params.userID;
-    //const user_id = req.body.user_id
-    const user_email = req.body.email
-    const user_fname = req.body.f_name
-    const user_lname = req.body.l_name
-    const user_phone = req.body.phone
-    const user_deptId = req.body.departmentId
-    const user_roleId = req.body.roleId
-    const user_approver = req.body.is_approver
-    const user_statusId = req.body.statusId
-
-    //console.log('--------------------------------------------------------------------------------------------------')
     //console.log(JSON.stringify(req.body))
+
+    db.ticketLog.create({
+        ticket_title: req.body.ticketName,
+        ticket_description: req.body.ticketDescription,
+        locationId: req.body.locationId,
+        created_by: req.body.createdById,
+        assetId: req.body.assetId,
+        softwareId: req.body.softwareId,
+        requestStatusId: req.body.requestStatusId,
+        issueId: req.body.issueId,
+        priorityId: req.body.priorityId,
+        issueCategoryId: req.body.issueCategoryId
+        })
+        .then((result) => {
+            res.json(result.ticket_id)
+            //res.status(200).send('OK');
+            //console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@' + result.ticket_id)
+        })
+        .catch(err => {
+        console.log('There was an error creating a ticket', JSON.stringify(err))
+        return res.send(err)
+    })
+})
+
+router.put('/update/:ticketID', (req, res, next) => {
 
     const db = req.app.get('db')
 
-    db.users.update({
-        email: user_email,
-        f_name: user_fname,
-        l_name: user_lname,
-        phone: user_phone,
-        departmentId: user_deptId,
-        roleId: user_roleId,
-        is_approver: user_approver,
-        statusId: user_statusId
+    //console.log(JSON.stringify(req.body))
+
+    db.ticketLog.update({
+        ticket_title: req.body.ticketName,
+        ticket_description: req.body.ticketDescription,
+        locationId: req.body.locationId,
+        assetId: req.body.assetId,
+        softwareId: req.body.softwareId,
+        requestStatusId: req.body.requestStatusId,
+        issueId: req.body.issueId,
+        priorityId: req.body.priorityId,
+        issueCategoryId: req.body.issueCategoryId
     }, {
         where: {
-            user_id: user_id
+            ticket_id: req.params.ticketID
         }
     })
         .then(() => {
             res.status(200).send('OK');
         })
         .catch(err => {
-            console.log('There was an error updating users', JSON.stringify(err))
+            console.log('There was an error updating tickets', JSON.stringify(err))
             return res.send(err)
         })
 })
-*/
+
+router.put('/assign/:ticketID', (req, res, next) => {
+
+    const db = req.app.get('db')
+
+    //console.log(JSON.stringify(req.body))
+
+    db.ticketLog.update({
+        assigned_user: req.body.assignedToId,
+        teamId: req.body.assignedTeamId
+    }, {
+        where: {
+            ticket_id: req.params.ticketID
+        }
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating tickets', JSON.stringify(err))
+            return res.send(err)
+        })
+})
+
 router.delete('/delete/:ticketID', (req, res, next) => {
     const ticket_id = req.params.ticketID;
     const db = req.app.get('db')

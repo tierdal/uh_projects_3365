@@ -14,7 +14,8 @@
         <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
       </div>
       <div class="editFormFooter-right">
-        <button v-if="!isNewTicket" class="swal2-editform swal2-styled updateButton" :disabled="validationFormCheck === 0" v-on:click="updateTicket">Update Ticket</button>
+        <button v-if="!isNewTicket" class="swal2-editform swal2-styled updateButton" :disabled="validationFormCheck === 1" v-on:click="updateTicket">Update Ticket</button>
+        <button v-if="isNewTicket" class="swal2-editform swal2-styled addNewButton" :disabled="validationFormCheck === 1" v-on:click="addTicket">Submit New Ticket</button>
       </div>
     </div>
 
@@ -147,6 +148,7 @@ import _ from "lodash";
 import session from "../../../utilities/session";
 import { ModelListSelect } from 'vue-search-select';
 import { ModelSelect } from 'vue-search-select';
+import lumberjack from '../../../utilities/lumberjack'
 
 export default {
   name: "ticketEdit",
@@ -160,7 +162,7 @@ export default {
       validationPhone: {},
       validationPass: {},
       validationPassConfirm: {},
-      isNewTicket: 'true',
+      isNewTicket: true,
       DB_DATA: [],
       LOCATION_DATA: [],
       ASSET_DATA: [],
@@ -173,6 +175,7 @@ export default {
         model: {
           ticketName: '',
           ticketDescription: '',
+          createdById: '',
           createdBy: '',
           assignedTo: '',
           assignedTeam: '',
@@ -219,28 +222,48 @@ export default {
       }
     },
     addTicket(){
+      this.form.model.createdById = session.getUser().user_id
+      if(this.form.model.assetId === ''){this.form.model.assetId = null}
+      if(this.form.model.softwareId === ''){this.form.model.softwareId = null}
+
+      console.log(this.form.model.assetId)
+      console.log(this.form.model.softwareId)
+
+      axios.post(`${config.api}/api/tickets/create`, this.form.model)
+        .then((response) => {
+          //console.log(JSON.stringify(response.data))
+          Swal.fire(
+            'Done!',
+            'The record has been created.',
+            'success'
+          )
+          lumberjack.logAudit(5, 'create', response.data)
+          this.goBack()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (creating ticket)', 'error')
+        })
     },
     updateTicket(){
       const ticketID = this.ticket_id
       axios.put(`${config.api}/api/tickets/update/` + ticketID, this.form.model)
         .then((response) => {
-          this.loadData()
           Swal.fire(
             'Done!',
             'The ticket has been updated.',
             'success'
           )
+          lumberjack.logAudit(5, 'update', this.ticket_id)
           this.goBack()
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (updating ticket)', 'error')
         })
     },
-    assignTicket(){},
     loadData(){
       axios.get(`${config.api}/api/tickets/find/` + this.ticket_id)
         .then((response) => {
-          this.DB_DATA = response.data;
+          //this.DB_DATA = response.data;
           //console.log(JSON.stringify(this.DB_DATA))
           this.form.model.ticketName = response.data.ticket_title,
           this.form.model.ticketDescription = response.data.ticket_description,
@@ -275,7 +298,7 @@ export default {
       axios.get(`${config.api}/api/locations/findlist`)
         .then((response) => {
           this.LOCATION_DATA = response.data;
-          console.log(response.data)
+          //console.log(response.data)
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading locations)', 'error')
@@ -348,5 +371,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

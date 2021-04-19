@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'ticket_id', type: 'asc'}
+          initialSortBy: {field: 'ticket_id', type: 'desc'}
         }"
         :pagination-options="{
           enabled: true,
