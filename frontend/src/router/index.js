@@ -38,6 +38,11 @@ import licenseKeysEdit from "../views/management/licensekeys/licenseKeysEdit.vue
 import assetList from "../views/management/hardwareassets/assetList.vue";
 import assetadmin from "../views/management/hardwareassets/assetadmin.vue";
 import assetEdit from "../views/management/hardwareassets/assetEdit.vue";
+import reportCenter from "../views/reports/reportCenter.vue";
+import hwAssetsReport from "../views/reports/customReports/hwAssetsReport.vue";
+import swAssetsReport from "../views/reports/customReports/swAssetsReport.vue";
+import ticketsReport from "../views/reports/customReports/ticketsReport.vue";
+import usersReport from "../views/reports/customReports/usersReport.vue";
 
 vue.use(VueRouter)
 
@@ -120,7 +125,52 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/tickets',
+      path: '/reports',
+      component: reportCenter,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+        isManager: true
+      },
+    },
+    {
+      path: '/reports/hwassetsreport',
+      component: hwAssetsReport,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+        isManager: true
+      },
+    },
+    {
+      path: '/reports/swassetsreport',
+      component: swAssetsReport,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+        isManager: true
+      },
+    },
+    {
+      path: '/reports/ticketsreport',
+      component: ticketsReport,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+        isManager: true
+      },
+    },
+    {
+      path: '/reports/usersreport',
+      component: usersReport,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+        isManager: true
+      },
+    },
+    {
+      path: '/helpdesk/tickets',
       component: ticketList,
       meta: {
         //isOpen: true,
@@ -128,8 +178,8 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/tickets/view',
-      name: '/tickets/view',
+      path: '/helpdesk/tickets/view',
+      name: '/helpdesk/tickets/view',
       component: ticketView,
       props: true,
       meta: {
@@ -138,8 +188,8 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/tickets/edit',
-      name: '/tickets/edit',
+      path: '/helpdesk/tickets/edit',
+      name: '/helpdesk/tickets/edit',
       component: ticketEdit,
       props: true,
       meta: {
@@ -154,6 +204,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -164,6 +215,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -173,6 +225,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -183,6 +236,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -192,6 +246,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -202,6 +257,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -211,6 +267,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -221,6 +278,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -230,6 +288,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -240,6 +299,7 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -294,7 +354,7 @@ router.beforeEach((to, from, next) => {
     } else {
       //put auth code here
       const role = session.getUser().roleId
-      if (role !== 1 && to.matched.some(record => record.meta.isAdmin)){
+      if ((role !== 1) && (to.matched.some(record => record.meta.isAdmin) || to.matched.some(record => record.meta.isManager) || to.matched.some(record => record.meta.isIT))){
         //non-admin gets blocked
         next({
           path: '/notFound',

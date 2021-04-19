@@ -211,9 +211,9 @@ export default {
   },
   methods: {
     goBack(){
-      if(this.isNewTicket){ this.$router.push('/tickets') } else {
+      if(this.isNewTicket){ this.$router.push('/helpdesk/tickets') } else {
         this.$router.push({
-          name: '/tickets/view',
+          name: '/helpdesk/tickets/view',
           params: {
             ticket_id: this.ticket_id
           }

@@ -21,7 +21,10 @@
     "@braid/vue-formulate": "^2.5.0",
     "vue-nav-tabs": "^0.5.7",
     "lodash": "latest",
-    "vue-search-select": "^2.9.3"
+    "vue-search-select": "^2.9.3",
+    "vue-badger-accordion": "^2.0.2",
+    "node-sass": "latest",
+    "sass-loader": "^10.0.0-rc.0"
   },
   "description": "frontend",
   "devDependencies": {
