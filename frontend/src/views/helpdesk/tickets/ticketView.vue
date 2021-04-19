@@ -9,12 +9,14 @@
     <div class="editForm">
       <div class="editFormFooter-left">
         <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
-        <button v-if="isITdepartment" class="swal2-editform swal2-styled" v-on:click="assignTicketShow">Assign Ticket</button>
+        <button :key="form.model.isResolved" v-if="isITdepartment && !form.model.isResolved" class="swal2-editform swal2-styled" v-on:click="changeStatusShow">Change Status</button>
+        <button :key="form.model.isResolved" v-if="isITdepartment && !form.model.isResolved" class="swal2-editform swal2-styled" v-on:click="assignTicketShow">Assign Ticket</button>
+        <button :key="form.model.isResolved" v-if="isITdepartment && !form.model.isResolved" class="swal2-editform swal2-styled resolveButton" v-on:click="resolveTicketShow">Resolve Ticket</button>
       </div>
       <div class="editFormFooter-right">
-        <button class="swal2-editform swal2-styled" v-on:click="editTicket">Edit Ticket</button>
-        <button class="swal2-editform swal2-styled deleteButton" v-on:click="cancelTicket">Cancel Ticket</button>
-        <button class="swal2-editform swal2-styled" v-on:click="closeTicket">Close Ticket</button>
+        <button :key="form.model.isResolved" v-if="!form.model.isResolved" class="swal2-editform swal2-styled" v-on:click="editTicket">Edit Ticket</button>
+        <button :key="form.model.isResolved" v-if="!form.model.isResolved" class="swal2-editform swal2-styled deleteButton" v-on:click="cancelTicket">Cancel Ticket</button>
+        <button :key="form.model.isResolved" v-if="form.model.isResolved" class="swal2-editform swal2-styled" v-on:click="reopenTicket">Re-Open Ticket</button>
       </div>
     </div>
 
@@ -116,14 +118,16 @@
         Work Log
       </div>
     </div>
+    <ticket-worklog v-if="!isNewTicket" :key="componentKey" v-bind:ticket_id="ticket_id"></ticket-worklog>
 
+    <!-- Assign Ticket -->
     <Modal
-      v-show="isModalVisible"
+      v-show="isAssignTicketVisible"
       @close="assignTicketClose"
       @submit="assignTicket"
     >
       <template v-slot:header>
-        This is a new modal header.
+        Assign User and Team
       </template>
 
       <template v-slot:body>
@@ -150,6 +154,68 @@
       </template>
     </Modal>
 
+    <!-- Resolve Ticket -->
+    <Modal
+      v-show="isResolveTicketVisible"
+      @close="resolveTicketClose"
+      @submit="resolveTicket"
+    >
+      <template v-slot:header>
+        Resolve Ticket
+      </template>
+
+      <template v-slot:body>
+        <label class="form-custom-label" for="form-resolvedlist">Resolution Reason</label>
+        <model-list-select :list="RESOLVED_DATA"
+                           v-model="form.model.resolvedId"
+                           id="form-resolvedlist"
+                           option-value="resolvedList_id"
+                           option-text="resolvedList_name"
+                           placeholder="select one">
+        </model-list-select>
+        <FormulateInput
+          @validation="validationFname = $event"
+          type="textarea"
+          name="ticketResolutionNotes"
+          label="Resolution Notes"
+          validation="required"
+          v-model="form.model.resolutionNotes"
+          :validation-messages="{required: 'The Resolution Notes is required'}"
+        />
+      </template>
+
+      <template v-slot:footer>
+      </template>
+    </Modal>
+
+    <!-- Resolve Ticket -->
+    <Modal
+      v-show="isChangeStatusVisible"
+      @close="changeStatusClose"
+      @submit="changeStatus"
+    >
+      <template v-slot:header>
+        Change Ticket Status
+      </template>
+
+      <template v-slot:body>
+        <label class="form-custom-label" for="form-statuslist">Ticket Status</label>
+        <model-list-select :list="STATUS_DATA"
+                           v-model="form.model.requestStatusId"
+                           id="form-statuslist"
+                           option-value="requestStatus_id"
+                           option-text="requestStatus_name"
+                           placeholder="select one">
+        </model-list-select>
+        <br>
+        <br>
+        <br>
+      </template>
+
+      <template v-slot:footer>
+      </template>
+    </Modal>
+
   </div>
 </template>
 
@@ -163,6 +229,7 @@ import Modal from "../../templates/Modal.vue";
 import { ModelListSelect } from 'vue-search-select';
 import { ModelSelect } from 'vue-search-select';
 import lumberjack from '../../../utilities/lumberjack'
+import ticketWorklog from "./ticketWorklog.vue";
 
 export default {
   name: "ticketView",
@@ -170,15 +237,21 @@ export default {
   components: {
     Modal,
     ModelSelect,
-    ModelListSelect
+    ModelListSelect,
+    ticketWorklog
   },
   data() {
     return {
-      isModalVisible: false,
+      isAssignTicketVisible: false,
+      isChangeStatusVisible: false,
+      isResolveTicketVisible: false,
+      componentKey: 0,
       isITdepartment: false,
       isNewTicket: true,
       DB_DATA: [],
       USER_DATA: [],
+      STATUS_DATA: [],
+      RESOLVED_DATA: [],
       TEAM_DATA: [],
       form: {
         model: {
@@ -192,11 +265,13 @@ export default {
           locationName: '',
           assetName: '',
           softwareName: '',
+          requestStatusId: '',
           requestStatusName: '',
           issueName: '',
           priorityName: '',
           issueCategoryName: '',
           isResolved: '',
+          resolvedId: '',
           resolvedName: '',
           resolutionNotes: '',
           createdAt: '',
@@ -212,6 +287,7 @@ export default {
     },
     assignTicket(){
       const ticketID = this.ticket_id
+      this.form.model.requestStatusId = 3
       axios.put(`${config.api}/api/tickets/assign/` + ticketID, this.form.model)
         .then((response) => {
           Swal.fire(
@@ -219,8 +295,50 @@ export default {
             'The ticket has been updated.',
             'success'
           )
+
+          const data = {
+            ticketId: this.ticket_id,
+            userId: session.getUser().user_id,
+            description: 'Ticket was assigned.'
+          }
+          axios.post(`${config.api}/api/worklog/create`, data)
+            .then((response) => {
+              this.loadData()
+              Swal.fire(
+                'Done!',
+                'The record has been created.',
+                'success'
+              )
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong', 'error')
+            })
+          this.componentKey += 1;
+
           lumberjack.logAudit(5, 'assign', this.ticket_id)
           this.assignTicketClose()
+          this.loadData()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (updating ticket)', 'error')
+        })
+    },
+    changeStatus(){
+      const ticketID = this.ticket_id
+      if(this.form.model.requestStatusId === 5 || this.form.model.requestStatusId === 6 || this.form.model.requestStatusId === 7) {
+        this.form.model.isResolved = true
+      } else {
+        this.form.model.isResolved = false
+      }
+      axios.put(`${config.api}/api/tickets/changestatus/` + ticketID, this.form.model)
+        .then((response) => {
+          Swal.fire(
+            'Done!',
+            'The ticket has been updated.',
+            'success'
+          )
+          lumberjack.logAudit(5, 'change status', this.ticket_id)
+          this.changeStatusClose()
           this.loadData()
         })
         .catch(() => {
@@ -235,8 +353,152 @@ export default {
         }
       })
     },
-    cancelTicket(){},
-    closeTicket(){},
+    cancelTicket(){
+      Swal.fire({
+        title: 'Cancel Ticket',
+        html: 'Are you sure you want to cancel this ticket?',
+        showCancelButton: true,
+        showDenyButton: false,
+        focusConfirm: false,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        customClass: {
+          cancelButton: 'order-2',
+          confirmButton: 'order-3',
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const ticketID = this.ticket_id
+          axios.put(`${config.api}/api/tickets/cancel/` + ticketID)
+            .then((response) => {
+              Swal.fire(
+                'Done!',
+                'The ticket has been cancelled.',
+                'success'
+              )
+
+              const data = {
+                ticketId: this.ticket_id,
+                userId: session.getUser().user_id,
+                description: 'Ticket was cancelled.'
+              }
+              axios.post(`${config.api}/api/worklog/create`, data)
+                .then((response) => {
+                  this.loadData()
+                  Swal.fire(
+                    'Done!',
+                    'The record has been created.',
+                    'success'
+                  )
+                })
+                .catch(() => {
+                  Swal.fire('Error', 'Something went wrong', 'error')
+                })
+
+              this.componentKey += 1;
+
+              lumberjack.logAudit(5, 'cancel', this.ticket_id)
+              this.loadData()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong', 'error')
+            })
+        }
+      })
+    },
+    resolveTicket(){
+      const ticketID = this.ticket_id
+      this.form.model.assignedToId = session.getUser().user_id
+      axios.put(`${config.api}/api/tickets/resolve/` + ticketID, this.form.model)
+        .then((response) => {
+          Swal.fire(
+            'Done!',
+            'The ticket has been updated.',
+            'success'
+          )
+
+          lumberjack.logAudit(5, 'resolve', this.ticket_id)
+
+          const data = {
+            ticketId: this.ticket_id,
+            userId: session.getUser().user_id,
+            description: 'Ticket was resolved.'
+          }
+          axios.post(`${config.api}/api/worklog/create`, data)
+            .then((response) => {
+              this.loadData()
+              Swal.fire(
+                'Done!',
+                'The record has been created.',
+                'success'
+              )
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong', 'error')
+            })
+
+          this.componentKey += 1;
+          this.resolveTicketClose()
+          this.loadData()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (resolving ticket)', 'error')
+        })},
+    reopenTicket(){
+      Swal.fire({
+        title: 'Re-Open Ticket',
+        html: 'Are you sure you want to re-open this ticket?',
+        showCancelButton: true,
+        showDenyButton: false,
+        focusConfirm: false,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        customClass: {
+          cancelButton: 'order-2',
+          confirmButton: 'order-3',
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const ticketID = this.ticket_id
+          this.form.model.requestStatusId = 2
+          this.form.model.isResolved = false
+          axios.put(`${config.api}/api/tickets/changestatus/` + ticketID, this.form.model)
+            .then((response) => {
+              Swal.fire(
+                'Done!',
+                'The ticket has been updated.',
+                'success'
+              )
+
+              const data = {
+                ticketId: this.ticket_id,
+                userId: session.getUser().user_id,
+                description: 'Ticket was re-opened.'
+              }
+              axios.post(`${config.api}/api/worklog/create`, data)
+                .then((response) => {
+                  this.loadData()
+                  Swal.fire(
+                    'Done!',
+                    'The record has been created.',
+                    'success'
+                  )
+                })
+                .catch(() => {
+                  Swal.fire('Error', 'Something went wrong', 'error')
+                })
+
+              this.componentKey += 1;
+
+              lumberjack.logAudit(5, 'reopen', this.ticket_id)
+              this.loadData()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong (updating ticket)', 'error')
+            })
+        }
+      })
+    },
     loadData(){
       axios.get(`${config.api}/api/tickets/find/` + this.ticket_id)
         .then((response) => {
@@ -251,6 +513,7 @@ export default {
           this.form.model.issueCategoryId = response.data.issueCategoryId,
           this.form.model.assignedToId = response.data.assigned_user,
           this.form.model.assignedTeamId = response.data.teamId,
+          this.form.model.requestStatusId = response.data.requestStatusId,
           this.form.model.isResolved = response.data.is_resolved,
           this.form.model.resolvedId = response.data.resolvedId,
           this.form.model.resolutionNotes = response.data.resolution_notes,
@@ -302,6 +565,23 @@ export default {
           Swal.fire('Error', 'Something went wrong (loading teams)', 'error')
         })
     },
+    loadResolvedFields(){
+      axios.get(`${config.api}/api/resolvedList/find`)
+        .then((response) => {
+          this.RESOLVED_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading resolved list)', 'error')
+        })
+    },
+    loadChangedStatusFields(){
+      axios.get(`${config.api}/api/requestStatus/find`)
+        .then((response) => {
+          this.STATUS_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading status list)', 'error')
+        })},
     isITdepartmentCheck(){
       const department = session.getUser().departmentId
       if (department === 1){
@@ -312,10 +592,24 @@ export default {
     },
     assignTicketShow(){
       this.loadAssignedFields()
-      this.isModalVisible = true;
+      this.isAssignTicketVisible = true;
     },
     assignTicketClose(){
-      this.isModalVisible = false;
+      this.isAssignTicketVisible = false;
+    },
+    resolveTicketShow(){
+      this.loadResolvedFields()
+      this.isResolveTicketVisible = true;
+    },
+    resolveTicketClose(){
+      this.isResolveTicketVisible = false;
+    },
+    changeStatusShow(){
+      this.loadChangedStatusFields()
+      this.isChangeStatusVisible = true;
+    },
+    changeStatusClose(){
+      this.isChangeStatusVisible = false;
     }
   },
   beforeMount() {
@@ -331,4 +625,7 @@ export default {
 </script>
 
 <style scoped>
+.resolveButton {
+  background-color: #41b883 !important;
+}
 </style>

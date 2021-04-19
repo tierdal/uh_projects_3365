@@ -43,9 +43,9 @@ module.exports = function(sequelize, DataTypes) {
         sequelize,
         tableName: 'workLog',
         schema: 'dbo',
-        timestamps: false,
+        timestamps: true,
         underscored: true,
-        createdAt: false,
+        createdAt: 'workLog_time',
         updatedAt: false,
         deletedAt: false
     });

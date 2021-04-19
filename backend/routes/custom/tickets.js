@@ -1,9 +1,79 @@
 const express = require('express')
 const router = express.Router({ caseSensitive: true })
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op;
 
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
 router.get('/find', (req, res, next) => {
+    const db = req.app.get('db')
+
+    return db.ticketLog.findAll({
+        include: [
+            {
+                model: db.users,
+                as: 'createdBy',
+                attributes: ['user_id','email','f_name','l_name']
+            },
+            {
+                model: db.users,
+                as: 'assignedUser',
+                attributes: ['user_id','email','f_name','l_name']
+            },
+            {
+                model: db.assetList,
+                attributes: ['asset_id','asset_name']
+            },
+            {
+                model: db.issueCategory,
+                attributes: ['issueCategory_id','issueCategory_name']
+            },
+            {
+                model: db.issueType,
+                attributes: ['issueType_id','issueType_name']
+            },
+            {
+                model: db.locations,
+                attributes: ['location_id','location_name']
+            },
+            {
+                model: db.priorityList,
+                attributes: ['priority_id','priority_name']
+            },
+            {
+                model: db.requestStatus,
+                attributes: ['requestStatus_id','requestStatus_name']
+            },
+            {
+                model: db.resolvedList,
+                attributes: ['resolvedList_id','resolvedList_name']
+            },
+            {
+                model: db.softwareAssets,
+                attributes: ['software_id','software_name']
+            },
+            {
+                model: db.teams,
+                attributes: ['team_id','team_name']
+            }
+        ],
+        where: {
+            is_resolved: {
+                [Op.not]: 'true'
+            }
+        },
+        //raw : true
+    })
+        .then((ticketLog) => {
+            res.send(ticketLog)
+        })
+        .catch((err) => {
+            console.log('There was an error querying tickets', JSON.stringify(err))
+            return res.send(err)
+        });
+})
+
+router.get('/findall', (req, res, next) => {
     const db = req.app.get('db')
 
     return db.ticketLog.findAll({
@@ -211,6 +281,78 @@ router.put('/assign/:ticketID', (req, res, next) => {
     db.ticketLog.update({
         assigned_user: req.body.assignedToId,
         teamId: req.body.assignedTeamId
+    }, {
+        where: {
+            ticket_id: req.params.ticketID
+        }
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating tickets', JSON.stringify(err))
+            return res.send(err)
+        })
+})
+
+router.put('/cancel/:ticketID', (req, res, next) => {
+
+    const db = req.app.get('db')
+
+    db.ticketLog.update({
+        requestStatusId: 5,
+        is_resolved: true
+    }, {
+        where: {
+            ticket_id: req.params.ticketID
+        }
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating tickets', JSON.stringify(err))
+            return res.send(err)
+        })
+})
+
+router.put('/resolve/:ticketID', (req, res, next) => {
+
+    const db = req.app.get('db')
+
+    //console.log(JSON.stringify(req.body))
+
+    db.ticketLog.update({
+        assigned_user: req.body.assignedToId,
+        requestStatusId: 7,
+        is_resolved: true,
+        resolvedId: req.body.resolvedId,
+        resolution_notes: req.body.resolutionNotes,
+        CLOSED_AT: new Date(Date.now()).toISOString()
+    }, {
+        where: {
+            ticket_id: req.params.ticketID
+        }
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating tickets', JSON.stringify(err))
+            return res.send(err)
+        })
+})
+
+
+router.put('/changestatus/:ticketID', (req, res, next) => {
+
+    const db = req.app.get('db')
+
+    //console.log(JSON.stringify(req.body))
+
+    db.ticketLog.update({
+        requestStatusId: req.body.requestStatusId,
+        is_resolved: req.body.isResolved
     }, {
         where: {
             ticket_id: req.params.ticketID

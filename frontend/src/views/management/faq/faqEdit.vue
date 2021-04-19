@@ -128,7 +128,7 @@ export default {
             this.form.model.title = response.data.faq_title,
             this.form.model.body = response.data.faq_body,
             this.form.model.faq_categoryId = response.data.faq_categoryId
-          console.log(JSON.stringify(this.DB_DATA))
+          //console.log(JSON.stringify(this.DB_DATA))
           //console.log('Dept: ' + this.departmentId + ', Role: ' + this.roleId + ', Status: ' + this.statusId)
         })
         .catch(() => {
