@@ -150,6 +150,67 @@ router.get('/findlist', (req, res, next) => {
         });
 })
 
+router.get('/findreport', (req, res, next) => {
+    const db = req.app.get('db')
+
+    return db.tickets.findAll({
+        where: {ticket_id:ticket_id},
+        include: [
+            {
+                model: db.users,
+                as: 'createdBy',
+                attributes: ['user_id','email','f_name','l_name']
+            },
+            {
+                model: db.users,
+                as: 'assignedUser',
+                attributes: ['user_id','email','f_name','l_name']
+            },
+            {
+                model: db.teams,
+                attributes: ['team_id','team_name']
+            },
+            {
+                model: db.assetList,
+                attributes: ['asset_id','asset_name']
+            },
+            {
+                model: db.issueCategory,
+                attributes: ['issueCategory_id','issueCategory_name']
+            },
+            {
+                model: db.issueType,
+                attributes: ['issueType_id','issueType_name']
+            },
+            {
+                model: db.locations,
+                attributes: ['location_id','location_name']
+            },
+            {
+                model: db.priorityList,
+                attributes: ['priority_id','priority_name']
+            },
+            {
+                model: db.requestStatus,
+                attributes: ['requestStatus_id','requestStatus_name']
+            },
+            {
+                model: db.resolvedList,
+                attributes: ['resolvedList_id','resolvedList_name']
+            },
+            {
+                model: db.softwareAssets,
+                attributes: ['software_id','software_name']
+            },
+        ]
+    })
+        .then((tickets) => res.send(tickets))
+        .catch((err) => {
+            console.log('There was an error querying tickets', JSON.stringify(err))
+            return res.send(err)
+        });
+})
+
 router.get('/find/:ticketID', (req, res, next) => {
     const ticket_id = req.params.ticketID
     const db = req.app.get('db')
