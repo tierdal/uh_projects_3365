@@ -41,15 +41,17 @@
           v-model="form.model.ticketDescription"
           :validation-messages="{required: 'The Ticket Description is required'}"
         />
-        <label class="form-custom-label" for="form-status">Status</label>
+        <label v-if="!isNewTicket" class="form-custom-label" for="form-status">Status</label>
         <model-list-select :list="REQSTATUS_DATA"
+                           v-if="!isNewTicket"
                            v-model="form.model.requestStatusId"
                            id="form-status"
                            option-value="requestStatus_id"
                            option-text="requestStatus_name"
+                           :isDisabled="true"
                            placeholder="select one">
         </model-list-select>
-        <br />
+        <br v-if="!isNewTicket" />
         <label class="form-custom-label" for="form-priority">Priority</label>
         <model-list-select :list="PRILIST_DATA"
                            v-model="form.model.priorityId"
@@ -92,7 +94,7 @@
                            v-model="form.model.assetId"
                            id="form-hwasset"
                            option-value="asset_id"
-                           option-text="asset_name"
+                           option-text="concatData"
                            placeholder="select one">
         </model-list-select>
         <br />
@@ -131,12 +133,6 @@
         />
       </div>
     </form>
-    <br>
-    <div class="jumbotron dashboard">
-      <div class="dashlabel">
-        Work Log
-      </div>
-    </div>
   </div>
 </template>
 
@@ -182,7 +178,7 @@ export default {
           locationId: '',
           assetId: '',
           softwareId: '',
-          requestStatusId: '',
+          requestStatusId: 1,
           issueId: '',
           priorityId: '',
           issueCategoryId: '',
@@ -203,7 +199,10 @@ export default {
   },
   computed:{
     validationFormCheck: function () {
-      if (this.validationEmail.hasErrors === false && this.validationFname.hasErrors === false && this.validationLname.hasErrors === false && this.validationPhone.hasErrors === false){
+      if (this.validationEmail.hasErrors === false &&
+        this.validationFname.hasErrors === false &&
+        this.validationLname.hasErrors === false &&
+        this.validationPhone.hasErrors === false){
         return 1
       } else {
         return 0
@@ -306,6 +305,10 @@ export default {
       axios.get(`${config.api}/api/assetList/findlist`)
         .then((response) => {
           this.ASSET_DATA = response.data;
+          const MERGE_DATA = this.ASSET_DATA.map(obj => ({
+            concatData: obj.asset_name + ' (' + obj.serial_number + ')'
+          }))
+          this.ASSET_DATA = _.merge(this.ASSET_DATA,MERGE_DATA)
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading assets)', 'error')

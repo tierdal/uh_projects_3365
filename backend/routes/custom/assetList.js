@@ -34,10 +34,11 @@ router.get('/find', (req, res, next) => {
 })
 
 router.get('/findlist', (req, res, next) => {
+    const db = req.app.get('db')
 
     return db.assetList.findAll({
         attributes:['asset_id','asset_name','serial_number'],
-        raw : true,
+        //raw : true
     })
         .then((assetList) => res.send(assetList))
         .catch((err) => {

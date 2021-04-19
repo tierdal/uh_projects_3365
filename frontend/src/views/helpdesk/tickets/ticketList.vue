@@ -110,7 +110,7 @@ export default {
       this.$router.push('/tickets/edit')
     },
     loadData(){
-      axios.get(`${config.api}/api/tickets/find`)
+      axios.get(`${config.api}/api/tickets/findall`)
         .then((response) => {
           this.DB_DATA = response.data;
           this.CREATEDBY = this.DB_DATA.map(obj => ({

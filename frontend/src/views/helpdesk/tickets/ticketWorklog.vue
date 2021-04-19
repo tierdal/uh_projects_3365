@@ -22,7 +22,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'workLog_id', type: 'asc'}
+          initialSortBy: {field: 'workLog_id', type: 'desc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       isModalVisible: false,
+      componentKey: 0,
       DB_DATA: [],
       dataFields: [{
         label: 'id',
@@ -186,7 +187,7 @@ export default {
         .then((response) => {
           this.DB_DATA = response.data;
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.email','email'))
-          console.log(JSON.stringify(response.data))
+          //console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (finding worklog items)', 'error')
