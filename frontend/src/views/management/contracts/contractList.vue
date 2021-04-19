@@ -69,7 +69,7 @@ export default {
         label: 'description',
         field: 'contract_description'
       },{
-        label: 'vendorId',
+        label: 'vendor',
         field: 'VendorName'
       }]
     };

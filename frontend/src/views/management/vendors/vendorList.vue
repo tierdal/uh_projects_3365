@@ -81,9 +81,6 @@ export default {
         label: 'locationId',
         field: 'locationName'
       },{
-        label: 'notes',
-        field: 'vendor_notes'
-      },{
         label: 'paymenttermId',
         field: 'paymentTermName'
       }]

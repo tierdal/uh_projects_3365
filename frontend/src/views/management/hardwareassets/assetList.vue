@@ -69,29 +69,20 @@ export default {
         label: 'name',
         field: 'asset_name'
       },{
-        label: 'description',
-        field: 'asset_description'
-      },{
         label: 'serial number',
         field: 'serial_number'
       },{
-        label: 'asset Status Name',
+        label: 'asset Status',
         field: 'assetStatusName'
       },{
-        label: 'asset Type Name',
+        label: 'asset Type',
         field: 'assetTypeName'
       },{
         label: 'vendor Name',
         field: 'vendorName'
       },{
-        label: 'username',
+        label: 'Assigned User',
         field: 'userName'
-      },{
-        label: 'purchase date',
-        field: 'purchase_date'
-      },{
-        label: 'notes',
-        field: 'asset_notes'
       }]
     };
   },
@@ -119,14 +110,13 @@ export default {
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'assetStatus.assetStatus_name','assetStatusName'))
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'assetType.assetType_name','assetTypeName'))
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'vendor.vendor_name','vendorName'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.f_name','userName'))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.email','userName'))
           //need to link relationships for name data
           console.log(JSON.stringify(this.DB_DATA))
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong2', 'error')
+          Swal.fire('Error', 'Something went wrong (finding assets)', 'error')
         })
-      //this.DB_DATA.forEach( obj => this.renameKey(obj, 'assetStatus.assetStatus_name','assetStatusName'))
     },
     //deleteItem(){},
     renameKey( obj, oldKey, newKey ) {

@@ -64,23 +64,14 @@ export default {
         field: 'software_id',
         type: 'number'
       },{
-        label: 'name',
+        label: 'software name',
         field: 'software_name'
       },{
-        label: 'description',
-        field: 'software_description'
-      },{
-        label: 'softwareStatusId',
+        label: 'software Status',
         field: 'softwareStatusDesc'
       },{
-        label: 'vendorId',
+        label: 'vendor name',
         field: 'vendorName'
-      },{
-        label: 'purchase_date',
-        field: 'purchase_date'
-      },{
-        label: 'notes',
-        field: 'software_notes'
       }]
     };
   },

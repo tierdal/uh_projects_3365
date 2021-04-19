@@ -74,7 +74,7 @@ export default {
         label: 'description',
         field: 'faq_body'
       },{
-        label: 'FAQCategory',
+        label: 'Category',
         field: 'faqcategoryDesc'
       }]
     };

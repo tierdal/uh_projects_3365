@@ -13,7 +13,7 @@ router.get('/find', (req, res, next) => {
             },
             {
                 model: db.users,
-                attributes: ['user_id','f_name']
+                attributes: ['user_id','email']
             }
         ],
         raw : true,

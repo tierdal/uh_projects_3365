@@ -64,13 +64,13 @@ export default {
         field: 'license_id',
         type: 'number'
       },{
-        label: 'softwareId',
+        label: 'software Name',
         field: 'softwareName'
       },{
         label: 'license key',
         field: 'license_key'
       },{
-        label: 'userId',
+        label: 'Assigned User',
         field: 'users'
       }]
     };
@@ -95,9 +95,10 @@ export default {
       axios.get(`${config.api}/api/licenseKeys/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.f_name','users'))
+          //console.log(JSON.stringify(this.DB_DATA))
+          this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.email','users'))
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'softwareAsset.software_name','softwareName'))
-          console.log(JSON.stringify(response.data))
+          //console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
