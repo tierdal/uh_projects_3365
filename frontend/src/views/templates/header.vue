@@ -3,7 +3,7 @@
     <ul class="navbar-nav">
       <li class="nav-item"><router-link to="/home"><span class="navbar-brand"><img src="@/assets/img/favicon.png" alt="logo" class="navbar-logo"></span></router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/home">Home</router-link></li>
-      <li class="nav-item"><router-link class="nav-link" to="/tickets">Tickets</router-link></li>
+      <li class="nav-item"><router-link class="nav-link" to="/helpdesk/tickets">Tickets</router-link></li>
       <li class="nav-item"><router-link class="nav-link" to="/faq">FAQ</router-link></li>
       <li v-if="helpdeskCheck" class="nav-item"><a class="nav-link" href="#">Management</a>
         <ul class="navbar-nav-submenu">
@@ -16,6 +16,7 @@
           <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/hardwareassets">Hardware Assets Manager</router-link></li>
         </ul>
       </li>
+      <li v-if="helpdeskCheck || managementCheck" class="nav-item"><router-link class="nav-link" to="/reports">Reports</router-link></li>
       <li v-if="adminCheck" class="nav-item"><a class="nav-link" href="#">Admin</a>
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="/useradmin">User Manager</router-link></li>
@@ -48,6 +49,7 @@ export default {
   data() {
     return {
       adminCheck: false,
+      managementCheck: false,
       helpdeskCheck: false
     }
   },
@@ -70,6 +72,14 @@ export default {
         return this.helpdeskCheck = true
       } else {
         return this.helpdeskCheck = false
+      }
+    },
+    isManagementCheck(){
+      const department = session.getUser().departmentId
+      if (department === 2){
+        return this.managementCheck = true
+      } else {
+        return this.managementCheck = false
       }
     },
     confirmLogout() {

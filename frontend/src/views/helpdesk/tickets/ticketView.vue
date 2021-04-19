@@ -283,7 +283,7 @@ export default {
   },
   methods: {
     goBack(){
-      this.$router.push('/tickets')
+      this.$router.push('/helpdesk/tickets')
     },
     assignTicket(){
       const ticketID = this.ticket_id
@@ -347,7 +347,7 @@ export default {
     },
     editTicket(){
       this.$router.push({
-        name: '/tickets/edit',
+        name: '/helpdesk/tickets/edit',
         params: {
           ticket_id: this.ticket_id
         }
