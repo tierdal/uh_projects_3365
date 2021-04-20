@@ -152,9 +152,25 @@ router.get('/findlist', (req, res, next) => {
 
 router.get('/findreport', (req, res, next) => {
     const db = req.app.get('db')
+    const whereStatement = {};
+    if(req.query.createdById) {whereStatement.created_by = req.query.createdById}
+    if(req.query.assignedToId) {whereStatement.assigned_user = req.query.assignedToId}
+    if(req.query.assignedTeamId) {whereStatement.teamId = req.query.assignedTeamId}
+    if(req.query.locationId) {whereStatement.locationId = req.query.locationId}
+    if(req.query.assetId) {whereStatement.locationId = req.query.assetId}
+    if(req.query.softwareId) {whereStatement.softwareId = req.query.softwareId}
+    if(req.query.requestStatusId) {whereStatement.requestStatusId = req.query.requestStatusId}
+    if(req.query.issueId) {whereStatement.issueId = req.query.issueId}
+    if(req.query.priorityId) {whereStatement.priorityId = req.query.priorityId}
+    if(req.query.issueCategoryId) {whereStatement.issueCategoryId = req.query.issueCategoryId}
+    if(req.query.isResolved) {whereStatement.is_resolved = req.query.isResolved}
+    if(req.query.resolvedId) {whereStatement.resolvedId = req.query.resolvedId}
 
-    return db.tickets.findAll({
-        where: {ticket_id:ticket_id},
+    console.log(whereStatement)
+
+    console.log(JSON.stringify(req.query))
+
+    return db.ticketLog.findAll({
         include: [
             {
                 model: db.users,
@@ -165,10 +181,6 @@ router.get('/findreport', (req, res, next) => {
                 model: db.users,
                 as: 'assignedUser',
                 attributes: ['user_id','email','f_name','l_name']
-            },
-            {
-                model: db.teams,
-                attributes: ['team_id','team_name']
             },
             {
                 model: db.assetList,
@@ -202,9 +214,17 @@ router.get('/findreport', (req, res, next) => {
                 model: db.softwareAssets,
                 attributes: ['software_id','software_name']
             },
-        ]
+            {
+                model: db.teams,
+                attributes: ['team_id','team_name']
+            }
+        ],
+        where: whereStatement
+        //raw : true
     })
-        .then((tickets) => res.send(tickets))
+        .then((ticketLog) => {
+            res.send(ticketLog)
+        })
         .catch((err) => {
             console.log('There was an error querying tickets', JSON.stringify(err))
             return res.send(err)
@@ -340,6 +360,7 @@ router.put('/assign/:ticketID', (req, res, next) => {
     //console.log(JSON.stringify(req.body))
 
     db.ticketLog.update({
+        requestStatusId: req.body.requestStatusId,
         assigned_user: req.body.assignedToId,
         teamId: req.body.assignedTeamId
     }, {
@@ -403,7 +424,6 @@ router.put('/resolve/:ticketID', (req, res, next) => {
             return res.send(err)
         })
 })
-
 
 router.put('/changestatus/:ticketID', (req, res, next) => {
 
