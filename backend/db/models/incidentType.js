@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        incidentType_responsible: {
+        incidentType_responsibleTeam: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {

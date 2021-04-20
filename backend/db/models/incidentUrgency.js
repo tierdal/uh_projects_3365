@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        incidentUrgency_sla: {
+        incidentUrgency_SLA: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {

@@ -186,12 +186,12 @@ module.exports = {
     models.issueType.belongsTo(models.issueCategory, {foreignKey: "issueCategoryId"});
 
     //incidentType
-    models.teams.hasMany(models.incidentType, {foreignKey: "incidentType_responsible"});
-    models.incidentType.belongsTo(models.teams, {foreignKey: "incidentType_responsible"});
+    models.teams.hasMany(models.incidentType, {foreignKey: "incidentType_responsibleTeam"});
+    models.incidentType.belongsTo(models.teams, {foreignKey: "incidentType_responsibleTeam"});
 
     //incidentUrgency
-    models.slaList.hasMany(models.incidentUrgency, {foreignKey: "incidentUrgency_sla"});
-    models.incidentUrgency.belongsTo(models.slaList, {foreignKey: "incidentUrgency_sla"});
+    models.slaList.hasMany(models.incidentUrgency, {foreignKey: "incidentUrgency_SLA"});
+    models.incidentUrgency.belongsTo(models.slaList, {foreignKey: "incidentUrgency_SLA"});
 
   }
 }
