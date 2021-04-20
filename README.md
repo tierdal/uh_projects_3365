@@ -30,3 +30,12 @@ Major packages inlcuded and configured (as required)
 * Some Vue-mixins for authentication/user info
 
 [Build Setup](./frontend/README.md)
+
+
+## Roadmap
+
+* Image / color status labels
+* Update config popups to use Modal and not SWAL2
+* Finish CRUD for all the tables
+* Finish reports module
+* Role Mapper

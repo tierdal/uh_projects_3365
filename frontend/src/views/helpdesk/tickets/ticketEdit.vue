@@ -218,10 +218,8 @@ export default {
         this.validationPriority === false &&
         this.validationCategory === false &&
         this.validationType === false){
-        console.log('TRUE 1: ' + this.validationPriority + ' 2: ' + this.validationCategory + ' 3: ' + this.validationType + ' 4: ' + this.validationTitle.hasErrors)
         return true
       } else {
-        console.log('FALSE 1: ' + this.validationPriority + ' 2: ' + this.validationCategory + ' 3: ' + this.validationType + ' 4: ' + this.validationTitle.hasErrors)
         return false
       }
     }
@@ -242,12 +240,8 @@ export default {
       if(this.form.model.assetId === ''){this.form.model.assetId = null}
       if(this.form.model.softwareId === ''){this.form.model.softwareId = null}
 
-      console.log(this.form.model.assetId)
-      console.log(this.form.model.softwareId)
-
       axios.post(`${config.api}/api/tickets/create`, this.form.model)
         .then((response) => {
-          //console.log(JSON.stringify(response.data))
           Swal.fire(
             'Done!',
             'The record has been created.',
@@ -312,7 +306,6 @@ export default {
       axios.get(`${config.api}/api/locations/findlist`)
         .then((response) => {
           this.LOCATION_DATA = response.data;
-          //console.log(response.data)
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading locations)', 'error')
