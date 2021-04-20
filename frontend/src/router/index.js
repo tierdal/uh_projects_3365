@@ -43,6 +43,9 @@ import hwAssetsReport from "../views/reports/customReports/hwAssetsReport.vue";
 import swAssetsReport from "../views/reports/customReports/swAssetsReport.vue";
 import ticketsReport from "../views/reports/customReports/ticketsReport.vue";
 import usersReport from "../views/reports/customReports/usersReport.vue";
+//place holder for now
+import incidentTypeList from "../views/admin/placeholder/incidentTypeList.vue";
+import incidentUrgencyList from "../views/admin/placeholder/incidentUrgencyList.vue";
 
 vue.use(VueRouter)
 
@@ -100,6 +103,26 @@ const router = new VueRouter({
       path: '/manage/locations/edit',
       name: '/manage/locations/edit',
       component: locationEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    { //placeholder
+      path: '/incidentType',
+      name: '/incidentType',
+      component: incidentTypeList,
+      props: true,
+      meta: {
+        //isOpen: true,
+        isAdmin: true
+      },
+    },
+    { //placeholder
+      path: '/incidentUrgency',
+      name: '/incidentUrgency',
+      component: incidentUrgencyList,
       props: true,
       meta: {
         //isOpen: true,

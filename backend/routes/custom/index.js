@@ -37,6 +37,8 @@ const faqList = require('./faqList')
 const contracts = require('./contracts')
 const licenseKeys = require('./licenseKeys')
 const ticketWorkLog = require('./worklog')
+const incidentType = require('./incidentType')
+const incidentUrgency = require('./incidentUrgency')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -73,5 +75,7 @@ router.use('/api/faqList', faqList)
 router.use('/api/contracts', contracts)
 router.use('/api/licenseKeys', licenseKeys)
 router.use('/api/worklog', ticketWorkLog)
+router.use('/api/incidentType', incidentType)
+router.use('/api/incidentUrgency', incidentUrgency)
 
 module.exports = router
