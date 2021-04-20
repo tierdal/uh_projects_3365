@@ -83,16 +83,16 @@ export default {
         field: 'phone'
       },{
         label: 'Department',
-        field: 'departmentDesc'
+        field: 'department.department_description'
       },{
         label: 'Role',
-        field: 'roleDesc'
+        field: 'role.role_description'
       },{
         label: 'Approver',
         field: 'is_approver'
       },{
         label: 'Status',
-        field: 'statusDesc'
+        field: 'status.status_description'
       }]
     };
   },
@@ -121,33 +121,10 @@ export default {
       axios.get(`${config.api}/api/users/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'status.status_id','statusId'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'status.status_description','statusDesc'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'role.role_id','roleId'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'role.role_description','roleDesc'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'department.department_id','departmentId'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'department.department_description','departmentDesc'))
-          //response.data = response.data.replace("\"status.description\":", "\"statusDesc\":")
-          //response.data = response.data.replace("\"department.description\":", "\"departmentDesc\":")
-          //response.data = response.data.replace("\"role.description\":", "\"roleDesc\":")
-          //this.dataLength = response.data.length;
-          //console.log('Status: ' + response.status + ' ' + response.statusText)
-          //console.log('Headers:')
-          //console.log(response.headers)
-          //console.log('Config:')
-          //console.log(response.config)
-          //console.log('Data:')
-          //console.log(response.data)
-          //console.log(JSON.stringify(response.data.length))
-          //console.log(JSON.stringify(this.DB_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (Loading User List)', 'error')
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {

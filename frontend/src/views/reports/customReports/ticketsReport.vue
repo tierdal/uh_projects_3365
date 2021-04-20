@@ -57,8 +57,7 @@
                                  option-text="email"
                                  placeholder="select one">
               </model-list-select>
-            </div>
-            <div class="editForm-right">
+              <br />
               <label class="form-custom-label" for="form-location">Issue Location</label>
               <model-list-select :list="LOCATION_DATA"
                                  v-model="form.model.locationId"
@@ -67,7 +66,8 @@
                                  option-text="location_name"
                                  placeholder="select one">
               </model-list-select>
-              <br />
+            </div>
+            <div class="editForm-right">
               <label class="form-custom-label" for="form-hwasset">Hardware Asset</label>
               <model-list-select :list="ASSET_DATA"
                                  v-model="form.model.assetId"
@@ -104,6 +104,23 @@
                                  placeholder="select one">
               </model-list-select>
               <br />
+              <label class="form-custom-label" for="form-isresolved">Is Resolved</label>
+              <model-list-select :list="IS_RESOLVED_DATA"
+                                 v-model="form.model.isResolved"
+                                 id="form-isresolved"
+                                 option-value="isResolvedValue"
+                                 option-text="isResolvedName"
+                                 placeholder="select one">
+              </model-list-select>
+              <br />
+              <label class="form-custom-label" for="form-resolvedtype">Resolution Type</label>
+              <model-list-select :list="RESOLVED_DATA"
+                                 v-model="form.model.resolvedId"
+                                 id="form-resolvedtype"
+                                 option-value="resolvedList_id"
+                                 option-text="resolvedList_name"
+                                 placeholder="select one">
+              </model-list-select>
             </div>
           </form>
         </template>
@@ -186,15 +203,16 @@ export default {
       ISSUECAT_DATA: [],
       TEAM_DATA: [],
       USER_DATA: [],
+      RESOLVED_DATA: [],
+      IS_RESOLVED_DATA: [
+        {isResolvedId: 0, isResolvedValue: false, isResolvedName: 'Not Resolved'},
+        {isResolvedId: 1, isResolvedValue: true, isResolvedName: 'Resolved'}
+      ],
       form: {
         model: {
-          ticketName: '',
-          ticketDescription: '',
           createdById: '',
-          createdBy: '',
           assignedToId: '',
-          assignedTo: '',
-          assignedTeam: '',
+          assignedTeamId: '',
           locationId: '',
           assetId: '',
           softwareId: '',
@@ -202,13 +220,11 @@ export default {
           issueId: '',
           priorityId: '',
           issueCategoryId: '',
-          teamId: '',
           isResolved: '',
           resolvedId: '',
-          resolutionNotes: '',
-          createdAt: '',
-          updatedAt: '',
-          closedAt: ''
+          //createdAt: '',
+          //updatedAt: '',
+          //closedAt: ''
         },
       },
       dataFields: [{
@@ -220,7 +236,7 @@ export default {
         field: 'ticket_title'
       },{
         label: 'Created By',
-        field: 'full_name'
+        field: 'createdBy.email'
       },{
         label: 'Status',
         field: 'requestStatus.requestStatus_name'
@@ -246,43 +262,52 @@ export default {
     goBack(){
       this.$router.push('/reports')
     },
-    clearForm(){},
-    submitQuery(){},
-    loadData(){
-      axios.get(`${config.api}/api/tickets/find/` + this.ticket_id)
+    clearForm(){
+      this.form.model.createdById = ''
+      this.form.model.assignedToId = ''
+      this.form.model.assignedTeamId = ''
+      this.form.model.locationId = ''
+      this.form.model.assetId = ''
+      this.form.model.softwareId = ''
+      this.form.model.requestStatusId = ''
+      this.form.model.issueId = ''
+      this.form.model.priorityId = ''
+      this.form.model.issueCategoryId = ''
+      this.form.model.isResolved = ''
+      this.form.model.resolvedId = ''
+      this.DB_DATA = []
+    },
+    submitQuery(){
+      //console.log(JSON.stringify(this.form.model))
+      if(this.form.model.createdById === ''){this.form.model.createdById = null}
+      if(this.form.model.assignedToId === ''){this.form.model.assignedToId = null}
+      if(this.form.model.assignedTeamId === ''){this.form.model.assignedTeamId = null}
+      if(this.form.model.locationId === ''){this.form.model.locationId = null}
+      if(this.form.model.assetId === ''){this.form.model.assetId = null}
+      if(this.form.model.softwareId === ''){this.form.model.softwareId = null}
+      if(this.form.model.requestStatusId === ''){this.form.model.requestStatusId = null}
+      if(this.form.model.issueId === ''){this.form.model.issueId = null}
+      if(this.form.model.priorityId === ''){this.form.model.priorityId = null}
+      if(this.form.model.issueCategoryId === ''){this.form.model.issueCategoryId = null}
+      if(this.form.model.isResolved === ''){this.form.model.isResolved = null}
+      if(this.form.model.resolvedId === ''){this.form.model.resolvedId = null}
+      axios.get(`${config.api}/api/tickets/findreport`, { params: this.form.model })
         .then((response) => {
-          //this.DB_DATA = response.data;
-          //console.log(JSON.stringify(this.DB_DATA))
-          this.form.model.ticketName = response.data.ticket_title,
-            this.form.model.ticketDescription = response.data.ticket_description,
-            this.form.model.locationId = response.data.locationId,
-            this.form.model.assetId = response.data.assetId,
-            this.form.model.softwareId = response.data.softwareId,
-            this.form.model.requestStatusId = response.data.requestStatusId,
-            this.form.model.priorityId = response.data.priorityId,
-            this.form.model.issueId = response.data.issueId,
-            this.form.model.issueCategoryId = response.data.issueCategoryId,
-            this.form.model.teamId = response.data.teamId,
-            this.form.model.isResolved = response.data.is_resolved,
-            this.form.model.resolvedId = response.data.resolvedId,
-            this.form.model.resolutionNotes = response.data.resolution_notes,
-            this.form.model.createdAt = response.data.CREATED_AT,
-            this.form.model.closedAt = response.data.CLOSED_AT
-
-          const createdByObj = response.data.createdBy
-          const assignedToObj = response.data.assignedUser
-          const assignedTeamObj = response.data.team
-
-          if(response.data.created_by !== null) {this.form.model.createdBy = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
-          if(response.data.assigned_user !== null) {this.form.model.assignedTo = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}
-          if(response.data.teamId !== null) {this.form.model.assignedTeam = assignedTeamObj.team_name}
-
+          this.DB_DATA = response.data;
+          console.log(JSON.stringify(response.data))
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong (finding ticket)', 'error')
+          Swal.fire('Error', 'Something went wrong (finding tickets)', 'error')
         })
     },
-    onRowDoubleClick(){},
+    onRowDoubleClick(params){
+      this.$router.push({
+        name: '/helpdesk/tickets/view',
+        params: {
+          ticket_id: params.row.ticket_id
+        }
+      })
+    },
     loadFields(){
       axios.get(`${config.api}/api/locations/findlist`)
         .then((response) => {
@@ -351,6 +376,13 @@ export default {
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading users)', 'error')
+        })
+      axios.get(`${config.api}/api/resolvedList/find`)
+        .then((response) => {
+          this.RESOLVED_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading resolved list)', 'error')
         })
     },
   },

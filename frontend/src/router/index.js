@@ -172,6 +172,7 @@ const router = new VueRouter({
     {
       path: '/helpdesk/tickets',
       component: ticketList,
+      props: true,
       meta: {
         //isOpen: true,
         //isAdmin: true

@@ -61,8 +61,7 @@ router.get('/find', (req, res, next) => {
             is_resolved: {
                 [Op.not]: 'true'
             }
-        },
-        //raw : true
+        }
     })
         .then((ticketLog) => {
             res.send(ticketLog)
@@ -72,7 +71,6 @@ router.get('/find', (req, res, next) => {
             return res.send(err)
         });
 })
-
 router.get('/findall', (req, res, next) => {
     const db = req.app.get('db')
 
@@ -125,7 +123,6 @@ router.get('/findall', (req, res, next) => {
                 attributes: ['team_id','team_name']
             }
         ]
-        //raw : true
     })
         .then((ticketLog) => {
             res.send(ticketLog)
@@ -135,7 +132,6 @@ router.get('/findall', (req, res, next) => {
             return res.send(err)
         });
 })
-
 router.get('/findlist', (req, res, next) => {
     const db = req.app.get('db')
 
@@ -149,12 +145,23 @@ router.get('/findlist', (req, res, next) => {
             return res.send(err)
         });
 })
-
 router.get('/findreport', (req, res, next) => {
     const db = req.app.get('db')
+    const whereStatement = {};
+    if(req.query.createdById) {whereStatement.created_by = req.query.createdById}
+    if(req.query.assignedToId) {whereStatement.assigned_user = req.query.assignedToId}
+    if(req.query.assignedTeamId) {whereStatement.teamId = req.query.assignedTeamId}
+    if(req.query.locationId) {whereStatement.locationId = req.query.locationId}
+    if(req.query.assetId) {whereStatement.locationId = req.query.assetId}
+    if(req.query.softwareId) {whereStatement.softwareId = req.query.softwareId}
+    if(req.query.requestStatusId) {whereStatement.requestStatusId = req.query.requestStatusId}
+    if(req.query.issueId) {whereStatement.issueId = req.query.issueId}
+    if(req.query.priorityId) {whereStatement.priorityId = req.query.priorityId}
+    if(req.query.issueCategoryId) {whereStatement.issueCategoryId = req.query.issueCategoryId}
+    if(req.query.isResolved) {whereStatement.is_resolved = req.query.isResolved}
+    if(req.query.resolvedId) {whereStatement.resolvedId = req.query.resolvedId}
 
-    return db.tickets.findAll({
-        where: {ticket_id:ticket_id},
+    return db.ticketLog.findAll({
         include: [
             {
                 model: db.users,
@@ -165,10 +172,6 @@ router.get('/findreport', (req, res, next) => {
                 model: db.users,
                 as: 'assignedUser',
                 attributes: ['user_id','email','f_name','l_name']
-            },
-            {
-                model: db.teams,
-                attributes: ['team_id','team_name']
             },
             {
                 model: db.assetList,
@@ -202,15 +205,21 @@ router.get('/findreport', (req, res, next) => {
                 model: db.softwareAssets,
                 attributes: ['software_id','software_name']
             },
-        ]
+            {
+                model: db.teams,
+                attributes: ['team_id','team_name']
+            }
+        ],
+        where: whereStatement
     })
-        .then((tickets) => res.send(tickets))
+        .then((ticketLog) => {
+            res.send(ticketLog)
+        })
         .catch((err) => {
             console.log('There was an error querying tickets', JSON.stringify(err))
             return res.send(err)
         });
 })
-
 router.get('/find/:ticketID', (req, res, next) => {
     const ticket_id = req.params.ticketID
     const db = req.app.get('db')
@@ -274,11 +283,8 @@ router.get('/find/:ticketID', (req, res, next) => {
             return res.send(err)
         });
 })
-
 router.post('/create', (req, res, next) => {
     const db = req.app.get('db')
-
-    //console.log(JSON.stringify(req.body))
 
     db.ticketLog.create({
         ticket_title: req.body.ticketName,
@@ -290,24 +296,19 @@ router.post('/create', (req, res, next) => {
         requestStatusId: req.body.requestStatusId,
         issueId: req.body.issueId,
         priorityId: req.body.priorityId,
-        issueCategoryId: req.body.issueCategoryId
+        issueCategoryId: req.body.issueCategoryId,
+        is_resolved: false
         })
         .then((result) => {
             res.json(result.ticket_id)
-            //res.status(200).send('OK');
-            //console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@' + result.ticket_id)
         })
         .catch(err => {
         console.log('There was an error creating a ticket', JSON.stringify(err))
         return res.send(err)
     })
 })
-
 router.put('/update/:ticketID', (req, res, next) => {
-
     const db = req.app.get('db')
-
-    //console.log(JSON.stringify(req.body))
 
     db.ticketLog.update({
         ticket_title: req.body.ticketName,
@@ -332,14 +333,11 @@ router.put('/update/:ticketID', (req, res, next) => {
             return res.send(err)
         })
 })
-
 router.put('/assign/:ticketID', (req, res, next) => {
-
     const db = req.app.get('db')
 
-    //console.log(JSON.stringify(req.body))
-
     db.ticketLog.update({
+        requestStatusId: req.body.requestStatusId,
         assigned_user: req.body.assignedToId,
         teamId: req.body.assignedTeamId
     }, {
@@ -355,9 +353,7 @@ router.put('/assign/:ticketID', (req, res, next) => {
             return res.send(err)
         })
 })
-
 router.put('/cancel/:ticketID', (req, res, next) => {
-
     const db = req.app.get('db')
 
     db.ticketLog.update({
@@ -376,12 +372,8 @@ router.put('/cancel/:ticketID', (req, res, next) => {
             return res.send(err)
         })
 })
-
 router.put('/resolve/:ticketID', (req, res, next) => {
-
     const db = req.app.get('db')
-
-    //console.log(JSON.stringify(req.body))
 
     db.ticketLog.update({
         assigned_user: req.body.assignedToId,
@@ -403,13 +395,8 @@ router.put('/resolve/:ticketID', (req, res, next) => {
             return res.send(err)
         })
 })
-
-
 router.put('/changestatus/:ticketID', (req, res, next) => {
-
     const db = req.app.get('db')
-
-    //console.log(JSON.stringify(req.body))
 
     db.ticketLog.update({
         requestStatusId: req.body.requestStatusId,
@@ -427,7 +414,6 @@ router.put('/changestatus/:ticketID', (req, res, next) => {
             return res.send(err)
         })
 })
-
 router.delete('/delete/:ticketID', (req, res, next) => {
     const ticket_id = req.params.ticketID;
     const db = req.app.get('db')
