@@ -54,17 +54,6 @@
                              option-text="department_description"
                              placeholder="select one">
           </model-list-select>
-            <!--<select
-              v-model="form.model.departmentId"
-              id="form-department"
-              name="department_id"
-              class="form-custom-dropdown">
-              <option
-                v-for="department in DEPT_DATA"
-                v-bind:value="department.department_id">
-                {{ department.department_description }}
-              </option>
-            </select>-->
           <label class="form-custom-label" for="form-role">Role</label>
           <model-list-select :list="ROLE_DATA"
                              v-model="form.model.roleId"
@@ -73,17 +62,6 @@
                              option-text="role_description"
                              placeholder="select one">
           </model-list-select>
-          <!--<select
-            v-model="form.model.roleId"
-            id="form-role"
-            name="role_id"
-            class="form-custom-dropdown">
-            <option
-              v-for="option in ROLE_DATA"
-              v-bind:value="option.role_id">
-              {{ option.role_description }}
-            </option>
-          </select>-->
           <label class="form-custom-label" for="form-status">Status</label>
           <model-list-select :list="STATUS_DATA"
                              v-model="form.model.statusId"
@@ -92,17 +70,6 @@
                              option-text="status_description"
                              placeholder="select item">
           </model-list-select>
-          <!--<select
-            v-model="form.model.statusId"
-            id="form-status"
-            name="status_id"
-            class="form-custom-dropdown">
-            <option
-              v-for="status in STATUS_DATA"
-              v-bind:value="status.status_id">
-              {{ status.status_description }}
-            </option>
-          </select>-->
           <FormulateInput
             type="group"
             name="passwords"
@@ -217,17 +184,7 @@ export default {
       this.$router.push('/useradmin')
     },
     addUser(){
-      //this.$validator.validateAll().then(res => {
-        //if (res) {
-         this.register(this.form.model)
-        //} else {
-          //Swal.fire({
-            //title: 'Not so fast!',
-            //text: 'Please provide required data in valid format',
-            //icon: 'warning',
-          //})
-        //}
-      //})
+      this.register(this.form.model)
     },
     updateUser(){
       const userID = this.user_id
@@ -281,15 +238,6 @@ export default {
       axios.get(`${config.api}/api/users/find/` + this.user_id)
         .then((response) => {
           this.DB_DATA = response.data;
-          //this.dataLength = response.data.length;
-          //console.log('Status: ' + response.status + ' ' + response.statusText)
-          //console.log('Headers:')
-          //console.log(response.headers)
-          //console.log('Config:')
-          //console.log(response.config)
-          //console.log('Data:')
-          //console.log(response.data)
-          //console.log(JSON.stringify(response.data.length))
           this.form.model.email = response.data.email,
           this.form.model.f_name = response.data.f_name,
           this.form.model.l_name = response.data.l_name,
@@ -298,8 +246,6 @@ export default {
           this.form.model.roleId = response.data.role.role_id,
           this.form.model.statusId = response.data.status.status_id,
           this.form.model.is_approver = response.data.is_approver
-          //console.log(JSON.stringify(this.DB_DATA))
-          //console.log('Dept: ' + this.departmentId + ', Role: ' + this.roleId + ', Status: ' + this.statusId)
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (finding user)', 'error')
@@ -309,8 +255,6 @@ export default {
       axios.get(`${config.api}/api/departments/find`)
         .then((response) => {
           this.DEPT_DATA = response.data;
-          //this.DEPT_DATA.forEach( obj => this.renameKey(obj, 'department_id','departmentId'))
-          //console.log(JSON.stringify(this.DEPT_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading departments)', 'error')
@@ -318,7 +262,6 @@ export default {
       axios.get(`${config.api}/api/roles/find`)
         .then((response) => {
           this.ROLE_DATA = response.data;
-          //console.log(JSON.stringify(this.ROLE_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading roles)', 'error')
@@ -326,28 +269,18 @@ export default {
       axios.get(`${config.api}/api/status/find`)
         .then((response) => {
           this.STATUS_DATA = response.data;
-          //console.log(JSON.stringify(this.STATUS_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading status)', 'error')
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {
-    //console.log(this.user_id)
     this.loadFields()
     if (this.user_id !== undefined){
       this.isNewUser = false
       this.loadData()
     }
-    //console.log(this.isNewUser)
-  },
-  mounted() {
-    //console.log(this.email)
   }
 };
 </script>

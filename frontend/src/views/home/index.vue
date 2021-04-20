@@ -12,8 +12,19 @@
       <button class="swal2-styled buttonRibbon-style" v-on:click="">New Incident</button>
       <button class="swal2-styled buttonRibbon-style" v-on:click="">New Change Request</button>
     </div>
-    <dash-admin v-if="isAdmin" />
-    <dash-user v-else />
+    <br>
+    <div class="dashitem" v-if="!is_helpdesk" >
+      <div class="dashname">My Open tickets</div>
+      <div class="dashtable">
+        <dash-user />
+      </div>
+    </div>
+    <div class="dashitem" v-if="is_helpdesk" >
+      <div class="dashname">All Open Tickets</div>
+      <div class="dashtable">
+        <dash-admin />
+      </div>
+    </div>
   </div>
 
 </template>
@@ -31,19 +42,16 @@ export default {
   },
   data() {
     return {
-      adminCheck: false
+      is_helpdesk: false
     }
   },
   methods: {
-    isAdmin() {
-      const role = session.getUser().roleId
-      if (role === 1) {
-        //non-admin doesnt see stuff
-        //console.log('admin')
-        return this.adminCheck = true
+    isHelpdesk() {
+      const department = session.getUser().departmentId
+      if (department === 1) {
+        this.is_helpdesk = true
       } else {
-        //console.log('not-admin')
-        return this.adminCheck = false
+        this.is_helpdesk = false
       }
     },
     addNewTicket(){
@@ -51,10 +59,13 @@ export default {
     }
   },
   beforeMount() {
-    this.isAdmin()
+    this.isHelpdesk()
   }
 }
 </script>
 
 <style lang='stylus'>
+.dashname {
+  font-size: large
+}
 </style>

@@ -278,7 +278,7 @@ export default {
       this.DB_DATA = []
     },
     submitQuery(){
-      console.log(JSON.stringify(this.form.model))
+      //console.log(JSON.stringify(this.form.model))
       if(this.form.model.createdById === ''){this.form.model.createdById = null}
       if(this.form.model.assignedToId === ''){this.form.model.assignedToId = null}
       if(this.form.model.assignedTeamId === ''){this.form.model.assignedTeamId = null}
@@ -294,12 +294,20 @@ export default {
       axios.get(`${config.api}/api/tickets/findreport`, { params: this.form.model })
         .then((response) => {
           this.DB_DATA = response.data;
+          console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (finding tickets)', 'error')
         })
     },
-    onRowDoubleClick(){},
+    onRowDoubleClick(params){
+      this.$router.push({
+        name: '/helpdesk/tickets/view',
+        params: {
+          ticket_id: params.row.ticket_id
+        }
+      })
+    },
     loadFields(){
       axios.get(`${config.api}/api/locations/findlist`)
         .then((response) => {
