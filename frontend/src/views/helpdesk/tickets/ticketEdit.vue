@@ -14,8 +14,8 @@
         <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
       </div>
       <div class="editFormFooter-right">
-        <button v-if="!isNewTicket" class="swal2-editform swal2-styled updateButton" :disabled="validationFormCheck === 1" v-on:click="updateTicket">Update Ticket</button>
-        <button v-if="isNewTicket" class="swal2-editform swal2-styled addNewButton" :disabled="validationFormCheck === 1" v-on:click="addTicket">Submit New Ticket</button>
+        <button v-if="!isNewTicket" class="swal2-editform swal2-styled updateButton" :disabled="validationFormCheck === false" v-on:click="updateTicket">Update Ticket</button>
+        <button v-if="isNewTicket" class="swal2-editform swal2-styled addNewButton" :disabled="validationFormCheck === false" v-on:click="addTicket">Submit New Ticket</button>
       </div>
     </div>
 
@@ -24,7 +24,7 @@
     <form class="swal2-form mainForm">
       <div class="editForm-left">
         <FormulateInput
-          @validation="validationEmail = $event"
+          @validation="validationTitle = $event"
           type="text"
           name="ticketName"
           label="Ticket Title"
@@ -33,13 +33,10 @@
           :validation-messages="{required: 'The Ticket Name is required'}"
         />
         <FormulateInput
-          @validation="validationFname = $event"
           type="textarea"
           name="ticketDescription"
           label="Ticket Description"
-          validation="required"
           v-model="form.model.ticketDescription"
-          :validation-messages="{required: 'The Ticket Description is required'}"
         />
         <label v-if="!isNewTicket" class="form-custom-label" for="form-status">Status</label>
         <model-list-select :list="REQSTATUS_DATA"
@@ -58,6 +55,7 @@
                            id="form-priority"
                            option-value="priority_id"
                            option-text="priority_name"
+                           :isError='validationPriority === true'
                            placeholder="select one">
         </model-list-select>
         <br />
@@ -67,6 +65,7 @@
                            id="form-issuecategory"
                            option-value="issueCategory_id"
                            option-text="issueCategory_name"
+                           :isError='validationCategory === true'
                            placeholder="select one">
         </model-list-select>
         <br />
@@ -76,6 +75,7 @@
                            id="form-issuetype"
                            option-value="issueType_id"
                            option-text="issueType_name"
+                           :isError='validationType === true'
                            placeholder="select one">
         </model-list-select>
       </div>
@@ -152,12 +152,7 @@ export default {
   data() {
     return {
       isITdepartment: false,
-      validationEmail: {},
-      validationFname: {},
-      validationLname: {},
-      validationPhone: {},
-      validationPass: {},
-      validationPassConfirm: {},
+      validationTitle: {},
       isNewTicket: true,
       DB_DATA: [],
       LOCATION_DATA: [],
@@ -198,14 +193,36 @@ export default {
     ModelListSelect
   },
   computed:{
-    validationFormCheck: function () {
-      if (this.validationEmail.hasErrors === false &&
-        this.validationFname.hasErrors === false &&
-        this.validationLname.hasErrors === false &&
-        this.validationPhone.hasErrors === false){
-        return 1
+    validationPriority: function () {
+      if (this.form.model.priorityId === ''){
+        return true
       } else {
-        return 0
+        return false
+      }
+    },
+    validationCategory: function () {
+      this.loadIssueType()
+      if (this.form.model.issueCategoryId === ''){
+        return true
+      } else {
+        return false
+      }},
+    validationType: function () {
+      if (this.form.model.issueId === ''){
+        return true
+      } else {
+        return false
+      }},
+    validationFormCheck: function () {
+      if (this.validationTitle.hasErrors === false &&
+        this.validationPriority === false &&
+        this.validationCategory === false &&
+        this.validationType === false){
+        console.log('TRUE 1: ' + this.validationPriority + ' 2: ' + this.validationCategory + ' 3: ' + this.validationType + ' 4: ' + this.validationTitle.hasErrors)
+        return true
+      } else {
+        console.log('FALSE 1: ' + this.validationPriority + ' 2: ' + this.validationCategory + ' 3: ' + this.validationType + ' 4: ' + this.validationTitle.hasErrors)
+        return false
       }
     }
   },
@@ -262,8 +279,6 @@ export default {
     loadData(){
       axios.get(`${config.api}/api/tickets/find/` + this.ticket_id)
         .then((response) => {
-          //this.DB_DATA = response.data;
-          //console.log(JSON.stringify(this.DB_DATA))
           this.form.model.ticketName = response.data.ticket_title,
           this.form.model.ticketDescription = response.data.ticket_description,
           this.form.model.locationId = response.data.locationId,
@@ -327,13 +342,6 @@ export default {
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading requestStatus)', 'error')
         })
-      axios.get(`${config.api}/api/issueType/findlist`)
-        .then((response) => {
-          this.ISSUETYPE_DATA = response.data;
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong (loading issueType)', 'error')
-        })
       axios.get(`${config.api}/api/priorityList/findlist`)
         .then((response) => {
           this.PRILIST_DATA = response.data;
@@ -349,9 +357,15 @@ export default {
           Swal.fire('Error', 'Something went wrong (loading issueCategory)', 'error')
         })
     },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
+    loadIssueType(){
+      this.ISSUETYPE_DATA = []
+      axios.get(`${config.api}/api/issueType/findlist`, {params: this.form.model})
+        .then((response) => {
+          this.ISSUETYPE_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading issueType)', 'error')
+        })
     },
     isITdepartmentCheck(){
       const department = session.getUser().departmentId

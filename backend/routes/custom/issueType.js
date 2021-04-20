@@ -8,8 +8,7 @@ router.get('/find', (req, res, next) => {
     return db.issueType.findAll({
         include: [
             db.issueCategory
-            ],
-        raw : true,
+            ]
     })
         .then((issueType) => res.send(issueType))
         .catch((err) => {
@@ -20,10 +19,12 @@ router.get('/find', (req, res, next) => {
 
 router.get('/findlist', (req, res, next) => {
     const db = req.app.get('db')
+    const whereStatement = {};
+    if(req.query.issueCategoryId) {whereStatement.issueCategoryId = req.query.issueCategoryId}
 
     return db.issueType.findAll({
         attributes:['issueType_id','issueType_name'],
-        raw : true,
+        where: whereStatement
     })
         .then((issueType) => res.send(issueType))
         .catch((err) => {
