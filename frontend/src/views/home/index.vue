@@ -55,7 +55,7 @@ export default {
       }
     },
     addNewTicket(){
-      this.$router.push('/tickets/edit')
+      this.$router.push('/helpdesk/tickets/edit')
     }
   },
   beforeMount() {
