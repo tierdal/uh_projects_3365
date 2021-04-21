@@ -418,7 +418,7 @@ router.delete('/delete/:ticketID', (req, res, next) => {
     const ticket_id = req.params.ticketID;
     const db = req.app.get('db')
 
-    db.users.destroy({
+    db.ticketLog.destroy({
         where: { ticket_id: ticket_id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');

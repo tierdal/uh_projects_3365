@@ -39,3 +39,4 @@ Major packages inlcuded and configured (as required)
 * Finish CRUD for all the tables
 * Finish reports module
 * Role Mapper
+* Add button to create Tasks from ticketView

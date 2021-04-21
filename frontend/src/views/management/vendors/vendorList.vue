@@ -78,11 +78,11 @@ export default {
         label: 'phone',
         field: 'vendor_phone'
       },{
-        label: 'locationId',
-        field: 'locationName'
+        label: 'Location',
+        field: 'location.location_name'
       },{
-        label: 'paymenttermId',
-        field: 'paymentTermName'
+        label: 'Payment Terms',
+        field: 'paymentTerm.paymentTerm_name'
       }]
     };
   },
