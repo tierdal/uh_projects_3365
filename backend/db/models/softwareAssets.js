@@ -41,17 +41,17 @@ module.exports = function(sequelize, DataTypes) {
         },
         purchase_date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         software_notes: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
     }, {
         sequelize,
         tableName: 'softwareAssets',
         schema: 'dbo',
-        timestamps: false,
+        timestamps: true,
         underscored: true,
         createdAt: 'CREATED_AT',
         updatedAt: 'UPDATED_AT',
