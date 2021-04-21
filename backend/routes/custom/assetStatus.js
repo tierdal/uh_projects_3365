@@ -18,7 +18,7 @@ router.get('/find', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    const name_text = req.body.name
+    const name_text = req.body.assetStatusName
     const db = req.app.get('db')
     db.assetStatus.create({
         assetStatus_name: name_text
@@ -34,8 +34,10 @@ router.post('/create', (req, res, next) => {
 
 router.put('/update', (req, res, next) => {
 
-    const assetStatus_id = req.body.id
-    const name_text = req.body.name
+    console.log(JSON.stringify(req.body))
+
+    const assetStatus_id = req.body.assetStatusId
+    const name_text = req.body.assetStatusName
     const db = req.app.get('db')
 
     db.assetStatus.update({
@@ -55,6 +57,7 @@ router.put('/update', (req, res, next) => {
 })
 
 router.delete('/delete/:assetStatus_id', (req, res, next) => {
+
 
     const id = req.params.assetStatus_id;
     const db = req.app.get('db')

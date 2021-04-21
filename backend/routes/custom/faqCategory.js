@@ -21,7 +21,7 @@ router.post('/create', (req, res, next) => {
     const description_text = req.body.description
     const db = req.app.get('db')
     db.faqCategory.create({
-        faqCategory_description: description_text
+        faq_category_description: description_text
     })
         .then(() => {
             res.status(200).send('OK');
