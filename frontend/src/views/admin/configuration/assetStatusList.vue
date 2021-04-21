@@ -87,7 +87,6 @@ export default {
     return {
       isModalVisible: false,
       validation1: {},
-      modalName: 'hello',
       DB_DATA: [],
       myAPI: `${config.api}/api/assetStatus`,
       form: {

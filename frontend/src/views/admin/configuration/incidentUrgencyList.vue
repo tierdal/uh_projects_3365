@@ -41,28 +41,73 @@
         @on-row-dblclick="onRowDoubleClick"
       />
     </div>
+
+    <ModalWithDelete
+      v-show="isModalVisible"
+      @close="modalClose"
+      @submit="modalSubmit"
+      @delete="deleteItem"
+    >
+      <template v-slot:header>
+        <span v-if="form.model.urgencyId">Edit Urgency List Item</span>
+        <span v-if="!form.model.urgencyId">Add Urgency List Item</span>
+      </template>
+
+      <template v-slot:body>
+        <FormulateInput
+          @validation="validation1 = $event"
+          type="text"
+          name="urgencyListName"
+          label="Urgency List Name"
+          validation="required"
+          v-model="form.model.urgencyName"
+          :validation-messages="{required: 'The Urgency List Name is required'}"
+        />
+        <br>
+        <label class="form-custom-label" for="form-slaList">SLA</label>
+        <model-list-select :list="SLA_DATA"
+                           v-model="form.model.slaId"
+                           id="form-slaList"
+                           option-value="sla_id"
+                           option-text="sla_name"
+                           :isError='validationSLA === true'
+                           placeholder="select one">
+        </model-list-select>
+      </template>
+
+      <template v-slot:footer>
+      </template>
+    </ModalWithDelete>
+
   </div>
 
 </template>
 
 <script>
-//https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-//import { mapActions } from 'vuex'
-//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
-//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table';
 import Swal from 'sweetalert2'
+import ModalWithDelete from "../../templates/ModalWithDelete.vue";
+import {ModelListSelect, ModelSelect} from "vue-search-select";
 
 export default {
   data() {
     return {
+      isModalVisible: false,
+      validation1: {},
       DB_DATA: [],
-      TEAMS_DATA: [],
+      SLA_DATA: [],
       myAPI: `${config.api}/api/incidentUrgency`,
+      form: {
+        model: {
+          urgencyId: '',
+          urgencyName: '',
+          slaId: '',
+          slaName: '',
+        }
+      },
       dataFields: [{
         label: 'id',
         field: 'incidentUrgency_id',
@@ -71,42 +116,127 @@ export default {
         label: 'name',
         field: 'incidentUrgency_name'
       },{
+        label: 'SLAID',
+        field: 'slaList.sla_id',
+        hidden: true
+      },{
         label: 'SLA',
-        field: 'slaName'
+        field: 'slaList.sla_name'
       }]
     };
   },
-
   components: {
+    ModalWithDelete,
+    ModelSelect,
+    ModelListSelect,
     'vue-good-table': VueGoodTable
+  },
+  computed:{
+    validationSLA: function () {
+      if (this.form.model.slaId === null){
+        return true
+      } else {
+        return false
+      }
+    },
+    validationFormCheck: function () {
+      if (this.validation1.hasErrors === false && this.validationSLA === false){
+        return true
+      } else {
+        return false
+      }
+    }
   },
   methods: {
     onRowDoubleClick(params){
-      //place holder for now
-      this.$router.push({
-        name: '/incidentUrgency/edit',
-        params: {
-          incidentUrgency_id: params.row.incidentUrgency_id
-        }
-      })
+      this.form.model.urgencyId = params.row.incidentUrgency_id
+      this.form.model.urgencyName = params.row.incidentUrgency_name
+      this.form.model.slaId = params.row.slaList.sla_id
+      this.loadFields()
+      this.modalShow()
     },
     addNewIncidentUrgency(){
-      //this.$router.push('/manage/vendors/edit')
+      this.form.model.urgencyId = null
+      this.form.model.urgencyName = ''
+      this.form.model.slaId = null
+      this.loadFields()
+      this.modalShow()
     },
     loadData(){
       axios.get(`${config.api}/api/incidentUrgency/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'slaList.sla_name','slaName'))
-          //console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went with incidentUrgency', 'error')
         })
-    },  renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
-    }
+    },
+    loadFields(){
+      axios.get(`${config.api}/api/slaList/find`)
+        .then((response) => {
+          this.SLA_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong', 'error')
+        })
+    },
+    deleteItem(){
+      axios.delete(`${config.api}/api/incidentUrgency/delete/` + this.form.model.urgencyId)
+        .then((response) => {
+          this.loadData()
+          Swal.fire(
+            'Done!',
+            'The record has been deleted.',
+            'success'
+          )
+          this.loadData();
+          this.modalClose()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong', 'error')
+        })},
+    modalSubmit(){
+      if(!this.validationFormCheck) {
+        Swal.fire('Error', 'Please fix the errors', 'error')
+      } else {
+        if(!this.form.model.urgencyId) {
+          axios.post(`${config.api}/api/incidentUrgency/create`, this.form.model)
+            .then((response) => {
+              this.loadData()
+              Swal.fire(
+                'Done!',
+                'The record has been created.',
+                'success'
+              )
+              this.loadData();
+              this.modalClose()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong (create)', 'error')
+            })
+        } else {
+          axios.put(`${config.api}/api/incidentUrgency/update`, this.form.model)
+            .then((response) => {
+              Swal.fire(
+                'Done!',
+                'The record has been updated.',
+                'success'
+              )
+              this.loadData();
+              this.modalClose()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong (update)', 'error')
+            })
+        }
+      }
+    },
+    modalShow(){
+      this.isModalVisible = true;
+    },
+    modalClose(){
+      this.isModalVisible = false;
+    },
   },
   beforeMount() {
     this.loadData();
@@ -115,8 +245,4 @@ export default {
 </script>
 
 <style scoped>
-button {
-  margin-right: 15px;
-  height: 100%;
-}
 </style>

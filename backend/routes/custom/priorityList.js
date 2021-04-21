@@ -8,10 +8,7 @@ router.get('/find', (req, res, next) => {
     return db.priorityList.findAll({
         include: [
             db.slaList
-        ],
-
-        raw : true,
-
+        ]
     })
         .then((priorityList) => res.send(priorityList))
         .catch((err) => {
@@ -35,15 +32,14 @@ router.get('/findlist', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    const sla_id = req.body.sla_id
-    const name_text = req.body.name
     const db = req.app.get('db')
+
+    const sla_id = req.body.slaId
+    const name_text = req.body.priorityName
+
     db.priorityList.create({
-        include: [
-            db.slaList
-        ],
-        priority_sla_id: sla_id,
-        priority_name: name_text
+        priority_name: name_text,
+        priority_sla_id: sla_id
     })
         .then(() => {
             res.status(200).send('OK');
@@ -55,18 +51,15 @@ router.post('/create', (req, res, next) => {
 })
 
 router.put('/update', (req, res, next) => {
-
-    const priority_id = req.body.id
-    const priority_names = req.body.name
-    const priority_sla_id = req.body.sla_id
     const db = req.app.get('db')
 
+    const priority_id = req.body.priorityId
+    const priority_name = req.body.priorityName
+    const priority_sla_id = req.body.slaId
+
     db.priorityList.update({
-        include: [
-            db.slaList
-        ],
-        priority_sla_id_description: priority_sla_id,
-        priority_name: priority_names
+        priority_name: priority_name,
+        priority_sla_id: priority_sla_id
     }, {
         where: {
             priority_id: priority_id
@@ -81,14 +74,12 @@ router.put('/update', (req, res, next) => {
         })
 })
 
-router.delete('/delete/:priorityList_id', (req, res, next) => {
-    const id = req.params.priority_id;
+router.delete('/delete/:priorityId', (req, res, next) => {
     const db = req.app.get('db')
 
+    const id = req.params.priorityId;
+
     db.priorityList.destroy({
-        include: [
-            db.slaList
-        ],
         where: { priority_id: id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');
