@@ -14,7 +14,7 @@
       </div>
       <vue-good-table
         :columns="dataFields"
-        :rows="FULL_DATA"
+        :rows="DB_DATA"
         :row-style-class="'rowStyle'"
         :search-options="{
           enabled: true,
@@ -70,32 +70,20 @@ export default {
         label: 'Name',
         field: 'incident_name'
       },{
-        label: 'type',
-        field: 'incident_typeId'
-      },{
-        label: 'description',
-        field: 'incident_description'
-      },{
         label: 'urgency',
-        field: 'incidentUrgencyId'
+        field: 'incidentUrgency.incidentUrgency_name'
       },{
-        label: 'created by',
-        field: 'incident_createdBy'
-      },{
-        label: 'assinged user',
-        field: 'incident_assignedUser'
-      },{
-        label: 'Location Created',
-        field: 'incident_location'
+        label: 'type',
+        field: 'incidentType.incidentType_name'
       },{
         label: 'Status',
-        field: 'incidentStatusId'
+        field: 'incidentStatus.incidentStatus_name'
+      },{
+        label: 'Created By',
+        field: 'createdBy.email'
       },{
         label: 'Time Created',
         field: 'CREATED_AT'
-      },{
-        label: 'Team Assigned',
-        field: 'incident_assignedTeam'
       }]
     };
   },
@@ -119,10 +107,7 @@ export default {
       axios.get(`${config.api}/api/incidents/findall`)
         .then((response) => {
           this.DB_DATA = response.data;
-          // this.CREATEDBY = this.DB_DATA.map(obj => ({
-          //   full_name: obj.createdBy.f_name + ' ' + obj.createdBy.l_name
-          // }))
-          // this.FULL_DATA = _.merge(this.DB_DATA,this.CREATEDBY)
+          console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (Loading Incident List)', 'error')

@@ -2,14 +2,14 @@
   <div>
     <div class="jumbotron dashboard">
       <div class="dashlabel">
-        Ticket Number: {{ this.incident_id }}
+        Incident Number: {{ this.incident_id }}
       </div>
     </div>
 
     <div class="editForm">
       <div class="editFormFooter-left">
-        <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>\
-        <button v-if="isITdepartment" class="swal2-editform swal2-styled" v-on:click="assignIncidentShow">Assign Incident</button>\
+        <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
+        <button v-if="isITdepartment" class="swal2-editform swal2-styled" v-on:click="assignIncidentShow">Assign Incident</button>
       </div>
       <div class="editFormFooter-right">
         <button class="swal2-editform swal2-styled" v-on:click="editIncident">Edit Incident</button>
@@ -23,43 +23,36 @@
         <FormulateInput
           type="text"
           name="incidentName"
-          label="Incident Title"
+          label="Incident Name"
           v-model="form.model.incidentName"
           :disabled="true"
         />
         <FormulateInput
           type="textarea"
-          name="ticketDescription"
-          label="Ticket Description"
+          name="incidentDescription"
+          label="Incident Description"
           v-model="form.model.incidentDescription"
           :disabled="true"
         />
         <FormulateInput
           type="text"
-          name="requestStatus"
+          name="incidentUrgency"
+          label="Urgency"
+          v-model="form.model.incidentUrgencyName"
+          :disabled="true"
+        />
+        <FormulateInput
+          type="text"
+          name="incidentStatus"
           label="Status"
-          v-model="form.model.requestStatusName"
+          v-model="form.model.incidentStatusName"
           :disabled="true"
         />
         <FormulateInput
           type="text"
-          name="requestStatus"
-          label="Status"
-          v-model="form.model.priorityName"
-          :disabled="true"
-        />
-        <FormulateInput
-          type="text"
-          name="issueCategory"
-          label="Issue Category"
-          v-model="form.model.issueCategoryName"
-          :disabled="true"
-        />
-        <FormulateInput
-          type="text"
-          name="issueType"
-          label="Issue Type"
-          v-model="form.model.issueName"
+          name="incidentType"
+          label="Incident Type"
+          v-model="form.model.incidentTypeName"
           :disabled="true"
         />
       </div>
@@ -68,21 +61,7 @@
           type="text"
           name="issueLocation"
           label="Issue Location"
-          v-model="form.model.locationName"
-          :disabled="true"
-        />
-        <FormulateInput
-          type="text"
-          name="hardwareAsset"
-          label="Hardware Asset"
-          v-model="form.model.assetName"
-          :disabled="true"
-        />
-        <FormulateInput
-          type="text"
-          name="softwareAsset"
-          label="Software Asset"
-          v-model="form.model.softwareName"
+          v-model="form.model.incidentLocationName"
           :disabled="true"
         />
         <FormulateInput
@@ -167,6 +146,7 @@ export default {
   data() {
     return {
       isNewIncident: true,
+      isAssignIncidentVisible: false,
       DB_DATA: [],
       USER_DATA: [],
       INCIDENTTYPE_DATA: [],
@@ -177,19 +157,27 @@ export default {
       form: {
         model: {
           incidentName: '',
-          incidentTypeId: '',
           incidentDescription: '',
+          incidentTypeId: '',
+          incidentTypeName: '',
           incidentUrgencyId: '',
-          createdBy: '',
+          incidentUrgencyName: '',
+          createdById: '',
+          createdByName: '',
           assignedToId: '',
-          assignedTo: '',
+          assignedToName: '',
+          assignedTeamId: '',
+          assignedTeamName: '',
           incidentLocationId: '',
-          locationName: '',
+          incidentLocationName: '',
           incidentStatusId: '',
+          incidentStatusName: '',
+          resolvedId: '',
+          resolvedName: '',
+          resolutionNotes: '',
           createdAt: '',
           updatedAt: '',
-          assignedTeamId: '',
-          assignedTeam: '',
+          closedAt: '',
         },
       },
     };
@@ -248,42 +236,38 @@ export default {
       axios.get(`${config.api}/api/incidents/find/` + this.incident_id)
         .then((response) => {
           this.DB_DATA = response.data;
-          //console.log(JSON.stringify(this.DB_DATA))
-          this.form.model.incidentName = response.data.ticket_title,
-            this.form.model.incidentDescription = response.data.ticket_description,
-            this.form.model.locationId = response.data.locationId,
-            this.form.model.incidentTypeId = response.data.incidentTypeId,
-            this.form.model.incidentUrgencyId = response.data.softwareId,
-            this.form.model.incidentStatusId = response.data.issueId,
-            this.form.model.issueCategoryId = response.data.issueCategoryId,
-            this.form.model.assignedToId = response.data.assigned_user,
-            this.form.model.assignedTeamId = response.data.teamId,
-            this.form.model.createdAt = response.data.CREATED_AT,
-            this.form.model.closedAt = response.data.CLOSED_AT
+          this.form.model.incidentName = response.data.incident_name,
+          this.form.model.incidentDescription = response.data.incident_description,
+          this.form.model.incidentTypeId = response.data.incidentTypeId,
+          this.form.model.incidentUrgencyId = response.data.incidentUrgencyId,
+          this.form.model.incidentStatusId = response.data.incidentStatusId,
+          this.form.model.incidentLocationId = response.data.incident_location,
+          this.form.model.createdById = response.data.incident_createdBy,
+          this.form.model.assignedToId = response.data.incident_assignedUser,
+          this.form.model.assignedTeamId = response.data.incident_assignedTeam,
+          this.form.model.isResolved = response.data.is_resolved,
+          this.form.model.resolvedId = response.data.resolvedId,
+          this.form.model.resolutionNotes = response.data.resolution_notes,
+          this.form.model.createdAt = response.data.CREATED_AT,
+          this.form.model.closedAt = response.data.CLOSED_AT
 
-          const locationObj = response.data.location
-          const assetObj = response.data.assetList
-          const softwareObj = response.data.softwareAsset
-          const issueTypeObj = response.data.issueType
-          const issueCategoryObj = response.data.issueCategory
-          const prioritylistObj = response.data.prioritylist
-          const resolvedListObj = response.data.resolvedList
-          const requestStatusObj = response.data.requestStatus
           const createdByObj = response.data.createdBy
           const assignedToObj = response.data.assignedUser
+          const resolvedListObj = response.data.resolvedList
+          const locationObj = response.data.location
+          const incidentTypeObj = response.data.incidentType
+          const incidentStatusObj = response.data.incidentStatus
+          const incidentUrgencyObj = response.data.incidentUrgency
           const assignedTeamObj = response.data.team
 
-          if(response.data.locationId !== null) {this.form.model.locationName = locationObj.location_name}
-          if(response.data.assetId !== null) {this.form.model.assetName = assetObj.asset_name}
-          if(response.data.softwareId !== null) {this.form.model.softwareName = softwareObj.software_name}
-          if(response.data.issueId !== null) {this.form.model.issueName = issueTypeObj.issueType_name}
-          if(response.data.issueCategoryId !== null) {this.form.model.issueCategoryName = issueCategoryObj.issueCategory_name}
-          if(response.data.priorityId !== null) {this.form.model.priorityName = prioritylistObj.priority_name}
+          if(response.data.incident_createdBy !== null) {this.form.model.createdByName = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
+          if(response.data.incident_assignedUser !== null) {this.form.model.assignedToName = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}
           if(response.data.resolvedId !== null) {this.form.model.resolvedName = resolvedListObj.resolvedList_name}
-          if(response.data.requestStatusId !== null) {this.form.model.requestStatusName = requestStatusObj.requestStatus_name}
-          if(response.data.created_by !== null) {this.form.model.createdBy = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
-          if(response.data.assigned_user !== null) {this.form.model.assignedTo = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}
-          if(response.data.teamId !== null) {this.form.model.assignedTeam = assignedTeamObj.team_name}
+          if(response.data.incident_location !== null) {this.form.model.locationName = locationObj.location_name}
+          if(response.data.incidentTypeId !== null) {this.form.model.incidentTypeName = incidentTypeObj.incidentType_name}
+          if(response.data.incidentStatusId !== null) {this.form.model.incidentStatusName = incidentStatusObj.incidentStatus_name}
+          if(response.data.incidentUrgencyId !== null) {this.form.model.incidentUrgencyName = incidentUrgencyObj.incidentUrgency_name}
+          if(response.data.incident_assignedTeam !== null) {this.form.model.assignedTeamName = assignedTeamObj.team_name}
 
         })
         .catch(() => {
@@ -314,12 +298,12 @@ export default {
         return this.isITdepartment = false
       }
     },
-    assignTicketShow(){
+    assignIncidentShow(){
       this.loadAssignedFields()
-      this.isAssignTicketVisible = true;
+      this.isAssignIncidentVisible = true;
     },
-    assignTicketClose(){
-      this.isAssignTicketVisible = false;
+    assignIncidentClose(){
+      this.isAssignIncidentVisible = false;
     },
     resolveTicketShow(){
       this.loadResolvedFields()
@@ -338,8 +322,8 @@ export default {
   },
   beforeMount() {
     this.isITdepartmentCheck()
-    if (this.ticket_id !== undefined){
-      this.isNewTicket = false
+    if (this.incident_id !== undefined){
+      this.isNewIncident = false
       this.loadData()
     } else {
       this.goBack()

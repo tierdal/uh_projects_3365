@@ -98,7 +98,7 @@ export default {
         .then((response) => {
           this.DB_DATA = response.data;
           this.DB_DATA.forEach( obj => this.renameKey(obj, 'slaList.sla_name','slaName'))
-          console.log(JSON.stringify(response.data))
+          //console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went with incidentUrgency', 'error')

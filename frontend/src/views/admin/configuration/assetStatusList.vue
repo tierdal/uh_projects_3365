@@ -41,6 +41,34 @@
         @on-row-dblclick="onRowDoubleClick"
       />
     </div>
+
+    <ModalWithDelete
+      v-show="isModalVisible"
+      @close="modalClose"
+      @submit="modalSubmit"
+      @delete="deleteItem"
+    >
+      <template v-slot:header>
+        <span v-if="form.model.assetStatusId">Edit Asset Status Item</span>
+        <span v-if="!form.model.assetStatusId">Add Asset Status Item</span>
+      </template>
+
+      <template v-slot:body>
+        <FormulateInput
+          @validation="validation1 = $event"
+          type="text"
+          name="assetStatusDescription"
+          label="Asset Status Description"
+          validation="required"
+          v-model="form.model.assetStatusName"
+          :validation-messages="{required: 'The Asset Status Description is required'}"
+        />
+      </template>
+
+      <template v-slot:footer>
+      </template>
+    </ModalWithDelete>
+
   </div>
 
 </template>
@@ -51,12 +79,23 @@ import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table';
 import Swal from 'sweetalert2'
+import ModalWithDelete from "../../templates/ModalWithDelete.vue";
+import {ModelListSelect, ModelSelect} from "vue-search-select";
 
 export default {
   data() {
     return {
+      isModalVisible: false,
+      validation1: {},
+      modalName: 'hello',
       DB_DATA: [],
       myAPI: `${config.api}/api/assetStatus`,
+      form: {
+        model: {
+          assetStatusId: '',
+          assetStatusName: '',
+        }
+      },
       dataFields: [{
         label: 'id',
         field: 'assetStatus_id',
@@ -69,109 +108,30 @@ export default {
   },
 
   components: {
+    ModalWithDelete,
+    ModelSelect,
+    ModelListSelect,
     'vue-good-table': VueGoodTable
+  },
+  computed:{
+    validationFormCheck: function () {
+      if (this.validation1.hasErrors === false){
+        return true
+      } else {
+        return false
+      }
+    }
   },
   methods: {
     onRowDoubleClick(params){
-
-      Swal.fire({
-        title: 'Edit Record',
-        html:
-          'Item ID: ' + params.row.assetStatus_id +
-          '<br>' +
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.assetStatus_name + '">' +
-          '</form>'
-        ,
-        showCancelButton: true,
-        showDenyButton: true,
-        focusConfirm: false,
-        confirmButtonText: 'Submit',
-        cancelButtonText: 'Cancel',
-        denyButtonText: `Delete Record`,
-        customClass: {
-          denyButton: 'order-1 right-gap',
-          cancelButton: 'order-2',
-          confirmButton: 'order-3',
-        },
-        preConfirm: () => {
-          const name = document.getElementById('form-name').value
-          if (!name) {
-            Swal.showValidationMessage(`name cannot be blank`)
-          }
-          return {name: name}
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const data = {
-            id: params.row.assetStatus_id,
-            name: result.value.name
-          }
-          axios.put(`${config.api}/api/assetStatus/update`, data)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been updated.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
-        } else if (result.isDenied){
-          const assetStatusID = params.row.assetStatus_id
-          axios.delete(`${config.api}/api/assetStatus/delete/` + assetStatusID)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been deleted.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
-        }
-      })
+      this.form.model.assetStatusId = params.row.assetStatus_id
+      this.form.model.assetStatusName = params.row.assetStatus_name
+      this.modalShow()
     },
     addNewAssetStatus(){
-      Swal.fire({
-        title: 'Add Record',
-        html:
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
-          '</form>'
-        ,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: 'Submit',
-        cancelButtonText: 'Cancel',
-        preConfirm: () => {
-          const name = document.getElementById('form-name').value
-          if (!name) {
-            Swal.showValidationMessage(`name cannot be blank`)
-          }
-          return {name: name}
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const data = {
-            name: result.value.name
-          }
-          axios.post(`${config.api}/api/assetStatus/create`, data)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been created.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
-        }
-      })
+      this.form.model.assetStatusId = null
+      this.form.model.assetStatusName = ''
+      this.modalShow()
     },
     loadData(){
       axios.get(`${config.api}/api/assetStatus/find`)
@@ -182,7 +142,63 @@ export default {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
     },
-    deleteItem(){},
+    deleteItem(){
+      axios.delete(`${config.api}/api/assetStatus/delete/` + this.form.model.assetStatusId)
+        .then((response) => {
+          this.loadData()
+          Swal.fire(
+            'Done!',
+            'The record has been deleted.',
+            'success'
+          )
+          this.loadData();
+          this.modalClose()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong', 'error')
+        })},
+    modalSubmit(){
+      if(!this.validationFormCheck) {
+        Swal.fire('Error', 'Something went wrong', 'error')
+      } else {
+        if(!this.form.model.assetStatusId) {
+          axios.post(`${config.api}/api/assetStatus/create`, this.form.model)
+            .then((response) => {
+              this.loadData()
+              Swal.fire(
+                'Done!',
+                'The record has been created.',
+                'success'
+              )
+              this.loadData();
+              this.modalClose()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong (create)', 'error')
+            })
+        } else {
+          axios.put(`${config.api}/api/assetStatus/update`, this.form.model)
+            .then((response) => {
+              Swal.fire(
+                'Done!',
+                'The record has been updated.',
+                'success'
+              )
+              this.loadData();
+              this.modalClose()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong (update)', 'error')
+            })
+        }
+      }
+    },
+    modalShow(){
+      this.isModalVisible = true;
+    },
+    modalClose(){
+      this.isModalVisible = false;
+    },
   },
   beforeMount() {
     this.loadData();
@@ -191,8 +207,4 @@ export default {
 </script>
 
 <style scoped>
-button {
-  margin-right: 15px;
-  height: 100%;
-}
 </style>

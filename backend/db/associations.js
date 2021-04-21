@@ -65,13 +65,15 @@ module.exports = {
     models.incidentUrgency.hasMany(models.incidentLog, {foreignKey: "incidentUrgencyId"});
     models.locations.hasMany(models.incidentLog, {foreignKey: "incident_location"});
     models.teams.hasMany(models.incidentLog, {foreignKey: "incident_assignedTeam"});
-    models.incidentLog.belongsTo(models.users, {foreignKey: "incident_assignedUser"});
-    models.incidentLog.belongsTo(models.users, {foreignKey: "incident_createdBy"});
+    models.resolvedList.hasMany(models.incidentLog, {foreignKey: "resolvedId"});
+    models.incidentLog.belongsTo(models.users, {as: 'assignedUser', foreignKey: "incident_assignedUser"});
+    models.incidentLog.belongsTo(models.users, {as: 'createdBy', foreignKey: "incident_createdBy"});
     models.incidentLog.belongsTo(models.incidentStatus, {foreignKey: "incidentStatusId"});
     models.incidentLog.belongsTo(models.incidentType, {foreignKey: "incident_typeId"});
     models.incidentLog.belongsTo(models.incidentUrgency, {foreignKey: "incidentUrgencyId"});
     models.incidentLog.belongsTo(models.locations, {foreignKey: "incident_location"});
     models.incidentLog.belongsTo(models.teams, {foreignKey: "incident_assignedTeam"});
+    models.incidentLog.belongsTo(models.resolvedList, {foreignKey: "resolvedId"});
 
     //auditLog_incidents
     models.users.hasMany(models.auditLog_incidents, {foreignKey: "auditLog_incidents_userId"});
