@@ -94,6 +94,7 @@ export default {
   border-top: 1px solid #eeeeee;
   flex-direction: column;
   align-items: inherit;
+  max-height: 80px;
 }
 
 .modal-body {

@@ -8,9 +8,7 @@ router.get('/find', (req, res, next) => {
     return db.incidentType.findAll({
         include: [
             db.teams
-        ],
-        raw : true,
-
+        ]
     })
         .then((incidentType) => res.send(incidentType))
         .catch((err) => {
@@ -20,12 +18,14 @@ router.get('/find', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    const responsibleTeam_text = req.body.responsibleTeam
-    const name_text = req.body.name
     const db = req.app.get('db')
+
+    const name_text = req.body.incidentTypeName
+    const responsibleTeam = req.body.teamId
+
     db.incidentType.create({
-        incidentType_responsibleTeam: responsibleTeam_text,
-        incidentType_name: name_text
+        incidentType_name: name_text,
+        incidentType_responsibleTeam: responsibleTeam
     })
         .then(() => {
             res.status(200).send('OK');
@@ -37,15 +37,15 @@ router.post('/create', (req, res, next) => {
 })
 
 router.put('/update', (req, res, next) => {
-
-    const incidentType_id = req.body.id
-    const incidentType_name = req.body.name
-    const incidentType_responsibleTeam = req.body.responsibleTeam
     const db = req.app.get('db')
 
+    const incidentType_id = req.body.incidentTypeId
+    const incidentType_name = req.body.incidentTypeName
+    const incidentType_responsibleTeam = req.body.teamId
+
     db.incidentType.update({
-        incidentType_responsibleTeam: incidentType_responsibleTeam,
-        incidentType_name: incidentType_name
+        incidentType_name: incidentType_name,
+        incidentType_responsibleTeam: incidentType_responsibleTeam
     }, {
         where: {
             incidentType_id: incidentType_id
@@ -60,10 +60,10 @@ router.put('/update', (req, res, next) => {
         })
 })
 
-router.delete('/delete/:incidentType_id', (req, res, next) => {
-    //delete departments
-    const id = req.params.incidentType_id;
+router.delete('/delete/:incidentTypeId', (req, res, next) => {
     const db = req.app.get('db')
+
+    const id = req.params.incidentTypeId;
 
     db.incidentType.destroy({
         where: { incidentType_id: id }
