@@ -82,7 +82,6 @@ router.put('/update', (req, res, next) => {
 })
 
 router.delete('/delete/:priorityList_id', (req, res, next) => {
-    //delete departments
     const id = req.params.priority_id;
     const db = req.app.get('db')
 

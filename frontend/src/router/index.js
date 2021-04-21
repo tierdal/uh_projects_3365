@@ -10,6 +10,11 @@ import userEdit from "../views/admin/users/userEdit.vue";
 import ticketList from "../views/helpdesk/tickets/ticketList.vue";
 import ticketEdit from "../views/helpdesk/tickets/ticketEdit.vue";
 import ticketView from "../views/helpdesk/tickets/ticketView.vue";
+
+import incidentList from "../views/helpdesk/incidents/incidentList.vue";
+import incidentEdit from "../views/helpdesk/incidents/incidentEdit.vue";
+import incidentView from "../views/helpdesk/incidents/incidentView.vue";
+
 // error
 import notFound from '../views/error/notFound.vue'
 // account
@@ -189,6 +194,35 @@ const router = new VueRouter({
       path: '/helpdesk/tickets/edit',
       name: '/helpdesk/tickets/edit',
       component: ticketEdit,
+      props: true,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+      },
+    },
+    { //incidents
+      path: '/helpdesk/incidents',
+      component: incidentList,
+      props: true,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+      },
+    },
+    {
+      path: '/helpdesk/incidents/view',
+      name: '/helpdesk/incidents/view',
+      component: incidentView,
+      props: true,
+      meta: {
+        //isOpen: true,
+        //isAdmin: true
+      },
+    },
+    {
+      path: '/helpdesk/incidents/edit',
+      name: '/helpdesk/incidents/edit',
+      component: incidentEdit,
       props: true,
       meta: {
         //isOpen: true,

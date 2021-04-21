@@ -39,6 +39,7 @@ const licenseKeys = require('./licenseKeys')
 const ticketWorkLog = require('./worklog')
 const incidentType = require('./incidentType')
 const incidentUrgency = require('./incidentUrgency')
+const incidents = require('./incidents')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -77,5 +78,6 @@ router.use('/api/licenseKeys', licenseKeys)
 router.use('/api/worklog', ticketWorkLog)
 router.use('/api/incidentType', incidentType)
 router.use('/api/incidentUrgency', incidentUrgency)
+router.use('/api/incidents', incidents)
 
 module.exports = router

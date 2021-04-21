@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">SLA List</span>
+        <span class="tableHeading-text">Install Status List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewSLAList">Add New SLA List</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewinstallStatus">Add New Install Status</button>
       </div>
     </div>
 
@@ -23,7 +23,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'sla_id', type: 'asc'}
+          initialSortBy: {field: 'installStatus_id', type: 'asc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -46,11 +46,6 @@
 </template>
 
 <script>
-//https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-//import { mapActions } from 'vuex'
-//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
-//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -61,17 +56,14 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      myAPI: `${config.api}/api/slaList`,
+      myAPI: `${config.api}/api/installStatus`,
       dataFields: [{
         label: 'id',
-        field: 'sla_id',
+        field: 'installStatus_id',
         type: 'number'
       },{
-        label: 'name',
-        field: 'sla_name'
-      },{
-        label: 'duration',
-        field: 'sla_duration'
+        label: 'description',
+        field: 'installStatus_description'
       }]
     };
   },
@@ -85,11 +77,9 @@ export default {
       Swal.fire({
         title: 'Edit Record',
         html:
-          'Item ID: ' + params.row.sla_id +
+          'Item ID: ' + params.row.installStatus_id +
           '<br>' +
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name" value="' + params.row.sla_name + '">' +
-          '</form>' +
-          '<form>Duration <input id="form-duration" class="swal2-input" placeholder="Duration" value="' + params.row.sla_duration + '">' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.installStatus_description + '">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -104,21 +94,19 @@ export default {
           confirmButton: 'order-3',
         },
         preConfirm: () => {
-          const duration = document.getElementById('form-duration').value
-          const name = document.getElementById('form-name').value
-          if (!duration && !name) {
-            Swal.showValidationMessage(`Name or duration cannot be blank`)
+          const description = document.getElementById('form-description').value
+          if (!description) {
+            Swal.showValidationMessage(`description cannot be blank`)
           }
-          return {duration: duration, name: name}
+          return {description: description}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            id: params.row.sla_id,
-            name: result.value.name,
-            duration: result.value.duration
+            id: params.row.installStatus_id,
+            description: result.value.description,
           }
-          axios.put(`${config.api}/api/slaList/update`, data)
+          axios.put(`${config.api}/api/installStatus/update`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -131,8 +119,8 @@ export default {
               Swal.fire('Error', 'Something went wrong', 'error')
             })
         } else if (result.isDenied){
-          const slaID = params.row.sla_id
-          axios.delete(`${config.api}/api/slaList/delete/` + slaID)
+          const installStatusID = params.row.installStatus_id
+          axios.delete(`${config.api}/api/installStatus/delete/` + installStatusID)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -147,13 +135,11 @@ export default {
         }
       })
     },
-    addNewSLAList(){
+    addNewinstallStatus(){
       Swal.fire({
         title: 'Add Record',
         html:
-          '<form>Name <input id="form-name" class="swal2-input" placeholder="Name">' +
-          '</form>' +
-          '<form>Duration <input id="form-duration" class="swal2-input" placeholder="Duration">' +
+          '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
           '</form>'
         ,
         showCancelButton: true,
@@ -161,20 +147,18 @@ export default {
         confirmButtonText: 'Submit',
         cancelButtonText: 'Cancel',
         preConfirm: () => {
-          const duration = document.getElementById('form-duration').value
-          const name = document.getElementById('form-name').value
-          if (!duration && !name) {
-            Swal.showValidationMessage(`Name or duration cannot be blank`)
+          const description = document.getElementById('form-description').value
+          if (!description) {
+            Swal.showValidationMessage(`Description cannot be blank`)
           }
-          return {duration: duration, name: name}
+          return {description: description}
         },
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            name: result.value.name,
-            duration: result.value.duration
+            description: result.value.description,
           }
-          axios.post(`${config.api}/api/slaList/create`, data)
+          axios.post(`${config.api}/api/installStatus/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -190,7 +174,7 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/slaList/find`)
+      axios.get(`${config.api}/api/installStatus/find`)
         .then((response) => {
           this.DB_DATA = response.data;
         })

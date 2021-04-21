@@ -17,7 +17,7 @@ router.get('/find', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    const duration_text = req.body.description
+    const duration_text = req.body.duration
     const name_text = req.body.name
     const db = req.app.get('db')
     db.slaList.create({
