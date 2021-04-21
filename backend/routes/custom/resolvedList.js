@@ -55,7 +55,7 @@ router.delete('/delete/:resolvedList_id', (req, res, next) => {
     const db = req.app.get('db')
 
     db.resolvedList.destroy({
-        where: { resolved_id: id }
+        where: { resolvedList_id: id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');
     }).catch(err => {

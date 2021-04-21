@@ -76,13 +76,16 @@ export default {
         label: 'description',
         field: 'incident_description'
       },{
-        label: 'Ugency',
-        field: 'incidentUgencyId'
+        label: 'urgency',
+        field: 'incidentUrgencyId'
       },{
-        label: 'Created By',
-        field: 'full_name'
+        label: 'created by',
+        field: 'incident_createdBy'
       },{
-        label: 'Time Created',
+        label: 'assinged user',
+        field: 'incident_assignedUser'
+      },{
+        label: 'Location Created',
         field: 'incident_location'
       },{
         label: 'Status',
@@ -90,6 +93,9 @@ export default {
       },{
         label: 'Time Created',
         field: 'CREATED_AT'
+      },{
+        label: 'Team Assigned',
+        field: 'incident_assignedTeam'
       }]
     };
   },
@@ -113,10 +119,10 @@ export default {
       axios.get(`${config.api}/api/incidents/findall`)
         .then((response) => {
           this.DB_DATA = response.data;
-          this.CREATEDBY = this.DB_DATA.map(obj => ({
-            full_name: obj.createdBy.f_name + ' ' + obj.createdBy.l_name
-          }))
-          this.FULL_DATA = _.merge(this.DB_DATA,this.CREATEDBY)
+          // this.CREATEDBY = this.DB_DATA.map(obj => ({
+          //   full_name: obj.createdBy.f_name + ' ' + obj.createdBy.l_name
+          // }))
+          // this.FULL_DATA = _.merge(this.DB_DATA,this.CREATEDBY)
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (Loading Incident List)', 'error')

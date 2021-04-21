@@ -5,7 +5,7 @@
         <span class="tableHeading-text">FAQ Category List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewfaqCategory">Add New FAQ Category</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewFAQCategory">Add New FAQ Category</button>
       </div>
     </div>
 
@@ -46,11 +46,6 @@
 </template>
 
 <script>
-//https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
-//import { mapActions } from 'vuex'
-//import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
-//import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-//import _ from "lodash";
 import axios from '../../../utilities/axios';
 import config from '../../../config';
 import 'vue-good-table/dist/vue-good-table.css'
@@ -140,7 +135,7 @@ export default {
         }
       })
     },
-    addNewfaqCategory(){
+    addNewFAQCategory(){
       Swal.fire({
         title: 'Add Record',
         html:

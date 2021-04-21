@@ -21,7 +21,7 @@ router.post('/create', (req, res, next) => {
     const description_text = req.body.description
     const db = req.app.get('db')
     db.faqCategory.create({
-        faqCategory_description: description_text
+        faq_category_description: description_text
     })
         .then(() => {
             res.status(200).send('OK');
@@ -39,7 +39,7 @@ router.put('/update', (req, res, next) => {
     const db = req.app.get('db')
 
     db.faqCategory.update({
-        faq_Category_description: description_text
+        faq_category_description: description_text
     }, {
         where: {
             faq_Category_id: faq_Category_id
@@ -54,13 +54,13 @@ router.put('/update', (req, res, next) => {
         })
 })
 
-router.delete('/delete/:faq_Category_id', (req, res, next) => {
+router.delete('/delete/:faq_category_id', (req, res, next) => {
 
-    const id = req.params.faq_Category_id;
+    const id = req.params.faq_category_id;
     const db = req.app.get('db')
 
     db.faqCategory.destroy({
-        where: { faq_Category_id: id }
+        where: { faq_category_id: id }
     }).then(() => {
         res.status(200).send('The record has been deleted!');
     }).catch(err => {

@@ -34,11 +34,6 @@ router.put('/update', (req, res, next) => {
     const name_text = req.body.name
     const db = req.app.get('db')
 
-    //console.log(req.body.id)
-    console.log(req.body.name)
-    //console.log(req.body.description)
-    //console.log(JSON.stringify(req.body))
-
     db.paymentTerms.update({
         paymentTerm_name: name_text
     }, {

@@ -14,6 +14,7 @@
           <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/softwareassets">Software Assets Manager</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/licensekeys">License Keys Manager</router-link></li>
           <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/hardwareassets">Hardware Assets Manager</router-link></li>
+          <li class="nav-item-submenu"><router-link class="nav-link" to="/helpdesk/incidents">Incidents Manager</router-link></li>
         </ul>
       </li>
       <li v-if="helpdeskCheck || managementCheck" class="nav-item"><router-link class="nav-link" to="/reports">Reports</router-link></li>
