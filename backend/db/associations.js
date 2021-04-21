@@ -104,7 +104,7 @@ module.exports = {
     models.locations.hasMany(models.ticketLog, {foreignKey: "locationId"});
     models.priorityList.hasMany(models.ticketLog, {foreignKey: "priorityId"});
     models.requestStatus.hasMany(models.ticketLog, {foreignKey: "requestStatusId"});
-    models.resolvedList.hasMany(models.ticketLog, {foreignKey: "resolvedListId"});
+    models.resolvedList.hasMany(models.ticketLog, {foreignKey: "resolvedId"});
     models.softwareAssets.hasMany(models.ticketLog, {foreignKey: "softwareId"});
     models.teams.hasMany(models.ticketLog, {foreignKey: "teamId"});
     models.ticketLog.belongsTo(models.users, {as: 'assignedUser', foreignKey: "assigned_user"});
@@ -115,7 +115,7 @@ module.exports = {
     models.ticketLog.belongsTo(models.locations, {foreignKey: "locationId"});
     models.ticketLog.belongsTo(models.priorityList, {foreignKey: "priorityId"});
     models.ticketLog.belongsTo(models.requestStatus, {foreignKey: "requestStatusId"});
-    models.ticketLog.belongsTo(models.resolvedList, {foreignKey: "resolvedListId"});
+    models.ticketLog.belongsTo(models.resolvedList, {foreignKey: "resolvedId"});
     models.ticketLog.belongsTo(models.softwareAssets, {foreignKey: "softwareId"});
     models.ticketLog.belongsTo(models.teams, {foreignKey: "teamId"});
 
