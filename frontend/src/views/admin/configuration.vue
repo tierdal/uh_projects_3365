@@ -26,11 +26,14 @@
       <v-tab title="Teams List">
         <teams-list />
       </v-tab>
-      <v-tab title="Issue Category List">
+      <v-tab title="Ticket Category List">
         <issueCategory-list />
       </v-tab>
-      <v-tab title="Request Status List">
+      <v-tab title="Ticket Status List">
         <requestStatus-list />
+      </v-tab>
+      <v-tab title="Ticket Priority List">
+        <priorityList-list />
       </v-tab>
       <v-tab title="Asset Type List">
         <assetType-list />
@@ -68,8 +71,11 @@
       <v-tab title="Incident Status List">
         <incidentStatusList-list />
       </v-tab>
-      <v-tab title="Priority List">
-        <priorityList-list />
+      <v-tab title="Incident Type List">
+        <incidentTypeList-list />
+      </v-tab>
+      <v-tab title="Incident Urgency List">
+        <incidentUrgencyList-list />
       </v-tab>
     </vue-tabs>
   </div>
@@ -97,6 +103,8 @@ import changeRequestTypeList from "./configuration/changeRequestTypeList.vue";
 import changeRequestStatusList from "./configuration/changeRequestStatusList.vue";
 import incidentStatusList from "./configuration/incidentStatusList.vue";
 import priorityList from "./configuration/priorityListList.vue";
+import incidentTypeList from "./configuration/incidentTypeList.vue";
+import incidentUrgencyList from "./configuration/incidentUrgencyList.vue";
 import {VueTabs, VTab} from 'vue-nav-tabs'
 import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -123,6 +131,8 @@ export default {
     'changeRequestStatusList-list' : changeRequestStatusList,
     'incidentStatusList-list' : incidentStatusList,
     'priorityList-list' : priorityList,
+    'incidentTypeList-list' : incidentTypeList,
+    'incidentUrgencyList-list' : incidentUrgencyList,
     VueTabs,
     VTab
   }

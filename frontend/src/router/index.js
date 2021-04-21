@@ -13,7 +13,6 @@ import ticketView from "../views/helpdesk/tickets/ticketView.vue";
 // error
 import notFound from '../views/error/notFound.vue'
 // account
-import register from '../views/account/register.vue'
 import login from '../views/account/login.vue'
 import account from '../views/account/index.vue'
 import session from '../utilities/session'
@@ -22,20 +21,14 @@ import faqadmin from "../views/management/faq/faqadmin.vue";
 import faqEdit from "../views/management/faq/faqEdit.vue";
 import locationadmin from "../views/management/locations/locationadmin.vue";
 import locationEdit from "../views/management/locations/locationEdit.vue";
-import locationList from "../views/management/locations/locationList.vue";
-import vendorList from "../views/management/vendors/vendorList.vue";
 import vendoradmin from "../views/management/vendors/vendoradmin.vue";
 import vendorEdit from "../views/management/vendors/vendorEdit.vue";
-import contractList from "../views/management/contracts/contractList.vue";
 import contractadmin from "../views/management/contracts/contractadmin.vue";
 import contractEdit from "../views/management/contracts/contractEdit.vue";
-import softwareAssetsList from "../views/management/softwareassets/softwareAssetsList.vue";
 import softwareAssetsadmin from "../views/management/softwareassets/softwareAssetsadmin.vue";
 import softwareAssetsEdit from "../views/management/softwareassets/softwareAssetsEdit.vue";
-import licenseKeysList from "../views/management/licensekeys/licenseKeysList.vue";
 import licenseKeysadmin from "../views/management/licensekeys/licenseKeysadmin.vue";
 import licenseKeysEdit from "../views/management/licensekeys/licenseKeysEdit.vue";
-import assetList from "../views/management/hardwareassets/assetList.vue";
 import assetadmin from "../views/management/hardwareassets/assetadmin.vue";
 import assetEdit from "../views/management/hardwareassets/assetEdit.vue";
 import reportCenter from "../views/reports/reportCenter.vue";
@@ -43,9 +36,6 @@ import hwAssetsReport from "../views/reports/customReports/hwAssetsReport.vue";
 import swAssetsReport from "../views/reports/customReports/swAssetsReport.vue";
 import ticketsReport from "../views/reports/customReports/ticketsReport.vue";
 import usersReport from "../views/reports/customReports/usersReport.vue";
-//place holder for now
-import incidentTypeList from "../views/admin/placeholder/incidentTypeList.vue";
-import incidentUrgencyList from "../views/admin/placeholder/incidentUrgencyList.vue";
 
 vue.use(VueRouter)
 
@@ -77,7 +67,8 @@ const router = new VueRouter({
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -87,7 +78,8 @@ const router = new VueRouter({
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -96,7 +88,8 @@ const router = new VueRouter({
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
+        isIT: true
       },
     },
     {
@@ -106,27 +99,8 @@ const router = new VueRouter({
       props: true,
       meta: {
         //isOpen: true,
-        isAdmin: true
-      },
-    },
-    { //placeholder
-      path: '/incidentType',
-      name: '/incidentType',
-      component: incidentTypeList,
-      props: true,
-      meta: {
-        //isOpen: true,
-        isAdmin: true
-      },
-    },
-    { //placeholder
-      path: '/incidentUrgency',
-      name: '/incidentUrgency',
-      component: incidentUrgencyList,
-      props: true,
-      meta: {
-        //isOpen: true,
-        isAdmin: true
+        //isAdmin: true
+        isIT: true
       },
     },
     {
