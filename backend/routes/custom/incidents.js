@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router({ caseSensitive: true })
 const Sequelize = require('sequelize')
+const Op = Sequelize.Op;
 
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
@@ -39,7 +40,12 @@ router.get('/find', (req, res, next) => {
                 model: db.teams,
                 attributes: ['team_id','team_name']
             }
-        ]
+        ],
+        where: {
+            is_resolved: {
+                [Op.not]: 'true'
+            }
+        }
     })
         .then((incidentLog) => {
             res.send(incidentLog)
@@ -83,6 +89,10 @@ router.get('/findall', (req, res, next) => {
             {
                 model: db.teams,
                 attributes: ['team_id','team_name']
+            },
+            {
+                model: db.resolvedList,
+                attributes: ['resolvedList_id','resolvedList_name']
             }
         ]
     })

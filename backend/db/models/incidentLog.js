@@ -5,6 +5,7 @@ const _users = require("./users");
 const _locations = require("./locations");
 const _incidentStatus = require("./incidentStatus");
 const _teams = require("./teams");
+const _resolvedList = require("./resolvedList");
 const DataTypes = require("sequelize").DataTypes;
 
 module.exports = function(sequelize, DataTypes) {
@@ -15,6 +16,7 @@ module.exports = function(sequelize, DataTypes) {
     const locations = _locations(sequelize, DataTypes);
     const incidentStatus = _incidentStatus(sequelize, DataTypes);
     const teams = _teams(sequelize, DataTypes);
+    const resolvedList = _resolvedList(sequelize, DataTypes);
 
     return sequelize.define('incidentLog', {
         incident_id: {
@@ -27,6 +29,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        incident_description: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         incident_typeId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -35,16 +41,28 @@ module.exports = function(sequelize, DataTypes) {
                 //key: incidentType_id
             }
         },
-        incident_description: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         incidentUrgencyId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: incidentUrgency
                 //key: incidentUrgencyId
+            }
+        },
+        incidentStatusId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: incidentStatus
+                //key: incidentStatus_id
+            }
+        },
+        incident_location: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: locations
+                //key: location_id
             }
         },
         incident_createdBy: {
@@ -63,23 +81,6 @@ module.exports = function(sequelize, DataTypes) {
                 //key: user_id
             }
         },
-        incident_location: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: locations
-                //key: location_id
-            }
-
-        },
-        incidentStatusId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: incidentStatus
-                //key: incidentStatus_id
-            }
-        },
         incident_assignedTeam: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -87,8 +88,27 @@ module.exports = function(sequelize, DataTypes) {
                 model: teams
                 //key: team_id
             }
+        },
+        resolvedId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: resolvedList
+                //key: resolved_id
+            }
+        },
+        resolution_notes: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        CREATED_AT: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        CLOSED_AT: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
-
     }, {
         sequelize,
         tableName: 'incidentLog',
