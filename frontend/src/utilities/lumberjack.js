@@ -53,7 +53,18 @@ export default {
     },
 
     logAuditIncidents(logAction, logExtra) {
-
+      //3 - incidents
+      const DATA = []
+      this.DATA = {
+        userId: this.getUserId(),
+        logAction: logAction,
+        logExtra: logExtra
+      }
+      //console.log(JSON.stringify(this.DATA))
+      axios.post(`${config.api}/api/lumberjack/logAuditIncidents`, this.DATA)
+        .catch(() => {
+          console.log('Something went wrong with submitting logAuditIncidents')
+        })
     },
 
     logAuditTasks(logAction, logExtra) {

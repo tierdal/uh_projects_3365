@@ -209,7 +209,7 @@ export default {
             'The record has been created.',
             'success'
           )
-          lumberjack.logAudit(5, 'create', response.data)
+          lumberjack.logAudit(3, 'create', response.data)
           this.goBack()
         })
         .catch(() => {
@@ -225,7 +225,7 @@ export default {
             'The incident has been updated.',
             'success'
           )
-          lumberjack.logAudit(5, 'update', this.incident_id)
+          lumberjack.logAudit(3, 'update', this.incident_id)
           this.goBack()
         })
         .catch(() => {
@@ -249,12 +249,12 @@ export default {
             this.form.model.closedAt = response.data.CLOSED_AT
 
           const createdByObj = response.data.createdBy
-          const assignedToObj = response.data.assigned_user
-          const assignedTeamObj = response.data.teamId
+          const assignedToObj = response.data.assignedUser
+          const assignedTeamObj = response.data.team
 
-          if(response.data.created_by !== null) {this.form.model.createdBy = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
-          if(response.data.assigned_user !== null) {this.form.model.assignedTo = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}
-          if(response.data.teamId !== null) {this.form.model.assignedTeam = assignedTeamObj.team_name}
+          if(response.data.incident_createdBy !== null) {this.form.model.createdBy = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
+          if(response.data.incident_assignedUser !== null) {this.form.model.assignedTo = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}
+          if(response.data.incident_assignedTeam !== null) {this.form.model.assignedTeam = assignedTeamObj.team_name}
 
         })
         .catch(() => {
