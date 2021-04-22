@@ -33,6 +33,10 @@ router.get('/find', (req, res, next) => {
                 attributes: ['incidentUrgency_id','incidentUrgency_name']
             },
             {
+                model: db.resolvedList,
+                attributes: ['resolvedList_id','resolvedList_name']
+            },
+            {
                 model: db.locations,
                 attributes: ['location_id','location_name']
             },
@@ -151,6 +155,10 @@ router.get('/find/:incidentID', (req, res, next) => {
                 attributes: ['location_id','location_name']
             },
             {
+                model: db.resolvedList,
+                attributes: ['resolvedList_id','resolvedList_name']
+            },
+            {
                 model: db.teams,
                 attributes: ['team_id','team_name']
             }
@@ -176,7 +184,8 @@ router.post('/create', (req, res, next) => {
         incident_assignedUser: req.body.assignedToId,
         locationId: req.body.locationId,
         incidentStatusId: req.body.incidentStatusId,
-        incident_assignedTeam: req.body.assignedTeamId
+        incident_assignedTeam: req.body.assignedTeamId,
+        is_resolved: false
     })
         .then((result) => {
             res.json(result.incident_id)
@@ -208,7 +217,88 @@ router.put('/update/:incidentID', (req, res, next) => {
             res.status(200).send('OK');
         })
         .catch(err => {
-            console.log('There was an error updating incident', JSON.stringify(err))
+            console.log('There was an error updating incidents', JSON.stringify(err))
+            return res.send(err)
+        })
+})
+router.put('/assign/:incidentID', (req, res, next) => {
+    const db = req.app.get('db')
+
+    db.incidentLog.update({
+        incidentStatusId: req.body.incidentStatusId,
+        assigned_user: req.body.assignedToId,
+        teamId: req.body.assignedTeamId
+    }, {
+        where: {
+            incident_id: req.params.incidentID
+        }
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating incidents', JSON.stringify(err))
+            return res.send(err)
+        })
+})
+router.put('/cancel/:incidentID', (req, res, next) => {
+    const db = req.app.get('db')
+
+    db.incidentLog.update({
+        requestStatusId: 7,
+        is_resolved: true
+    }, {
+        where: {
+            incident_id: req.params.incidentLog
+        }
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating incidents', JSON.stringify(err))
+            return res.send(err)
+        })
+})
+router.put('/resolve/:incidentID', (req, res, next) => {
+    const db = req.app.get('db')
+
+    db.incidentLog.update({
+        assigned_user: req.body.assignedToId,
+        requestStatusId: 5,
+        is_resolved: true,
+        resolvedId: req.body.resolvedId,
+        resolution_notes: req.body.resolutionNotes,
+        CLOSED_AT: new Date(Date.now()).toISOString()
+    }, {
+        where: {
+            incident_id: req.params.incidentID
+        }
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating incidents', JSON.stringify(err))
+            return res.send(err)
+        })
+})
+router.put('/changestatus/:incidentID', (req, res, next) => {
+    const db = req.app.get('db')
+
+    db.incidentLog.update({
+        incidentStatusId: req.body.incidentStatusId,
+        is_resolved: req.body.isResolved
+    }, {
+        where: {
+            incident_id: req.params.incidentID
+        }
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating incidents', JSON.stringify(err))
             return res.send(err)
         })
 })

@@ -40,6 +40,7 @@ const ticketWorkLog = require('./worklog')
 const incidentType = require('./incidentType')
 const incidentUrgency = require('./incidentUrgency')
 const incidents = require('./incidents')
+const incidentWorkLog = require('./incidentworklog')
 
 router.use('/api/home', home)
 router.use('/api/account', account)
@@ -79,5 +80,6 @@ router.use('/api/worklog', ticketWorkLog)
 router.use('/api/incidentType', incidentType)
 router.use('/api/incidentUrgency', incidentUrgency)
 router.use('/api/incidents', incidents)
+router.use('/api/incidentworklog', incidentWorkLog)
 
 module.exports = router
