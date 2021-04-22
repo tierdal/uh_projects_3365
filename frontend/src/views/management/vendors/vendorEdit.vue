@@ -87,11 +87,8 @@
 import axios from "../../../utilities/axios";
 import config from "../../../config";
 import Swal from "sweetalert2";
-import _ from "lodash";
-import session from "../../../utilities/session";
 import { ModelListSelect } from 'vue-search-select';
 import { ModelSelect } from 'vue-search-select';
-import lumberjack from '../../../utilities/lumberjack'
 
 export default {
   name: "vendorEdit",
@@ -180,7 +177,6 @@ export default {
       const vendorID = this.vendor_id
       axios.delete(`${config.api}/api/vendors/delete/` + vendorID)
         .then((response) => {
-          this.loadData()
           Swal.fire(
             'Done!',
             'The record has been deleted.',

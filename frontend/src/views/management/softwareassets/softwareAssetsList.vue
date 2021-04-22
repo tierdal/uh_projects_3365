@@ -68,10 +68,10 @@ export default {
         field: 'software_name'
       },{
         label: 'software Status',
-        field: 'softwareStatusDesc'
+        field: 'softwareStatus.softwareStatus_description'
       },{
         label: 'vendor name',
-        field: 'vendorName'
+        field: 'vendor.vendor_name'
       }]
     };
   },
@@ -95,17 +95,10 @@ export default {
       axios.get(`${config.api}/api/softwareAssets/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'softwareStatus.softwareStatus_description','softwareStatusDesc'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'vendor.vendor_name','vendorName'))
-          //console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {

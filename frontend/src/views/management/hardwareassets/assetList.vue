@@ -56,10 +56,6 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      ASSETSTATUS_DATA: [],
-      ASSETTYPE_DATA: [],
-      VENDOR_DATA: [],
-      USERS_DATA: [],
       myAPI: `${config.api}/api/assetList`,
       dataFields: [{
         label: 'id',
@@ -73,16 +69,13 @@ export default {
         field: 'serial_number'
       },{
         label: 'asset Status',
-        field: 'assetStatusName'
+        field: 'assetStatus.assetStatus_name'
       },{
         label: 'asset Type',
-        field: 'assetTypeName'
+        field: 'assetType.assetType_name'
       },{
         label: 'vendor Name',
-        field: 'vendorName'
-      },{
-        label: 'Assigned User',
-        field: 'userName'
+        field: 'vendor.vendor_name'
       }]
     };
   },
@@ -106,24 +99,11 @@ export default {
       axios.get(`${config.api}/api/assetList/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          //this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','locationTypeDesc'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'assetStatus.assetStatus_name','assetStatusName'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'assetType.assetType_name','assetTypeName'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'vendor.vendor_name','vendorName'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.email','userName'))
-          //need to link relationships for name data
-          //console.log(JSON.stringify(this.DB_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (finding assets)', 'error')
         })
-    },
-    //deleteItem(){},
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
-  }
-
+    }
   },
   beforeMount() {
     this.loadData();
@@ -132,8 +112,4 @@ export default {
 </script>
 
 <style scoped>
-button {
-  margin-right: 15px;
-  height: 100%;
-}
 </style>

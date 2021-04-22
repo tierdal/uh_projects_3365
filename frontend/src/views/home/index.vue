@@ -9,7 +9,7 @@
     </div>
     <div class="buttonRibbon">
       <button class="swal2-styled buttonRibbon-style" v-on:click="addNewTicket">New Ticket</button>
-      <button class="swal2-styled buttonRibbon-style" v-on:click="">New Incident</button>
+      <button class="swal2-styled buttonRibbon-style" v-on:click="addNewIncident">New Incident</button>
       <button class="swal2-styled buttonRibbon-style" v-on:click="">New Change Request</button>
     </div>
     <br>
@@ -56,6 +56,9 @@ export default {
     },
     addNewTicket(){
       this.$router.push('/helpdesk/tickets/edit')
+    },
+    addNewIncident(){
+      this.$router.push('/helpdesk/incidents/edit')
     }
   },
   beforeMount() {
