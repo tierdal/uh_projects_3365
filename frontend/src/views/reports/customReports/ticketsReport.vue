@@ -317,7 +317,7 @@ export default {
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading locations)', 'error')
         })
-      axios.get(`${config.api}/api/assetList/findlist`)
+      axios.get(`${config.api}/api/assetList/findlistall`)
         .then((response) => {
           this.ASSET_DATA = response.data;
           const MERGE_DATA = this.ASSET_DATA.map(obj => ({

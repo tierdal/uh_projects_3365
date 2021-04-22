@@ -132,7 +132,8 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
-        isManager: true
+        isManager: true,
+        isIT: true
       },
     },
     {
@@ -141,7 +142,8 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
-        isManager: true
+        isManager: true,
+        isIT: true
       },
     },
     {
@@ -150,7 +152,8 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
-        isManager: true
+        isManager: true,
+        isIT: true
       },
     },
     {
@@ -159,7 +162,8 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
-        isManager: true
+        isManager: true,
+        isIT: true
       },
     },
     {
@@ -168,7 +172,8 @@ const router = new VueRouter({
       meta: {
         //isOpen: true,
         //isAdmin: true
-        isManager: true
+        isManager: true,
+        isIT: true
       },
     },
     {
@@ -386,15 +391,59 @@ router.beforeEach((to, from, next) => {
     } else {
       //put auth code here
       const role = session.getUser().roleId
-      if ((role !== 1) && (to.matched.some(record => record.meta.isAdmin) || to.matched.some(record => record.meta.isManager) || to.matched.some(record => record.meta.isIT))){
+      const dept = session.getUser().departmentId
+      /*if ((role !== 1) && (to.matched.some(record => record.meta.isAdmin) || to.matched.some(record => record.meta.isManager) || to.matched.some(record => record.meta.isIT))){
         //non-admin gets blocked
         next({
           path: '/notFound',
         })
-      } else {
-        next()
-      }
-
+      } else {*/
+      switch (role) {
+        case 1:
+          console.log('im admin')
+          next()
+          break
+        case 2:
+          switch (dept) {
+            case 1:
+              if (to.matched.some(record => (record.meta.Admin) || (record.meta.isManager))){
+                //console.log('it, dont let me out')
+                next({
+                  path: '/notFound',
+                })
+              } else {
+                //console.log('it, let me out')
+                next()
+              }
+              break
+            case 2:
+              if (to.matched.some(record => (record.meta.Admin) || (record.meta.isIT))){
+                //console.log('manager, let me out')
+                next({
+                  path: '/notFound',
+                })
+              } else {
+                //console.log('manager, let me out')
+                next()
+              }
+              break
+            default:
+              if (to.matched.some(record => (record.meta.Admin) || (record.meta.isManager) || (record.meta.isAdmin))){
+                //console.log('regular user, dont let me out')
+                next({
+                  path: '/notFound',
+                })
+              } else {
+                //console.log('regular user, let me out')
+                next()
+              }
+              break
+          }
+          break
+        default:
+          break
+        }
+      //}
     }
   } else {
     if ((to.path === '/auth/login')) {

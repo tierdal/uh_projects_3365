@@ -21,7 +21,7 @@
           <li class="nav-item-submenu"><router-link class="nav-link" to="/manage/hardwareassets">Hardware Assets Manager</router-link></li>
         </ul>
       </li>
-      <li v-if="helpdeskCheck || managementCheck" class="nav-item"><router-link class="nav-link" to="/reports">Reports</router-link></li>
+      <li v-if="adminCheck || managementCheck" class="nav-item"><router-link class="nav-link" to="/reports">Reports</router-link></li>
       <li v-if="adminCheck" class="nav-item"><a class="nav-link" href="#">Admin</a>
         <ul class="navbar-nav-submenu">
           <li class="nav-item-submenu"><router-link class="nav-link" to="/useradmin">User Manager</router-link></li>
