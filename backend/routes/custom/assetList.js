@@ -33,11 +33,22 @@ router.get('/find', (req, res, next) => {
 })
 router.get('/findlist', (req, res, next) => {
     const db = req.app.get('db')
-    console.log(JSON.stringify(req.query))
 
     return db.assetList.findAll({
         attributes:['asset_id','asset_name','serial_number'],
         where:{userId: req.query.userId}
+    })
+        .then((assetList) => res.send(assetList))
+        .catch((err) => {
+            console.log('There was an error querying assetList', JSON.stringify(err))
+            return res.send(err)
+        });
+})
+router.get('/findlistall', (req, res, next) => {
+    const db = req.app.get('db')
+
+    return db.assetList.findAll({
+        attributes:['asset_id','asset_name','serial_number']
     })
         .then((assetList) => res.send(assetList))
         .catch((err) => {
