@@ -1,44 +1,60 @@
 <template>
   <div>
+    <div class="jumbotron dashboard">
+      <div v-if="!isNewFAQ" class="dashlabel">
+        FAQ Number: {{ this.faq_id }}
+      </div>
+      <div v-else class="dashlabel">
+        Adding New FAQ
+      </div>
+    </div>
+
+    <div class="editForm">
+      <div class="editFormFooter-left">
+        <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
+      </div>
+      <div class="editFormFooter-right">
+        <button v-if="!isNewFAQ" class="swal2-editform swal2-styled updateButton" :disabled="validationFormCheck === false" v-on:click="updateFaq">Update FAQ</button>
+        <button v-if="!isNewFAQ" class="swal2-editform swal2-styled deleteButton" v-on:click="deleteFaq">Delete FAQ</button>
+        <button v-if="isNewFAQ" class="swal2-editform swal2-styled addNewButton" :disabled="validationFormCheck === false" v-on:click="addFaq">Submit New FAQ</button>
+      </div>
+    </div>
+
+    <br />
+
     <form class="swal2-form mainForm">
       <div class="editForm-left">
         <FormulateInput
+          @validation="validationTitle = $event"
           type="text"
           name="title"
           label="Title"
           validation="required"
-          v-model="form.model.title"
+          v-model="form.model.faqTitle"
           :validation-messages="{required: 'The title is required'}"
         />
         <FormulateInput
+          @validation="validationBody = $event"
           type="textarea"
           name="body"
           label="Descriptions"
           validation="required"
-          v-model="form.model.body"
+          v-model="form.model.faqBody"
           :validation-messages="{required: 'The body is required'}"
         />
       </div>
       <div class="editForm-right">
-        <label class="form-custom-label" for="form-faq_category">faq_category</label>
+        <label class="form-custom-label" for="form-faq_category">FAQ Category</label>
         <model-list-select :list="FAQ_CATEGORY_DATA"
-                           v-model="form.model.faq_categoryId"
+                           v-model="form.model.faqCategoryId"
                            option-value="faq_category_id"
                            id="form-faq_category"
                            option-text="faq_category_description"
+                           :isError='validationCategory === true'
                            placeholder="select one">
         </model-list-select>
       </div>
     </form>
-    <br>
-    <div class="editForm">
-      <div class="editFormFooter-left">
-        <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
-        <button class="swal2-editform swal2-styled addNewButton" v-on:click="addFaq">Add New FAQ</button>
-        <button class="swal2-editform swal2-styled deleteButton" v-on:click="deleteFaq">Delete FAQ</button>
-        <button class="swal2-editform swal2-styled updateButton" v-on:click="updateFaq">Update FAQ</button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -62,9 +78,9 @@ export default {
       FAQ_CATEGORY_DATA: [],
       form: {
         model: {
-          title: '',
-          body: '',
-          faq_categoryId: '',
+          faqTitle: '',
+          faqBody: '',
+          faqCategoryId: '',
         },
       },
     };
@@ -73,12 +89,41 @@ export default {
     ModelSelect,
     ModelListSelect
   },
+  computed:{
+    validationCategory: function () {
+      if (this.form.model.faqCategoryId === ''){
+        return true
+      } else {
+        return false
+      }
+    },
+    validationFormCheck: function () {
+      if (this.validationTitle.hasErrors === false &&
+        this.validationBody.hasErrors === false &&
+        this.validationCategory === false){
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   methods: {
     goBack(){
       this.$router.push('/manage/faq')
     },
     addFaq(){
-      this.register(this.form.model)
+      axios.post(`${config.api}/api/faqList/create`, this.form.model)
+        .then((response) => {
+          Swal.fire(
+            'Done!',
+            'The record has been created.',
+            'success'
+          )
+          this.goBack()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (creating faqList)', 'error')
+        })
     },
     updateFaq(){
       const faqID = this.faq_id
@@ -100,7 +145,6 @@ export default {
       const faqID = this.faq_id
         axios.delete(`${config.api}/api/faqList/delete/` + faqID)
           .then((response) => {
-            //this.loadData()
             Swal.fire(
               'Done!',
               'The faq list has been deleted.',
@@ -116,20 +160,9 @@ export default {
       axios.get(`${config.api}/api/faqList/find/` + this.faq_id)
         .then((response) => {
           this.DB_DATA = response.data;
-          //this.dataLength = response.data.length;
-          //console.log('Status: ' + response.status + ' ' + response.statusText)
-          //console.log('Headers:')
-          //console.log(response.headers)
-          //console.log('Config:')
-          //console.log(response.config)
-          //console.log('Data:')
-          //console.log(response.data)
-          //console.log(JSON.stringify(response.data.length))
-            this.form.model.title = response.data.faq_title,
-            this.form.model.body = response.data.faq_body,
-            this.form.model.faq_categoryId = response.data.faq_categoryId
-          //console.log(JSON.stringify(this.DB_DATA))
-          //console.log('Dept: ' + this.departmentId + ', Role: ' + this.roleId + ', Status: ' + this.statusId)
+            this.form.model.faqTitle = response.data.faq_title,
+            this.form.model.faqBody = response.data.faq_body,
+            this.form.model.faqCategoryId = response.data.faq_categoryId
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (finding faq list)', 'error')
@@ -139,16 +172,10 @@ export default {
       axios.get(`${config.api}/api/faqCategory/find`)
         .then((response) => {
           this.FAQ_CATEGORY_DATA = response.data;
-          //this.DEPT_DATA.forEach( obj => this.renameKey(obj, 'department_id','departmentId'))
-          //console.log(JSON.stringify(this.DEPT_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading faq category)', 'error')
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {
@@ -157,10 +184,6 @@ export default {
       this.isNewFAQ = false
       this.loadData()
     }
-    //console.log(this.isNewUser)
-  },
-  mounted() {
-    //console.log(this.email)
   }
 };
 </script>

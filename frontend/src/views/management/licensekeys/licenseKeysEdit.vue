@@ -1,28 +1,50 @@
 <template>
   <div>
+    <div class="jumbotron dashboard">
+      <div v-if="!isNewlicenseKeys" class="dashlabel">
+        License Key ID: {{ this.license_id }}
+      </div>
+      <div v-else class="dashlabel">
+        Adding New License Key
+      </div>
+    </div>
+
+    <div class="editForm">
+      <div class="editFormFooter-left">
+        <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
+      </div>
+      <div class="editFormFooter-right">
+        <button v-if="!isNewlicenseKeys" class="swal2-editform swal2-styled updateButton" :disabled="validationFormCheck === false" v-on:click="updateLicenseKey">Update Key</button>
+        <button v-if="!isNewlicenseKeys" class="swal2-editform swal2-styled deleteButton" v-on:click="deleteLicenseKey">Delete Key</button>
+        <button v-if="isNewlicenseKeys" class="swal2-editform swal2-styled addNewButton" :disabled="validationFormCheck === false" v-on:click="addLicenseKey">Submit New Key</button>
+      </div>
+    </div>
+
+    <br />
+
     <form class="swal2-form mainForm">
       <div class="editForm-left">
         <FormulateInput
+          @validation="validationKey = $event"
           type="text"
-          name="title"
-          label="Title"
+          name="licenseKey"
+          label="Licence Key"
           validation="required"
-          v-model="form.model.key"
-          :validation-messages="{required: 'The key is required'}"
+          v-model="form.model.licenseKey"
+          :validation-messages="{required: 'The Key is required'}"
         />
-      </div>
-      <div class="editForm-right">
-        <label class="form-custom-label" for="form-software">software</label>
+        <label class="form-custom-label" for="form-software">Software Name</label>
         <model-list-select :list="SOFTWAREASSETS_DATA"
                            v-model="form.model.softwareId"
                            option-value="software_id"
                            id="form-software"
                            option-text="software_name"
+                           :isError='validationSoftware === true'
                            placeholder="select one">
         </model-list-select>
       </div>
       <div class="editForm-right">
-        <label class="form-custom-label" for="form-user">user</label>
+        <label class="form-custom-label" for="form-user">Assigned To</label>
         <model-list-select :list="USERS_DATA"
                            v-model="form.model.userId"
                            option-value="user_id"
@@ -32,15 +54,6 @@
         </model-list-select>
       </div>
     </form>
-    <br>
-    <div class="editForm">
-      <div class="editFormFooter-left">
-        <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
-        <button class="swal2-editform swal2-styled addNewButton" v-on:click="addLicenseKey">Add New LicenseKey</button>
-        <button class="swal2-editform swal2-styled deleteButton" v-on:click="deleteLicenseKey">Delete LicenseKey</button>
-        <button class="swal2-editform swal2-styled updateButton" v-on:click="updateLicenseKey">Update LicenseKey</button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -54,19 +67,19 @@ import { ModelListSelect } from 'vue-search-select';
 import { ModelSelect } from 'vue-search-select'
 
 export default {
-  props: ["licenseKeys_id"],
+  props: ["license_id"],
   data() {
     return {
       isNewlicenseKeys: true,
-      //validationKey: {},
+      validationKey: {},
       DB_DATA: [],
       SOFTWAREASSETS_DATA: [],
       USERS_DATA: [],
       form: {
         model: {
+          licenseKey: '',
           softwareId: '',
-          key: '',
-          userId: '',
+          userId: ''
         },
       },
     };
@@ -75,12 +88,42 @@ export default {
     ModelSelect,
     ModelListSelect
   },
+  computed:{
+    validationSoftware: function () {
+      if (this.form.model.softwareId === ''){
+        return true
+      } else {
+        return false
+      }
+    },
+    validationFormCheck: function () {
+      if (this.validationKey.hasErrors === false &&
+        this.validationSoftware === false){
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   methods: {
     goBack(){
       this.$router.push('/manage/licensekeys')
     },
     addLicenseKey(){
-      this.register(this.form.model)
+      if(this.form.model.userId === ''){this.form.model.userId = null}
+
+      axios.post(`${config.api}/api/licenseKeys/create`, this.form.model)
+        .then((response) => {
+          Swal.fire(
+            'Done!',
+            'The record has been created.',
+            'success'
+          )
+          this.goBack()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (creating licenseKeys)', 'error')
+        })
     },
     updateLicenseKey(){
       const licenseKeysID = this.license_id
@@ -117,11 +160,9 @@ export default {
     loadData(){
       axios.get(`${config.api}/api/licenseKeys/find/` + this.license_id)
         .then((response) => {
-          this.DB_DATA = response.data;
-          this.form.model.key = response.data.license_key
-          //this.form.model.faq_categoryId = response.data.faq_categoryId
-          //console.log(JSON.stringify(this.DB_DATA))
-          //console.log('Dept: ' + this.departmentId + ', Role: ' + this.roleId + ', Status: ' + this.statusId)
+          this.form.model.licenseKey = response.data.license_key
+          this.form.model.softwareId = response.data.softwareId
+          this.form.model.userId = response.data.userId
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (finding licenseKeys)', 'error')
@@ -131,8 +172,6 @@ export default {
       axios.get(`${config.api}/api/users/find`)
         .then((response) => {
           this.USERS_DATA = response.data;
-          //this.DEPT_DATA.forEach( obj => this.renameKey(obj, 'department_id','departmentId'))
-          //console.log(JSON.stringify(this.DEPT_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading users)', 'error')
@@ -144,22 +183,14 @@ export default {
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading software)', 'error')
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {
     this.loadFields()
-    if (this.licenseKeys_id !== undefined){
+    if (this.license_id !== undefined){
       this.isNewlicenseKeys = false
       this.loadData()
     }
-    //console.log(this.isNewUser)
-  },
-  mounted() {
-    //console.log(this.email)
   }
 };
 </script>
