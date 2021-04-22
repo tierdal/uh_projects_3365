@@ -400,20 +400,17 @@ router.beforeEach((to, from, next) => {
       } else {*/
       switch (role) {
         case 1:
-          //console.log('im admin')
+          console.log('im admin')
           next()
           break
         case 2:
           switch (dept) {
             case 1:
               if (to.matched.some(record => (record.meta.Admin) || (record.meta.isManager))){
-                if (to.matched.some(record => (record.meta.isIT))) {
-                  next()
-                } else {
-                  next({
-                    path: '/notFound',
-                  })
-                }
+                //console.log('it, dont let me out')
+                next({
+                  path: '/notFound',
+                })
               } else {
                 //console.log('it, let me out')
                 next()
@@ -421,14 +418,12 @@ router.beforeEach((to, from, next) => {
               break
             case 2:
               if (to.matched.some(record => (record.meta.Admin) || (record.meta.isIT))){
-                if (to.matched.some(record => (record.meta.isManager))) {
-                  next()
-                } else {
-                  next({
-                    path: '/notFound',
-                  })
-                }
+                //console.log('manager, let me out')
+                next({
+                  path: '/notFound',
+                })
               } else {
+                //console.log('manager, let me out')
                 next()
               }
               break
