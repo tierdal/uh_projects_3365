@@ -105,6 +105,7 @@ export default {
   },
   beforeMount() {
     this.isAdmin()
+    this.isManagementCheck()
     this.isITdepartmentCheck()
   }
 }
