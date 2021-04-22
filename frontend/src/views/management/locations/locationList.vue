@@ -56,7 +56,6 @@ export default {
   data() {
     return {
       DB_DATA: [],
-      LOCATIONTYPE_DATA: [],
       myAPI: `${config.api}/api/locations`,
       dataFields: [{
         label: 'id',
@@ -67,7 +66,7 @@ export default {
         field: 'location_name'
       },{
         label: 'type',
-        field: 'TypeDesc'
+        field: 'locationType.locationType_description'
       },{
         label: 'street',
         field: 'location_street'
@@ -109,17 +108,11 @@ export default {
       axios.get(`${config.api}/api/locations/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'locationType.locationType_description','TypeDesc'))
-          //console.log(JSON.stringify(this.DB_DATA))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
 
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {
@@ -129,8 +122,4 @@ export default {
 </script>
 
 <style scoped>
-button {
-  margin-right: 15px;
-  height: 100%;
-}
 </style>
