@@ -310,7 +310,8 @@ export default {
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading locations)', 'error')
         })
-      axios.get(`${config.api}/api/assetList/findlist`)
+      const assetUser = {'userId':session.getUser().user_id}
+      axios.get(`${config.api}/api/assetList/findlist`, {params: assetUser})
         .then((response) => {
           this.ASSET_DATA = response.data;
           const MERGE_DATA = this.ASSET_DATA.map(obj => ({

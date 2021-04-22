@@ -23,8 +23,7 @@ router.get('/find', (req, res, next) => {
                 model: db.users,
                 attributes: ['user_id','email','f_name','l_name']
             }
-        ],
-        raw : true
+        ]
     })
         .then((assetList) => res.send(assetList))
         .catch((err) => {
@@ -32,13 +31,13 @@ router.get('/find', (req, res, next) => {
             return res.send(err)
         });
 })
-
 router.get('/findlist', (req, res, next) => {
     const db = req.app.get('db')
+    console.log(JSON.stringify(req.query))
 
     return db.assetList.findAll({
         attributes:['asset_id','asset_name','serial_number'],
-        //raw : true
+        where:{userId: req.query.userId}
     })
         .then((assetList) => res.send(assetList))
         .catch((err) => {
@@ -46,7 +45,6 @@ router.get('/findlist', (req, res, next) => {
             return res.send(err)
         });
 })
-
 router.get('/find/:assetID', (req, res, next) => {
     const asset_id = req.params.assetID
 
@@ -79,7 +77,54 @@ router.get('/find/:assetID', (req, res, next) => {
             return res.send(err)
         });
 })
+router.post('/create', (req, res, next) => {
+    const db = req.app.get('db')
 
+    db.assetList.create({
+        asset_name: req.body.assetName,
+        asset_description: req.body.assetDescription,
+        serial_number: req.body.serialNumber,
+        assetStatusId: req.body.assetStatusId,
+        assetTypeId: req.body.assetTypeId,
+        vendorId: req.body.vendorId,
+        userId: req.body.userId,
+        purchase_date: req.body.purchaseDate,
+        asset_notes: req.body.assetNotes
+    })
+        .then((result) => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error creating a assetList', JSON.stringify(err))
+            return res.send(err)
+        })
+})
+router.put('/update/:assetID', (req, res, next) => {
+    const db = req.app.get('db')
+
+    db.assetList.update({
+        asset_name: req.body.assetName,
+        asset_description: req.body.assetDescription,
+        serial_number: req.body.serialNumber,
+        assetStatusId: req.body.assetStatusId,
+        assetTypeId: req.body.assetTypeId,
+        vendorId: req.body.vendorId,
+        userId: req.body.userId,
+        purchase_date: req.body.purchaseDate,
+        asset_notes: req.body.assetNotes
+    }, {
+        where: {
+            asset_id: req.params.assetID
+        }
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error updating assetList', JSON.stringify(err))
+            return res.send(err)
+        })
+})
 router.delete('/delete/:assetID', (req, res, next) => {
     //delete users
     const asset_id = req.params.assetID;

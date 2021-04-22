@@ -57,7 +57,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         userId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: users
                 //key: 'user_id'
@@ -65,17 +65,17 @@ module.exports = function(sequelize, DataTypes) {
         },
         purchase_date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         asset_notes: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
     }, {
         sequelize,
         tableName: 'assetList',
         schema: 'dbo',
-        timestamps: false,
+        timestamps: true,
         underscored: true,
         createdAt: 'CREATED_AT',
         updatedAt: 'UPDATED_AT',

@@ -199,7 +199,7 @@ export default {
           this.form.model.softwareDescription = response.data.software_description
           this.form.model.softwareStatusId = response.data.softwareStatusId
           this.form.model.vendorId = response.data.vendorId
-          this.form.model.purchaseDate = response.data.purchase_date.split('T')[0]
+          if(response.data.purchase_date) {this.form.model.purchaseDate = response.data.purchase_date.split('T')[0]}
           this.form.model.softwareNotes = response.data.software_notes
         })
         .catch(() => {
