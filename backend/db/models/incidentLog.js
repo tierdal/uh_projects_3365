@@ -89,6 +89,10 @@ module.exports = function(sequelize, DataTypes) {
                 //key: team_id
             }
         },
+        is_resolved: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true
+        },
         resolvedId: {
             type: DataTypes.INTEGER,
             allowNull: true,

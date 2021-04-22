@@ -48,7 +48,7 @@
                            :isError='validationUrgency === true'
                            placeholder="select one">
         </model-list-select>
-        <br />
+        <br v-if="!isNewIncident" />
         <label v-if="!isNewIncident"  class="form-custom-label" for="form-incidentStatus">Incident Status</label>
         <model-list-select :list="INCIDENTSTATUS_DATA"
                            v-if="!isNewIncident"
@@ -73,7 +73,7 @@
       <div class="editForm-right">
         <label class="form-custom-label" for="form-location">Incident Location</label>
         <model-list-select :list="LOCATION_DATA"
-                           v-model="form.model.locationId"
+                           v-model="form.model.incidentLocationId"
                            id="form-location"
                            option-value="location_id"
                            option-text="location_name"
@@ -166,7 +166,6 @@ export default {
       }
     },
     validationType: function () {
-      this.loadIncidentType()
       if (this.form.model.incidentTypeId === ''){
         return true
       } else {
@@ -175,7 +174,6 @@ export default {
     validationFormCheck: function () {
       if (this.validationName.hasErrors === false &&
         this.validationUrgency === false &&
-        this.validationStatus === false &&
         this.validationType === false){
         return true
       } else {
@@ -199,12 +197,7 @@ export default {
 
       axios.post(`${config.api}/api/incidents/create`, this.form.model)
         .then((response) => {
-          Swal.fire(
-            'Done!',
-            'The record has been created.',
-            'success'
-          )
-          //lumberjack.logAudit(3, 'create', response.data)
+          lumberjack.logAudit(3, 'create', response.data)
           this.goBack()
         })
         .catch(() => {
@@ -220,7 +213,7 @@ export default {
             'The incident has been updated.',
             'success'
           )
-          //lumberjack.logAudit(3, 'update', this.incident_id)
+          lumberjack.logAudit(3, 'update', this.incident_id)
           this.goBack()
         })
         .catch(() => {
@@ -230,22 +223,23 @@ export default {
     loadData(){
       axios.get(`${config.api}/api/incidents/find/` + this.incident_id)
         .then((response) => {
+          console.log(JSON.stringify(response.data))
           this.form.model.incidentName = response.data.incident_name,
-            this.form.model.incidentDescription = response.data.incident_description,
-            this.form.model.locationId = response.data.locationId,
-            this.form.model.incidentStatusId = response.data.incidentStatusId,
-            this.form.model.incidentUrgencyId = response.data.incidentUrgencyId,
-            this.form.model.incidentTypeId = response.data.incidentTypeId,
-            this.form.model.teamId = response.data.teamId,
-            this.form.model.isResolved = response.data.is_resolved,
-            this.form.model.resolvedId = response.data.resolvedId,
-            this.form.model.resolutionNotes = response.data.resolution_notes,
-            this.form.model.createdAt = response.data.CREATED_AT,
-            this.form.model.closedAt = response.data.CLOSED_AT
+          this.form.model.incidentDescription = response.data.incident_description,
+          this.form.model.locationId = response.data.locationId,
+          this.form.model.incidentStatusId = response.data.incidentStatusId,
+          this.form.model.incidentUrgencyId = response.data.incidentUrgencyId,
+          this.form.model.incidentTypeId = response.data.incidentTypeId,
+          this.form.model.teamId = response.data.teamId,
+          this.form.model.isResolved = response.data.is_resolved,
+          this.form.model.resolvedId = response.data.resolvedId,
+          this.form.model.resolutionNotes = response.data.resolution_notes,
+          this.form.model.createdAt = response.data.CREATED_AT,
+          this.form.model.closedAt = response.data.CLOSED_AT
 
           const createdByObj = response.data.createdBy
-          const assignedToObj = response.data.assignedTo
-          const assignedTeamObj = response.data.assignedTeam
+          const assignedToObj = response.data.assignedUser
+          const assignedTeamObj = response.data.team
 
           if(response.data.incident_createdBy !== null) {this.form.model.createdBy = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
           if(response.data.incident_assignedUser !== null) {this.form.model.assignedTo = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}
@@ -278,9 +272,6 @@ export default {
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading incidentUrgency)', 'error')
         })
-    },
-    loadIncidentType(){
-      this.INCIDENTTYPE_DATA = []
       axios.get(`${config.api}/api/incidentType/find`, {params: this.form.model})
         .then((response) => {
           this.INCIDENTTYPE_DATA = response.data;

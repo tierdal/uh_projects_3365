@@ -292,7 +292,7 @@ export default {
         .then((response) => {
           Swal.fire(
             'Done!',
-            'The ticket has been updated.',
+            'The ticket has been assigned.',
             'success'
           )
 

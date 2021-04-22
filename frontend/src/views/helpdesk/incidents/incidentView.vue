@@ -92,6 +92,12 @@
       </div>
     </form>
     <br>
+    <div class="jumbotron dashboard">
+      <div class="dashlabel">
+        Work Log
+      </div>
+    </div>
+    <incident-worklog v-if="!isNewIncident" :key="componentKey" v-bind:incident_id="incident_id"></incident-worklog>
 
     <!-- Assign Incident -->
     <Modal
@@ -193,7 +199,8 @@ import session from "../../../utilities/session";
 import Modal from "../../templates/Modal.vue";
 import { ModelListSelect } from 'vue-search-select';
 import { ModelSelect } from 'vue-search-select';
-import lumberjack from '../../../utilities/lumberjack'
+import incidentResponseLog from './incidentResponseLog.vue';
+import lumberjack from '../../../utilities/lumberjack';
 
 export default {
   name: "incidentView",
@@ -201,14 +208,15 @@ export default {
   components: {
     Modal,
     ModelSelect,
-    ModelListSelect
+    ModelListSelect,
+    'incident-worklog' : incidentResponseLog
   },
   data() {
     return {
       isAssignIncidentVisible: false,
       isChangeStatusVisible: false,
       isResolveIncidentVisible: false,
-      //componentKey: 0,
+      componentKey: 0,
       isITdepartment: false,
       isNewIncident: true,
       DB_DATA: [],
@@ -254,7 +262,7 @@ export default {
     },
     assignIncident(){
       const incidentID = this.incident_id
-      this.form.model.incidentStatusId = 2
+      this.form.model.incidentStatusId = 4
       axios.put(`${config.api}/api/incidents/assign/` + incidentID, this.form.model)
         .then((response) => {
           Swal.fire(
@@ -262,9 +270,21 @@ export default {
             'The incident has been assigned.',
             'success'
           )
-          //this.componentKey += 1;
+          const data = {
+            incidentId: this.incident_id,
+            userId: session.getUser().user_id,
+            description: 'Incident was assigned.'
+          }
+          axios.post(`${config.api}/api/incidentResponseLog/create`, data)
+            .then((response) => {
+              this.loadData()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong', 'error')
+            })
+          this.componentKey += 1;
 
-          //lumberjack.logAudit(3, 'assign', this.incident_id)
+          lumberjack.logAudit(3, 'assign', this.incident_id)
           this.assignIncidentClose()
           this.loadData()
         })
@@ -276,9 +296,11 @@ export default {
       const incidentID = this.incident_id
       if(this.form.model.incidentStatusId === 5 || this.form.model.incidentStatusId === 6 || this.form.model.incidentStatusId === 7) {
         this.form.model.isResolved = true
+        this.form.model.closedAt = new Date(Date.now()).toISOString()
 
       } else {
         this.form.model.isResolved = false
+        this.form.model.closedAt = null
       }
       axios.put(`${config.api}/api/incidents/changestatus/` + incidentID, this.form.model)
         .then((response) => {
@@ -287,8 +309,7 @@ export default {
             'The incident has been updated.',
             'success'
           )
-          //this.componentKey += 1;
-          //lumberjack.logAudit(5, 'change status', this.incident_id)
+          lumberjack.logAudit(3, 'change status', this.incident_id)
           this.changeStatusClose()
           this.loadData()
         })
@@ -327,9 +348,21 @@ export default {
                 'The incident has been cancelled.',
                 'success'
               )
-              //this.componentKey += 1;
+              const data = {
+                incidentId: this.incident_id,
+                userId: session.getUser().user_id,
+                description: 'Incident was cancelled.'
+              }
+              axios.post(`${config.api}/api/incidentResponseLog/create`, data)
+                .then((response) => {
+                  this.loadData()
+                })
+                .catch(() => {
+                  Swal.fire('Error', 'Something went wrong', 'error')
+                })
+              this.componentKey += 1;
 
-              //lumberjack.logAudit(5, 'cancel', this.incident_id)
+              lumberjack.logAudit(3, 'cancel', this.incident_id)
               this.loadData()
             })
             .catch(() => {
@@ -348,10 +381,22 @@ export default {
             'The incident has been solved.',
             'success'
           )
+          const data = {
+            incidentId: this.incident_id,
+            userId: session.getUser().user_id,
+            description: 'Incident was resolved.'
+          }
+          axios.post(`${config.api}/api/incidentResponseLog/create`, data)
+            .then((response) => {
+              this.loadData()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong', 'error')
+            })
+          this.componentKey += 1;
 
-          //lumberjack.logAudit(5, 'resolve', this.incident_id)
+          lumberjack.logAudit(3, 'resolve', this.incident_id)
 
-          //this.componentKey += 1;
           this.resolveIncidentClose()
           this.loadData()
         })
@@ -376,6 +421,7 @@ export default {
           const incidentID = this.incident_id
           this.form.model.incidentStatusId = 2
           this.form.model.isResolved = false
+          this.form.model.closedAt = null
           axios.put(`${config.api}/api/incidents/changestatus/` + incidentID, this.form.model)
             .then((response) => {
               Swal.fire(
@@ -383,9 +429,21 @@ export default {
                 'The incident has been re-opened.',
                 'success'
               )
-              //this.componentKey += 1;
+              const data = {
+                incidentId: this.incident_id,
+                userId: session.getUser().user_id,
+                description: 'Incident was re-opened.'
+              }
+              axios.post(`${config.api}/api/incidentResponseLog/create`, data)
+                .then((response) => {
+                  this.loadData()
+                })
+                .catch(() => {
+                  Swal.fire('Error', 'Something went wrong', 'error')
+                })
+              this.componentKey += 1;
 
-              //lumberjack.logAudit(5, 'reopen', this.incident_id)
+              lumberjack.logAudit(3, 'reopen', this.incident_id)
               this.loadData()
             })
             .catch(() => {
@@ -398,6 +456,7 @@ export default {
       axios.get(`${config.api}/api/incidents/find/` + this.incident_id)
         .then((response) => {
           this.DB_DATA = response.data;
+
           this.form.model.incidentName = response.data.incident_name,
           this.form.model.incidentDescription = response.data.incident_description,
           this.form.model.incidentTypeId = response.data.incidentTypeId,
@@ -425,7 +484,7 @@ export default {
           if(response.data.incident_createdBy !== null) {this.form.model.createdByName = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
           if(response.data.incident_assignedUser !== null) {this.form.model.assignedToName = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}
           if(response.data.resolvedId !== null) {this.form.model.resolvedName = resolvedListObj.resolvedList_name}
-          if(response.data.incident_location !== null) {this.form.model.locationName = locationObj.location_name}
+          if(response.data.incident_location !== null) {this.form.model.incidentLocationName = locationObj.location_name}
           if(response.data.incidentTypeId !== null) {this.form.model.incidentTypeName = incidentTypeObj.incidentType_name}
           if(response.data.incidentStatusId !== null) {this.form.model.incidentStatusName = incidentStatusObj.incidentStatus_name}
           if(response.data.incidentUrgencyId !== null) {this.form.model.incidentUrgencyName = incidentUrgencyObj.incidentUrgency_name}

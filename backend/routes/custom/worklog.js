@@ -11,8 +11,7 @@ router.get('/find/:ticketID', (req, res, next) => {
                 model: db.users,
                 attributes: ['user_id','email','f_name','l_name']
             }
-        ],
-        raw : true
+        ]
     })
         .then((workLog) => res.send(workLog))
         .catch((err) => {

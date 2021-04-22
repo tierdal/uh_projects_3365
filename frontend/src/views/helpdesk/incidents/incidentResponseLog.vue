@@ -4,7 +4,7 @@
       <div class="tableHeading-left">
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewWorklogItem">Add New Worklog Item</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewWorklogItem">Add New Response Log Item</button>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
         }"
         :sort-options="{
           enabled: true,
-          initialSortBy: {field: 'workLog_id', type: 'desc'}
+          initialSortBy: {field: 'incidentResponseLog_id', type: 'desc'}
         }"
         :pagination-options="{
           enabled: true,
@@ -52,10 +52,10 @@ import session from "../../../utilities/session";
 import {VueGoodTable} from "vue-good-table";
 
 export default {
-  name: "ticketWorklog",
-  props: ["ticket_id"],
+  name: "incidentResponseLog",
+  props: ["incident_id"],
   components: {
-    'vue-good-table': VueGoodTable,
+    'vue-good-table': VueGoodTable
   },
   data() {
     return {
@@ -64,17 +64,17 @@ export default {
       DB_DATA: [],
       dataFields: [{
         label: 'id',
-        field: 'workLog_id',
+        field: 'incidentResponseLog_id',
         type: 'number'
       },{
         label: 'timestamp',
-        field: 'workLog_time'
+        field: 'incidentResponseLog_time'
       },{
         label: 'User',
         field: 'user.email'
       },{
         label: 'description',
-        field: 'workLog_text'
+        field: 'incidentResponseLog_text'
       }]
     };
   },
@@ -84,9 +84,9 @@ export default {
         Swal.fire({
           title: 'Edit Record',
           html:
-            'Item ID: ' + params.row.workLog_id +
+            'Item ID: ' + params.row.incidentResponseLog_id +
             '<br>' +
-            '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.workLog_text + '">' +
+            '<form>Description <input id="form-description" class="swal2-input" placeholder="Description" value="' + params.row.incidentResponseLog_text + '">' +
             '</form>'
           ,
           showCancelButton: true,
@@ -110,10 +110,10 @@ export default {
         }).then((result) => {
           if (result.isConfirmed) {
             const data = {
-              id: params.row.workLog_id,
+              id: params.row.incidentResponseLog_id,
               description: result.value.description
             }
-            axios.put(`${config.api}/api/worklog/update`, data)
+            axios.put(`${config.api}/api/incidentResponseLog/update`, data)
               .then((response) => {
                 this.loadData()
                 Swal.fire(
@@ -126,7 +126,7 @@ export default {
                 Swal.fire('Error', 'Something went wrong', 'error')
               })
           } else if (result.isDenied) {
-            axios.delete(`${config.api}/api/worklog/delete/` + params.row.workLog_id)
+            axios.delete(`${config.api}/api/incidentResponseLog/delete/` + params.row.incidentResponseLog_id)
               .then((response) => {
                 this.loadData()
                 Swal.fire(
@@ -144,7 +144,7 @@ export default {
     },
     addNewWorklogItem(){
       Swal.fire({
-        title: 'Add Worklog Item',
+        title: 'Add Incident Response Item',
         html:
           '<form>Description <input id="form-description" class="swal2-input" placeholder="Description">' +
           '</form>'
@@ -163,11 +163,11 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           const data = {
-            ticketId: this.ticket_id,
+            incidentId: this.incident_id,
             userId: session.getUser().user_id,
             description: result.value.description
           }
-          axios.post(`${config.api}/api/worklog/create`, data)
+          axios.post(`${config.api}/api/incidentResponseLog/create`, data)
             .then((response) => {
               this.loadData()
               Swal.fire(
@@ -183,19 +183,13 @@ export default {
       })
     },
     loadData(){
-      axios.get(`${config.api}/api/worklog/find/` + this.ticket_id)
+      axios.get(`${config.api}/api/incidentResponseLog/find/` + this.incident_id)
         .then((response) => {
           this.DB_DATA = response.data;
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.email','email'))
-          //console.log(JSON.stringify(response.data))
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong (finding worklog items)', 'error')
+          Swal.fire('Error', 'Something went wrong (finding incidentResponseLog items)', 'error')
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {

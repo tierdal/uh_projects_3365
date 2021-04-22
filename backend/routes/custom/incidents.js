@@ -181,10 +181,8 @@ router.post('/create', (req, res, next) => {
         incident_description: req.body.incidentDescription,
         incidentUrgencyId: req.body.incidentUrgencyId,
         incident_createdBy: req.body.createdById,
-        incident_assignedUser: req.body.assignedToId,
         locationId: req.body.locationId,
         incidentStatusId: req.body.incidentStatusId,
-        incident_assignedTeam: req.body.assignedTeamId,
         is_resolved: false
     })
         .then((result) => {
@@ -198,16 +196,13 @@ router.post('/create', (req, res, next) => {
 router.put('/update/:incidentID', (req, res, next) => {
     const db = req.app.get('db')
 
-    db.ticketLog.update({
+    db.incidentLog.update({
         incident_name: req.body.incidentName,
         incidentTypeId: req.body.incidentTypeId,
         incident_description: req.body.incidentDescription,
         incidentUrgencyId: req.body.incidentUrgencyId,
-        incident_createdBy: req.body.createdById,
-        incident_assignedUser: req.body.assignedToId,
-        locationId: req.body.locationId,
-        incidentStatusId: req.body.incidentStatusId,
-        incident_assignedTeam: req.body.assignedTeamId
+        incident_location: req.body.incidentLocationId,
+        incidentStatusId: req.body.incidentStatusId
     }, {
         where: {
             incident_id: req.params.incidentID
@@ -226,8 +221,8 @@ router.put('/assign/:incidentID', (req, res, next) => {
 
     db.incidentLog.update({
         incidentStatusId: req.body.incidentStatusId,
-        assigned_user: req.body.assignedToId,
-        teamId: req.body.assignedTeamId
+        incident_assignedUser: req.body.assignedToId,
+        incident_assignedTeam: req.body.assignedTeamId
     }, {
         where: {
             incident_id: req.params.incidentID
@@ -245,11 +240,11 @@ router.put('/cancel/:incidentID', (req, res, next) => {
     const db = req.app.get('db')
 
     db.incidentLog.update({
-        requestStatusId: 7,
+        incidentStatusId: 7,
         is_resolved: true
     }, {
         where: {
-            incident_id: req.params.incidentLog
+            incident_id: req.params.incidentID
         }
     })
         .then(() => {
@@ -264,8 +259,8 @@ router.put('/resolve/:incidentID', (req, res, next) => {
     const db = req.app.get('db')
 
     db.incidentLog.update({
-        assigned_user: req.body.assignedToId,
-        requestStatusId: 5,
+        incident_assignedUser: req.body.assignedToId,
+        incidentStatusId: 5,
         is_resolved: true,
         resolvedId: req.body.resolvedId,
         resolution_notes: req.body.resolutionNotes,
@@ -288,7 +283,8 @@ router.put('/changestatus/:incidentID', (req, res, next) => {
 
     db.incidentLog.update({
         incidentStatusId: req.body.incidentStatusId,
-        is_resolved: req.body.isResolved
+        is_resolved: req.body.isResolved,
+        CLOSED_AT: req.body.closedAt
     }, {
         where: {
             incident_id: req.params.incidentID

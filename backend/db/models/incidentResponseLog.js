@@ -23,6 +23,10 @@ module.exports = function(sequelize, DataTypes) {
                 //key: incident_id
             }
         },
+        incidentResponseLog_time: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
         incidentResponseLog_user: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -39,10 +43,10 @@ module.exports = function(sequelize, DataTypes) {
         sequelize,
         tableName: 'incidentResponseLog',
         schema: 'dbo',
-        timestamps: false,
+        timestamps: true,
         underscored: true,
-        createdAt: 'CREATED_AT',
-        updatedAt: 'UPDATED_AT',
+        createdAt: 'incidentResponseLog_time',
+        updatedAt: false,
         deletedAt: false
     });
 };

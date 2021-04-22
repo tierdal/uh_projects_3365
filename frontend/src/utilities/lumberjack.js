@@ -60,7 +60,6 @@ export default {
         logAction: logAction,
         logExtra: logExtra
       }
-      //console.log(JSON.stringify(this.DATA))
       axios.post(`${config.api}/api/lumberjack/logAuditIncidents`, this.DATA)
         .catch(() => {
           console.log('Something went wrong with submitting logAuditIncidents')
@@ -79,7 +78,6 @@ export default {
         logAction: logAction,
         logExtra: logExtra
       }
-      //console.log(JSON.stringify(this.DATA))
       axios.post(`${config.api}/api/lumberjack/logAuditTickets`, this.DATA)
         .catch(() => {
           console.log('Something went wrong with submitting logAuditTickets')

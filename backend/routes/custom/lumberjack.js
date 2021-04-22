@@ -38,7 +38,7 @@ router.post('/logAuditTickets', (req, res, next) => {
 router.post('/logAuditIncidents', (req, res, next) => {
     const db = req.app.get('db')
 
-    db.auditLog_tickets.create({
+    db.auditLog_incidents.create({
         auditLog_incidents_userId: req.body.userId,
         auditLog_incidents_action: req.body.logAction,
         auditLog_incidents_incidentId: req.body.logExtra

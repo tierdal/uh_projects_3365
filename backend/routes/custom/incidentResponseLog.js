@@ -4,7 +4,7 @@ const router = express.Router({ caseSensitive: true })
 
 router.get('/find/:incidentID', (req, res, next) => {
     const db = req.app.get('db')
-    return db.incidentLog.findAll({
+    return db.incidentResponseLog.findAll({
         where: { incidentId: req.params.incidentID},
         include: [
             {
@@ -15,55 +15,53 @@ router.get('/find/:incidentID', (req, res, next) => {
     })
         .then((incidentLog) => res.send(incidentLog))
         .catch((err) => {
-            console.log('There was an error querying incidentworkLog', JSON.stringify(err))
+            console.log('There was an error querying incidentResponseLog', JSON.stringify(err))
             return res.send(err)
         });
 })
-
 router.post('/create', (req, res, next) => {
     const db = req.app.get('db')
-    db.incidentLog.create({
+    db.incidentResponseLog.create({
         incidentId: req.body.incidentId,
-        userId: req.body.userId,
-        incidentworkLog_text: req.body.description
+        incidentResponseLog_user: req.body.userId,
+        incidentResponseLog_text: req.body.description
     })
         .then(() => {
             res.status(200).send('OK');
         })
         .catch(err => {
-            console.log('There was an error creating incidentworkLog', JSON.stringify(err))
+            console.log('There was an error creating incidentResponseLog', JSON.stringify(err))
             return res.send(err)
         })
 })
-
 router.put('/update', (req, res, next) => {
     const db = req.app.get('db')
 
-    db.incidentLog.update({
-        incidentworkLog_text: req.body.description
+    db.incidentResponseLog.update({
+        incidentResponseLog_text: req.body.incidentResponseLogText
     }, {
         where: {
-            incidentworkLog_id: req.body.id
+            incidentResponseLog_id: req.body.incidentResponseLogId
         }
     })
         .then(() => {
             res.status(200).send('OK');
         })
         .catch(err => {
-            console.log('There was an error updating incidentworkLog', JSON.stringify(err))
+            console.log('There was an error updating incidentResponseLog', JSON.stringify(err))
             return res.send(err)
         })
 })
 
-router.delete('/delete/:incidentworklogId', (req, res, next) => {
+router.delete('/delete/:incidentResponseLog', (req, res, next) => {
     const db = req.app.get('db')
 
-    db.incidentLog.destroy({
-        where: { incidentworkLog_id: req.params.incidentworklogId }
+    db.incidentResponseLog.destroy({
+        where: { incidentResponseLog_id: req.params.incidentResponseLogId }
     }).then(() => {
         res.status(200).send('The record has been deleted!');
     }).catch(err => {
-        console.log('There was an error deleting incidentworkLog item', JSON.stringify(err))
+        console.log('There was an error deleting incidentResponseLog item', JSON.stringify(err))
         return res.send(err)
     });
 })
