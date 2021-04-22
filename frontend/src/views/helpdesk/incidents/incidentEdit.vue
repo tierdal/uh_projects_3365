@@ -171,7 +171,7 @@ export default {
         return false
       }},
     validationType: function () {
-      this.loadIncidentType()
+      //this.loadIncidentType()
       if (this.form.model.incidentTypeId === ''){
         return true
       } else {
@@ -249,12 +249,12 @@ export default {
             this.form.model.closedAt = response.data.CLOSED_AT
 
           const createdByObj = response.data.createdBy
-          const assignedToObj = response.data.assigned_user
-          const assignedTeamObj = response.data.teamId
+          const assignedToObj = response.data.assignedUser
+          const assignedTeamObj = response.data.team
 
-          if(response.data.created_by !== null) {this.form.model.createdBy = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
-          if(response.data.assigned_user !== null) {this.form.model.assignedTo = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}
-          if(response.data.teamId !== null) {this.form.model.assignedTeam = assignedTeamObj.team_name}
+          if(response.data.incident_createdBy !== null) {this.form.model.createdBy = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
+          if(response.data.incident_assignedUser !== null) {this.form.model.assignedTo = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}
+          if(response.data.incident_assignedTeam !== null) {this.form.model.assignedTeam = assignedTeamObj.team_name}
 
         })
         .catch(() => {
@@ -282,6 +282,20 @@ export default {
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong (loading incidentUrgency)', 'error')
+        })
+      axios.get(`${config.api}/api/incidentStatus/find`)
+        .then((response) => {
+          this.INCIDENTSTATUS_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading incidentUrgency)', 'error')
+        })
+      axios.get(`${config.api}/api/incidentType/find`)
+        .then((response) => {
+          this.INCIDENTTYPE_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading incidentType)', 'error')
         })
     },
     loadIncidentType(){

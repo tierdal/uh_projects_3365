@@ -252,13 +252,13 @@ export default {
           this.form.model.closedAt = response.data.CLOSED_AT
 
           const createdByObj = response.data.createdBy
-          const assignedToObj = response.data.assignedUser
-          const resolvedListObj = response.data.resolvedList
+          const assignedToObj = response.data.assigned_user
+          const resolvedListObj = response.data.resolvedId
           const locationObj = response.data.location
           const incidentTypeObj = response.data.incidentType
           const incidentStatusObj = response.data.incidentStatus
           const incidentUrgencyObj = response.data.incidentUrgency
-          const assignedTeamObj = response.data.team
+          const assignedTeamObj = response.data.teamId
 
           if(response.data.incident_createdBy !== null) {this.form.model.createdByName = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
           if(response.data.incident_assignedUser !== null) {this.form.model.assignedToName = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}

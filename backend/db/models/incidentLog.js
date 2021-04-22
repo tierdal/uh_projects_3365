@@ -33,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        incident_typeId: {
+        incidentTypeId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -75,7 +75,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         incident_assignedUser: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: users
                 //key: user_id
@@ -83,7 +83,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         incident_assignedTeam: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: teams
                 //key: team_id
@@ -103,7 +103,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         CREATED_AT: {
             type: DataTypes.DATE,
-            allowNull: true
+            allowNull: false
         },
         CLOSED_AT: {
             type: DataTypes.DATE,
