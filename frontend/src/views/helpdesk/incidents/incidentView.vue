@@ -68,21 +68,21 @@
           type="text"
           name="createdBy"
           label="Created By"
-          v-model="form.model.createdByName"
+          v-model="form.model.createdBy"
           :disabled="true"
         />
         <FormulateInput
           type="text"
           name="assignedTo"
           label="Assigned To"
-          v-model="form.model.assignedToName"
+          v-model="form.model.assignedTo"
           :disabled="true"
         />
         <FormulateInput
           type="text"
           name="assignedTeam"
           label="Assigned Team"
-          v-model="form.model.assignedTeamName"
+          v-model="form.model.assignedTeam"
           :disabled="true"
         />
       </div>
@@ -216,7 +216,7 @@ export default {
             })
           this.componentKey += 1;
 
-          lumberjack.logAudit(3, 'assign', this.incident_id)
+          lumberjack.logAudit(5, 'assign', this.incident_id)
           this.assignTicketClose()
           this.loadData()
         })

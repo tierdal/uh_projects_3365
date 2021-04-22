@@ -61,7 +61,7 @@ module.exports = {
     models.users.hasMany(models.incidentLog, {foreignKey: "incident_assignedUser"});
     models.users.hasMany(models.incidentLog, {foreignKey: "incident_createdBy"});
     models.incidentStatus.hasMany(models.incidentLog, {foreignKey: "incidentStatusId"});
-    models.incidentType.hasMany(models.incidentLog, {foreignKey: "incidentTypeId"});
+    models.incidentType.hasMany(models.incidentLog, {foreignKey: "incident_typeId"});
     models.incidentUrgency.hasMany(models.incidentLog, {foreignKey: "incidentUrgencyId"});
     models.locations.hasMany(models.incidentLog, {foreignKey: "incident_location"});
     models.teams.hasMany(models.incidentLog, {foreignKey: "incident_assignedTeam"});
@@ -69,7 +69,7 @@ module.exports = {
     models.incidentLog.belongsTo(models.users, {as: 'assignedUser', foreignKey: "incident_assignedUser"});
     models.incidentLog.belongsTo(models.users, {as: 'createdBy', foreignKey: "incident_createdBy"});
     models.incidentLog.belongsTo(models.incidentStatus, {foreignKey: "incidentStatusId"});
-    models.incidentLog.belongsTo(models.incidentType, {foreignKey: "incidentTypeId"});
+    models.incidentLog.belongsTo(models.incidentType, {foreignKey: "incident_typeId"});
     models.incidentLog.belongsTo(models.incidentUrgency, {foreignKey: "incidentUrgencyId"});
     models.incidentLog.belongsTo(models.locations, {foreignKey: "incident_location"});
     models.incidentLog.belongsTo(models.teams, {foreignKey: "incident_assignedTeam"});
