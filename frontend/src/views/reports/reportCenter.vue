@@ -37,14 +37,18 @@ export default {
         'report_url': 'ticketsreport'
       },{
         'report_id' : '2',
+        'report_title': 'Incident Reports',
+        'report_url': 'incidentsreport'
+      },{
+        'report_id' : '3',
         'report_title': 'User Reports',
         'report_url': 'usersreport'
       },{
-        'report_id' : '3',
+        'report_id' : '4',
         'report_title': 'Hardware Asset Reports',
         'report_url': 'hwassetsreport'
       },{
-        'report_id' : '4',
+        'report_id' : '5',
         'report_title': 'Software Asset Reports',
         'report_url': 'swassetsreport'
       }],

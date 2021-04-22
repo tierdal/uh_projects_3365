@@ -1,10 +1,5 @@
 const express = require('express')
 const router = express.Router({ caseSensitive: true })
-//const _departments = require('../../db/models/departments');
-//const _roles = require('../../db/models/roles');
-//const _statuses = require('../../db/models/statuses');
-//const DataTypes = require("sequelize").DataTypes;
-//const statuses = _statuses(sequelize, DataTypes);
 
 //https://grokonez.com/frontend/vue-js/vue-js-nodejs-express-restapis-sequelize-orm-mysql-crud-example
 
@@ -14,8 +9,7 @@ router.get('/find', (req, res, next) => {
     return db.faqList.findAll({
         include: [
             db.faqCategory
-        ],
-        raw : true
+        ]
     })
         .then((faqList) => res.send(faqList))
         .catch((err) => {
@@ -24,12 +18,10 @@ router.get('/find', (req, res, next) => {
         });
 })
 router.get('/find/:faqID', (req, res, next) => {
-    //console.log(req.params.faqID)
-    const faq_id = req.params.faqID
     const db = req.app.get('db')
 
     return db.faqList.find({
-        where: {faq_id:faq_id}
+        where: {faq_id:req.params.faqID}
         })
         .then((faqList) => res.send(faqList))
         .catch((err) => {
@@ -38,26 +30,34 @@ router.get('/find/:faqID', (req, res, next) => {
         });
 })
 
+router.post('/create', (req, res, next) => {
+    const db = req.app.get('db')
+
+
+
+    db.faqList.create({
+        faq_title: req.body.faqTitle,
+        faq_body: req.body.faqBody,
+        faq_categoryId: req.body.faqCategoryId
+    })
+        .then(() => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log('There was an error creating faqList', JSON.stringify(err))
+            return res.send(err)
+        })
+})
 router.put('/update/:faqID', (req, res, next) => {
-    //update users
-
-    const faq_id = req.params.faqID;
-    const faq_title = req.body.title
-    const faq_body = req.body.body
-    const faq_categoryId = req.body.faq_categoryId
-
-    //console.log('--------------------------------------------------------------------------------------------------')
-    //console.log(JSON.stringify(req.body))
-
     const db = req.app.get('db')
 
     db.faqList.update({
-        faq_title: faq_title,
-        faq_body: faq_body,
-        faq_categoryId: faq_categoryId
+        faq_title: req.body.faqTitle,
+        faq_body: req.body.faqBody,
+        faq_categoryId: req.body.faqCategoryId
     }, {
         where: {
-            faq_id: faq_id
+            faq_id: req.params.faqID
         }
     })
         .then(() => {
@@ -70,12 +70,10 @@ router.put('/update/:faqID', (req, res, next) => {
 })
 
 router.delete('/delete/:faqID', (req, res, next) => {
-    //delete users
-    const faq_id = req.params.faqID;
     const db = req.app.get('db')
 
     db.faqList.destroy({
-        where: { faq_id: faq_id }
+        where: { faq_id: req.params.faqID }
     }).then(() => {
         res.status(200).send('The record has been deleted!');
     }).catch(err => {

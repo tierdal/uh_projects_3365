@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         contract_file: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
     }, {
         sequelize,

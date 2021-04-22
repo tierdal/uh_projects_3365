@@ -10,7 +10,7 @@
     >
       <v-tab v-for="item in DB_DATA" :key="item.faq_id">
         <div slot="title">{{item.faq_title}}</div>
-        Category: {{item.faq_category_description}} <br><br>
+        Category: {{item.faqCategory.faq_category_description}} <br><br>
         Solution: {{item.faq_body}}
       </v-tab>
     </vue-tabs>
@@ -41,17 +41,11 @@ export default {
     loadData(){
       axios.get(`${config.api}/api/faqList/find`)
         .then((response) => {
-          console.log(response.data)
           this.DB_DATA = response.data;
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'faqCategory.faq_category_description','faq_category_description'))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {

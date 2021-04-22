@@ -2,10 +2,10 @@
   <div>
     <div class="tableHeading">
       <div class="tableHeading-left">
-        <span class="tableHeading-text">License Keys List</span>
+        <span class="tableHeading-text">License Keys</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewLicenseKeys">Add New License Keys</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewLicenseKeys">Add New License Key</button>
       </div>
     </div>
 
@@ -65,13 +65,13 @@ export default {
         type: 'number'
       },{
         label: 'software Name',
-        field: 'softwareName'
+        field: 'softwareAsset.software_name'
       },{
         label: 'license key',
         field: 'license_key'
       },{
         label: 'Assigned User',
-        field: 'users'
+        field: 'user.email'
       }]
     };
   },
@@ -95,18 +95,10 @@ export default {
       axios.get(`${config.api}/api/licenseKeys/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          //console.log(JSON.stringify(this.DB_DATA))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'user.email','users'))
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'softwareAsset.software_name','softwareName'))
-          //console.log(JSON.stringify(response.data))
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {
@@ -116,8 +108,4 @@ export default {
 </script>
 
 <style scoped>
-button {
-  margin-right: 15px;
-  height: 100%;
-}
 </style>

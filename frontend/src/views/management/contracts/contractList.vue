@@ -70,7 +70,7 @@ export default {
         field: 'contract_description'
       },{
         label: 'vendor',
-        field: 'VendorName'
+        field: 'vendor.vendor_name'
       }]
     };
   },
@@ -93,17 +93,10 @@ export default {
       axios.get(`${config.api}/api/contracts/find`)
         .then((response) => {
           this.DB_DATA = response.data;
-          console.log(this.DB_DATA)
-          this.DB_DATA.forEach( obj => this.renameKey(obj, 'vendor.vendor_name','VendorName'))
-          //needs to work on
         })
         .catch(() => {
           Swal.fire('Error', 'Something went wrong', 'error')
         })
-    },
-    renameKey( obj, oldKey, newKey ) {
-      obj[newKey] = obj[oldKey];
-      delete obj[oldKey];
     }
   },
   beforeMount() {
@@ -113,8 +106,4 @@ export default {
 </script>
 
 <style scoped>
-button {
-  margin-right: 15px;
-  height: 100%;
-}
 </style>

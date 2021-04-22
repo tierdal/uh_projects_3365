@@ -84,7 +84,7 @@
 <script>
 import departmentList from "./configuration/departmentList.vue";
 import statusList from "./configuration/statusList.vue";
-import issueTypeList from "../management/Issues/issueTypeList.vue";
+import issueTypeList from "./configuration/issueTypeList.vue";
 import shippingMethodsList from "./configuration/shippingMethodsList.vue";
 import softwareStatusList from "./configuration/softwareStatusList.vue";
 import teamList from "./configuration/teamList.vue";
