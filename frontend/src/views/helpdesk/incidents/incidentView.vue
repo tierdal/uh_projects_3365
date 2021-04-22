@@ -9,10 +9,14 @@
     <div class="editForm">
       <div class="editFormFooter-left">
         <button class="swal2-editform swal2-styled goBackButton" v-on:click="goBack">Go Back</button>
-        <button v-if="isITdepartment" class="swal2-editform swal2-styled" v-on:click="assignIncidentShow">Assign Incident</button>
+        <button :key="form.model.isResolved" v-if="isITdepartment && !form.model.isResolved" class="swal2-editform swal2-styled" v-on:click="changeStatusShow">Change Status</button>
+        <button :key="form.model.isResolved" v-if="isITdepartment && !form.model.isResolved" class="swal2-editform swal2-styled" v-on:click="assignIncidentShow">Assign Incident</button>
+        <button :key="form.model.isResolved" v-if="isITdepartment && !form.model.isResolved" class="swal2-editform swal2-styled resolveButton" v-on:click="resolveIncidentShow">Resolve Incident</button>
       </div>
       <div class="editFormFooter-right">
-        <button class="swal2-editform swal2-styled" v-on:click="editIncident">Edit Incident</button>
+        <button :key="form.model.isResolved" v-if="!form.model.isResolved" class="swal2-editform swal2-styled" v-on:click="editIncident">Edit Incident</button>
+        <button :key="form.model.isResolved" v-if="!form.model.isResolved" class="swal2-editform swal2-styled deleteButton" v-on:click="cancelIncident">Cancel Incident</button>
+        <button :key="form.model.isResolved" v-if="form.model.isResolved" class="swal2-editform swal2-styled" v-on:click="reopenIncident">Re-Open Incident</button>
       </div>
     </div>
 
@@ -89,12 +93,13 @@
     </form>
     <br>
 
-    <!-- Assign Ticket -->
+    <!-- Assign Incident -->
     <Modal
       v-show="isAssignIncidentVisible"
       @close="assignIncidentClose"
       @submit="assignIncident"
     >
+
       <template v-slot:header>
         Assign User and Team
       </template>
@@ -121,6 +126,61 @@
 
     </Modal>
 
+    <Modal
+      v-show="isResolveIncidentVisible"
+      @close="resolveIncidentClose"
+      @submit="resolveIncident"
+    >
+
+      <template v-slot:header>
+        Resolve Incident
+      </template>
+
+      <template v-slot:body>
+        <label class="form-custom-label" for="form-resolvedlist">Resolution Reason</label>
+        <model-list-select :list="RESOLVED_DATA"
+                           v-model="form.model.resolvedId"
+                           id="form-resolvedlist"
+                           option-value="resolvedList_id"
+                           option-text="resolvedList_name"
+                           placeholder="select one">
+        </model-list-select>
+        <FormulateInput
+          @validation="validationFname = $event"
+          type="textarea"
+          name="incidentResolutionNotes"
+          label="Resolution Notes"
+          validation="required"
+          v-model="form.model.resolutionNotes"
+          :validation-messages="{required: 'The Resolution Notes is required'}"
+        />
+      </template>
+
+      <template v-slot:footer>
+      </template>
+    </Modal>
+
+    <Modal
+      v-show="isChangeStatusVisible"
+      @close="changeStatusClose"
+      @submit="changeStatus"
+    >
+    <template v-slot:header>
+      Change Incident Status
+    </template>
+
+    <template v-slot:body>
+      <label class="form-custom-label" for="form-incidentStatus">Incident Status</label>
+      <model-list-select :list="INCIDENTSTATUS_DATA"
+                         v-model="form.model.incidentStatusId"
+                         id="form-incidentStatus"
+                         option-value="incidentStatus_id"
+                         option-text="incidentStatus_name"
+                         placeholder="select one">
+      </model-list-select>
+      <br>
+    </template>
+    </Modal>
   </div>
 </template>
 
@@ -145,14 +205,19 @@ export default {
   },
   data() {
     return {
-      isNewIncident: true,
       isAssignIncidentVisible: false,
+      isChangeStatusVisible: false,
+      isResolveIncidentVisible: false,
+      //componentKey: 0,
+      isITdepartment: false,
+      isNewIncident: true,
       DB_DATA: [],
       USER_DATA: [],
       INCIDENTTYPE_DATA: [],
       INCIDENTURGENCY_DATA: [],
       LOCATION_DATA: [],
-      INCIDENTSTATUS: [],
+      INCIDENTSTATUS_DATA: [],
+      RESOLVED_DATA: [],
       TEAM_DATA: [],
       form: {
         model: {
@@ -172,6 +237,7 @@ export default {
           incidentLocationName: '',
           incidentStatusId: '',
           incidentStatusName: '',
+          isResolved: '',
           resolvedId: '',
           resolvedName: '',
           resolutionNotes: '',
@@ -188,40 +254,46 @@ export default {
     },
     assignIncident(){
       const incidentID = this.incident_id
-      this.form.model.requestStatusId = 3
+      this.form.model.incidentStatusId = 2
       axios.put(`${config.api}/api/incidents/assign/` + incidentID, this.form.model)
+        .then((response) => {
+          Swal.fire(
+            'Done!',
+            'The incident has been assigned.',
+            'success'
+          )
+          //this.componentKey += 1;
+
+          //lumberjack.logAudit(3, 'assign', this.incident_id)
+          this.assignIncidentClose()
+          this.loadData()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (updating incident)', 'error')
+        })
+    },
+    changeStatus(){
+      const incidentID = this.incident_id
+      if(this.form.model.incidentStatusId === 5 || this.form.model.incidentStatusId === 6 || this.form.model.incidentStatusId === 7) {
+        this.form.model.isResolved = true
+
+      } else {
+        this.form.model.isResolved = false
+      }
+      axios.put(`${config.api}/api/incidents/changestatus/` + incidentID, this.form.model)
         .then((response) => {
           Swal.fire(
             'Done!',
             'The incident has been updated.',
             'success'
           )
-
-          const data = {
-            incidentId: this.incident_id,
-            userId: session.getUser().user_id,
-            description: 'Incident was assigned.'
-          }
-          axios.post(`${config.api}/api/incidentlog/create`, data)
-            .then((response) => {
-              this.loadData()
-              Swal.fire(
-                'Done!',
-                'The record has been created.',
-                'success'
-              )
-            })
-            .catch(() => {
-              Swal.fire('Error', 'Something went wrong', 'error')
-            })
-          this.componentKey += 1;
-
-          lumberjack.logAudit(3, 'assign', this.incident_id)
-          this.assignTicketClose()
+          //this.componentKey += 1;
+          //lumberjack.logAudit(5, 'change status', this.incident_id)
+          this.changeStatusClose()
           this.loadData()
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong (updating incident)', 'error')
+          Swal.fire('Error', 'Something went wrong (changing status)', 'error')
         })
     },
     editIncident(){
@@ -229,6 +301,96 @@ export default {
         name: '/helpdesk/incidents/edit',
         params: {
           incident_id: this.incident_id
+        }
+      })
+    },
+    cancelIncident(){
+      Swal.fire({
+        title: 'Cancel Incident',
+        html: 'Are you sure you want to cancel this incident?',
+        showCancelButton: true,
+        showDenyButton: false,
+        focusConfirm: false,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        customClass: {
+          cancelButton: 'order-2',
+          confirmButton: 'order-3',
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const incidentID = this.incident_id
+          axios.put(`${config.api}/api/incidents/cancel/` + incidentID)
+            .then((response) => {
+              Swal.fire(
+                'Done!',
+                'The incident has been cancelled.',
+                'success'
+              )
+              //this.componentKey += 1;
+
+              //lumberjack.logAudit(5, 'cancel', this.incident_id)
+              this.loadData()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong', 'error')
+            })
+        }
+      })
+    },
+    resolveIncident(){
+      const incidentID = this.incident_id
+      this.form.model.assignedToId = session.getUser().user_id
+      axios.put(`${config.api}/api/incidents/resolve/` + incidentID, this.form.model)
+        .then((response) => {
+          Swal.fire(
+            'Done!',
+            'The incident has been solved.',
+            'success'
+          )
+
+          //lumberjack.logAudit(5, 'resolve', this.incident_id)
+
+          //this.componentKey += 1;
+          this.resolveIncidentClose()
+          this.loadData()
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (resolving incident)', 'error')
+        })},
+    reopenIncident(){
+      Swal.fire({
+        title: 'Re-Open Incident',
+        html: 'Are you sure you want to re-open this incident?',
+        showCancelButton: true,
+        showDenyButton: false,
+        focusConfirm: false,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        customClass: {
+          cancelButton: 'order-2',
+          confirmButton: 'order-3',
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const incidentID = this.incident_id
+          this.form.model.incidentStatusId = 2
+          this.form.model.isResolved = false
+          axios.put(`${config.api}/api/incidents/changestatus/` + incidentID, this.form.model)
+            .then((response) => {
+              Swal.fire(
+                'Done!',
+                'The incident has been re-opened.',
+                'success'
+              )
+              //this.componentKey += 1;
+
+              //lumberjack.logAudit(5, 'reopen', this.incident_id)
+              this.loadData()
+            })
+            .catch(() => {
+              Swal.fire('Error', 'Something went wrong (updating incident)', 'error')
+            })
         }
       })
     },
@@ -271,7 +433,7 @@ export default {
 
         })
         .catch(() => {
-          Swal.fire('Error', 'Something went wrong (finding ticket)', 'error')
+          Swal.fire('Error', 'Something went wrong (finding incident)', 'error')
         })
     },
     loadAssignedFields(){
@@ -290,6 +452,23 @@ export default {
           Swal.fire('Error', 'Something went wrong (loading teams)', 'error')
         })
     },
+    loadResolvedFields(){
+      axios.get(`${config.api}/api/resolvedList/find`)
+        .then((response) => {
+          this.RESOLVED_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading resolved list)', 'error')
+        })
+    },
+    loadChangedStatusFields(){
+      axios.get(`${config.api}/api/incidentStatus/find`)
+        .then((response) => {
+          this.INCIDENTSTATUS_DATA = response.data;
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Something went wrong (loading incident Status list)', 'error')
+        })},
     isITdepartmentCheck(){
       const department = session.getUser().departmentId
       if (department === 1){
@@ -305,12 +484,12 @@ export default {
     assignIncidentClose(){
       this.isAssignIncidentVisible = false;
     },
-    resolveTicketShow(){
+    resolveIncidentShow(){
       this.loadResolvedFields()
-      this.isResolveTicketVisible = true;
+      this.isResolveIncidentVisible = true;
     },
-    resolveTicketClose(){
-      this.isResolveTicketVisible = false;
+    resolveIncidentClose(){
+      this.isResolveIncidentVisible = false;
     },
     changeStatusShow(){
       this.loadChangedStatusFields()

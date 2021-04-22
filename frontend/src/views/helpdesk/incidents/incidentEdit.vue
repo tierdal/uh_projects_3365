@@ -49,13 +49,14 @@
                            placeholder="select one">
         </model-list-select>
         <br />
-        <label class="form-custom-label" for="form-incidentStatus">Incident Status</label>
+        <label v-if="!isNewIncident"  class="form-custom-label" for="form-incidentStatus">Incident Status</label>
         <model-list-select :list="INCIDENTSTATUS_DATA"
+                           v-if="!isNewIncident"
                            v-model="form.model.incidentStatusId"
                            id="form-incidentStatus"
                            option-value="incidentStatus_id"
                            option-text="incidentStatus_name"
-                           :isError='validationStatus === true'
+                           :isDisabled="true"
                            placeholder="select one">
         </model-list-select>
         <br />
@@ -137,7 +138,7 @@ export default {
           incidentDescription: '',
           incidentTypeId: '',
           incidentUrgencyId: '',
-          incidentStatusId: '',
+          incidentStatusId: 1,
           incidentLocationId: '',
           createdById: '',
           createdBy: '',
@@ -164,12 +165,6 @@ export default {
         return false
       }
     },
-    validationStatus: function () {
-      if (this.form.model.incidentStatusId === ''){
-        return true
-      } else {
-        return false
-      }},
     validationType: function () {
       this.loadIncidentType()
       if (this.form.model.incidentTypeId === ''){
@@ -209,7 +204,7 @@ export default {
             'The record has been created.',
             'success'
           )
-          lumberjack.logAudit(3, 'create', response.data)
+          //lumberjack.logAudit(3, 'create', response.data)
           this.goBack()
         })
         .catch(() => {
@@ -225,7 +220,7 @@ export default {
             'The incident has been updated.',
             'success'
           )
-          lumberjack.logAudit(3, 'update', this.incident_id)
+          //lumberjack.logAudit(3, 'update', this.incident_id)
           this.goBack()
         })
         .catch(() => {
@@ -249,8 +244,8 @@ export default {
             this.form.model.closedAt = response.data.CLOSED_AT
 
           const createdByObj = response.data.createdBy
-          const assignedToObj = response.data.assignedUser
-          const assignedTeamObj = response.data.team
+          const assignedToObj = response.data.assignedTo
+          const assignedTeamObj = response.data.assignedTeam
 
           if(response.data.incident_createdBy !== null) {this.form.model.createdBy = createdByObj.f_name + ' ' + createdByObj.l_name + ' (' + createdByObj.email +  ')'}
           if(response.data.incident_assignedUser !== null) {this.form.model.assignedTo = assignedToObj.f_name + ' ' + assignedToObj.l_name + ' (' + assignedToObj.email +  ')'}

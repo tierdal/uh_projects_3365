@@ -5,7 +5,7 @@
         <span class="tableHeading-text">Incident List</span>
       </div>
       <div class="tableHeading-right">
-        <button class="swal2-editform swal2-styled" v-on:click="addNewTicket">Add New Incident</button>
+        <button class="swal2-editform swal2-styled" v-on:click="addNewIncident">Add New Incident</button>
       </div>
     </div>
 
@@ -53,15 +53,24 @@ import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table';
 import Swal from 'sweetalert2'
 import _ from 'lodash';
+import session from "../../../utilities/session";
 
 export default {
   name: "incidentList",
+  props: ["is_dash"],
   data() {
     return {
       DB_DATA: [],
+      is_helpdesk: 'false',
       CREATEDBY: [],
       FULL_DATA: [],
       myAPI: `${config.api}/api/incidents`,
+      form: {
+        model: {
+          createdById: '',
+          isResolved: '',
+        }
+      },
       dataFields: [{
         label: 'ID',
         field: 'incident_id',
@@ -84,6 +93,29 @@ export default {
       },{
         label: 'Time Created',
         field: 'CREATED_AT'
+      }],
+      dataFieldsUser: [{
+        label: 'ID',
+        field: 'incident_id',
+        type: 'number'
+      },{
+        label: 'Name',
+        field: 'incident_name'
+      },{
+        label: 'Created By',
+        field: 'createdBy.email'
+      },{
+        label: 'Status',
+        field: 'incidentStatus.incidentStatus_name'
+      },{
+        label: 'Type',
+        field: 'incidentType.incidentType_name'
+      },{
+        label: 'Urgency',
+        field: 'incidentUrgency.incidentUrgency_name'
+      },{
+        label: 'Time Created',
+        field: 'CREATED_AT'
       }]
     };
   },
@@ -92,7 +124,7 @@ export default {
   },
   methods: {
 
-    onRowDoubleClick(params){
+    onRowDoubleClick(params) {
       this.$router.push({
         name: '/helpdesk/incidents/view',
         params: {
@@ -100,19 +132,37 @@ export default {
         }
       })
     },
-    addNewTicket(){
+    addNewIncident() {
       this.$router.push('/helpdesk/incidents/edit')
     },
-    loadData(){
-      axios.get(`${config.api}/api/incidents/findall`)
-        .then((response) => {
-          this.DB_DATA = response.data;
-          console.log(JSON.stringify(response.data))
-        })
-        .catch(() => {
-          Swal.fire('Error', 'Something went wrong (Loading Incident List)', 'error')
-        })
-    }
+    loadData() {
+      if (this.is_helpdesk) {
+        axios.get(`${config.api}/api/incidents/findall`)
+          .then((response) => {
+            this.DB_DATA = response.data;
+          })
+          .catch(() => {
+            Swal.fire('Error', 'Something went wrong (Loading Incident List)', 'error')
+          })
+      } else {
+        this.form.model.createdById = session.getUser().user_id
+        axios.get(`${config.api}/api/incidents/findreport`, {params: this.form.model})
+          .then((response) => {
+            this.DB_DATA = response.data;
+          })
+          .catch(() => {
+            Swal.fire('Error', 'Something went wrong (Loading Incident List)', 'error')
+          })
+      }
+    },
+    isHelpdesk() {
+      const department = session.getUser().departmentId
+      if (department === 1) {
+        this.is_helpdesk = true
+      } else {
+        this.is_helpdesk = false
+      }
+    },
   },
   beforeMount() {
     this.loadData();
