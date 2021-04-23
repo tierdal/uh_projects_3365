@@ -34,9 +34,19 @@ Major packages inlcuded and configured (as required)
 
 ## Roadmap
 
+### Implement
 * Image / color status labels
 * Update config popups to use Modal and not SWAL2
 * Finish CRUD for all the tables
 * Finish reports module
 * Role Mapper
 * Add button to create Tasks from ticketView
+* ChangeRequests module
+
+### Fix
+* password change through myAccount
+* CRUD for licenseKeys
+* issueType List doesnt add
+* ticket status list doesnt delete
+* change Username
+
